@@ -127,8 +127,8 @@ void Execute(int argc){
     //Generate C2. Prune L2 . Compare against min_support and remove less frequent items.
  
 	vector <int> *globalDataset_device; //device storage pointers
-    cudaMalloc ((void **) &globalDataset_device, sizeof (globalDataset));
-	cudaMemcpy (globalDataset_device, globalDataset, sizeof (globalDataset), cudaMemcpyHostToDevice);
+    //cudaMalloc ((void **) &globalDataset_device, sizeof (globalDataset));
+	//cudaMemcpy (globalDataset_device, globalDataset, sizeof (globalDataset), cudaMemcpyHostToDevice);
 
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
