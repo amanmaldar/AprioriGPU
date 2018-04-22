@@ -128,7 +128,7 @@ void Execute(int argc){
  
 	vector <int> *globalDataset_device; //device storage pointers
     cudaMalloc ((void **) &globalDataset_device, sizeof (globalDataset));
-	cudaMemcpy (globalDataset_device, globalDataset, sizeof (globalDataset), cudaMemcpyHostToDevice);
+	cudaMemcpy (globalDataset_device, &globalDataset, sizeof (globalDataset), cudaMemcpyHostToDevice);
 
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
