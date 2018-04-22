@@ -28,10 +28,10 @@ double minSupp = 0.001; // 0.001;
 
 __shared__ int smem[128];
 
-__global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <int> *globalDatasetThreadIndex_device) {
+__global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <int> *globalDatasetThreadIndex_device, vector <int> *ans_device) {
 
-	int tid = threadIdx;
-    int begin = globalDatasetThreadIndex_device[threadIdx];
+	int tid = threadIdx.x;
+    int begin = globalDatasetThreadIndex_device[threadIdx.x];
 	int index=0;
 	while (tid <= 9){
 		while (globalDataset_device.at(index) != -1){
@@ -162,12 +162,12 @@ void Execute(int argc){
 	int threadsInBlock = 100;
 	
 	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (globalDataset_device, globalDatasetThreadIndex_device, ans_device);
-    cudaMemcpy (ans, ans_device, sizeof (int) * 9, cudaMemcpyDeviceToHost);
+    cudaMemcpy (&ans, ans_device, sizeof (int) * 9, cudaMemcpyDeviceToHost);
 
 	cout << "answer addition is: ";
 	for(int i=0;i<9;i++){
 		cout << ans.at(i) << " ";
-	}
+	} cout << endl;
  
     //cout << "two_freq_itemset:      " << two_freq_itemset << endl << "\n";
 
