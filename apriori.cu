@@ -30,7 +30,19 @@ __shared__ int smem[128];
 
 __global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <int> *globalDatasetThreadIndex_device) {
 
-    
+    int begin = globalDatasetThreadIndex_device[threadIdx];
+	int index=0;
+	while (tid <= 9){
+		while (globalDataset_device[index] != -1){
+			smem[index] = globalDataset_device[begin+index];
+			index++;
+		}
+		int sum = 0;
+		for (int i=0;i<index;i++){
+			sum+= smem[index];
+		}
+		
+	}
     /*while (tid < n) {
         smem[threadIdx.x] = a_d[tid];       // each thread copy data to shared memory
         __syncthreads();                    // wait for all threads
@@ -109,10 +121,10 @@ void Execute(int argc){
         if(itemIDcount[i] >= minSupport){
             L1.push_back(i);     //push TID into frequentItem
             one_freq_itemset++;
-            cout << "1 Frequent Item is: (" << i << ") Freq is: " << itemIDcount[i] << endl;
+            //cout << "1 Frequent Item is: (" << i << ") Freq is: " << itemIDcount[i] << endl;
         }
     }
-    cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n";
+    //cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n";
     //******************************************************************************************************************
     //Generate L2 .  Make a pair of frequent items in L1
     for (int i=0;i <= L1.size() -1 -1; i++)     //-1 is done for eliminating first entry
@@ -121,7 +133,7 @@ void Execute(int argc){
             twoStruct.a = L1[i];
             twoStruct.b = L1[j];
             L2.push_back(twoStruct);
-            cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
+            //cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
 
         }
     }
@@ -129,18 +141,33 @@ void Execute(int argc){
     //Generate C2. Prune L2 . Compare against min_support and remove less frequent items.
  
 	vector <int> *globalDataset_device; //device storage pointers
+	vector <int> *globalDatasetThreadIndex_device;
+	vector <int> ans;
+	for(int i=0;i<9;i++){
+		ans.push_back(0);
+	}
+	
     cudaMalloc ((void **) &globalDataset_device, sizeof (globalDataset));
     cudaMalloc ((void **) &globalDatasetThreadIndex_device, sizeof (globalDatasetThreadIndex));
+    cudaMalloc ((void **) &ans_device, sizeof (int) * 9);
 
+	
     cudaMemcpy (globalDataset_device, &globalDataset, sizeof (globalDataset), cudaMemcpyHostToDevice);
     cudaMemcpy (globalDatasetThreadIndex_device, &globalDatasetThreadIndex, sizeof (globalDatasetThreadIndex), cudaMemcpyHostToDevice);
+	cudaMemcpy (ans_device, &ans, sizeof (ans), cudaMemcpyHostToDevice);
+
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
 	
 	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (globalDataset_device, globalDatasetThreadIndex_device);
+    cudaMemcpy (ans, ans_device, sizeof (int) * 9, cudaMemcpyDeviceToHost);
 
+	cout << "answer addition is: ";
+	for(int i=0;i<9;i++){
+		cout << ans[i] << " ";
+	}
  
-    cout << "two_freq_itemset:      " << two_freq_itemset << endl << "\n";
+    //cout << "two_freq_itemset:      " << two_freq_itemset << endl << "\n";
 
     //******************************************************************************************************************
 
