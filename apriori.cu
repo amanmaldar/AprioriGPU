@@ -64,7 +64,7 @@ void Execute(int argc){
     vector <int> globalDatasetThreadIndex;
     int k =0;                   // global pointer for globalMap
     //globalDatasetThreadIndex.push_back(k);
-	int *globalDatasetCpu = (int *) malloc sizeof(int)* totalItems;
+	int *globalDatasetCpu = (int *) malloc (sizeof(int)* totalItems);
 
 	for(int i=0;i<=maxItemID;i++){
         globalDatasetThreadIndex.push_back(k);
