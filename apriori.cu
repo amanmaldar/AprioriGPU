@@ -28,8 +28,10 @@ double minSupp = 0.001; // 0.001;
 
 __shared__ int smem[128];
 
-__global__ void prefix_scan_kernel (vector <int> *globalDataset_device) {
-/*while (tid < n) {
+__global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <int> *globalDatasetThreadIndex_device) {
+
+    
+    /*while (tid < n) {
         smem[threadIdx.x] = a_d[tid];       // each thread copy data to shared memory
         __syncthreads();                    // wait for all threads
 
@@ -128,12 +130,14 @@ void Execute(int argc){
  
 	vector <int> *globalDataset_device; //device storage pointers
     cudaMalloc ((void **) &globalDataset_device, sizeof (globalDataset));
-	cudaMemcpy (globalDataset_device, &globalDataset, sizeof (globalDataset), cudaMemcpyHostToDevice);
+    cudaMalloc ((void **) &globalDatasetThreadIndex_device, sizeof (globalDatasetThreadIndex));
 
+    cudaMemcpy (globalDataset_device, &globalDataset, sizeof (globalDataset), cudaMemcpyHostToDevice);
+    cudaMemcpy (globalDatasetThreadIndex_device, &globalDatasetThreadIndex, sizeof (globalDatasetThreadIndex), cudaMemcpyHostToDevice);
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
 	
-	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (globalDataset_device);
+	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (globalDataset_device, globalDatasetThreadIndex_device);
 
  
     cout << "two_freq_itemset:      " << two_freq_itemset << endl << "\n";
