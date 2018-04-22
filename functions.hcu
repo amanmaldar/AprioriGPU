@@ -46,6 +46,7 @@ void parse_database(int argc){
             //push TID to corresponding vector of itemID
             itemId_TidMapping.at(n).push_back(TID_Transactions);
             // these vectors would be automatically sorted and hence we can use set_intersection later.
+			totalItems++;
         }
         TID_Transactions++;
     } // Parsing done

@@ -123,7 +123,7 @@ void Execute(int argc){
     //******************************************************************************************************************
     //Generate C2. Prune L2 . Compare against min_support and remove less frequent items.
  
-	int globalDatasetCpu;
+	int globalDatasetCpu[totalItems];
 	for(int i=0;i<totalItems;i++){
 		globalDatasetCpu[i] = globalDataset.at(i);
 	}

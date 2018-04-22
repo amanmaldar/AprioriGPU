@@ -82,6 +82,8 @@ int four_freq_itemset=0;
 #define maxTransactions 6
 //int maxItemID = 8;
 
+int totalItems;
+
 string fileName;
 
 // itemIDcount is used to store number of times particular itemID appears in dataset.
