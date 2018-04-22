@@ -24,40 +24,6 @@ double minSupp = 0.001; // 0.001;
 
 
 
-
-
-__shared__ int smem[128];
-
-__global__ void prefix_scan_kernel (globalDataset_device) {
-/*while (tid < n) {
-        smem[threadIdx.x] = a_d[tid];       // each thread copy data to shared memory
-        __syncthreads();                    // wait for all threads
-
-        //if (tid%16384 == 0 ) {   smem[tid] += res; __syncthreads();  } // result are written at the end*
-
-        offset = 1;                 //1->2->4->8
-        for (d =0; d < depth ; d++) {
-
-            if (threadIdx.x >= offset) {
-                smem[threadIdx.x] += smem[threadIdx.x-offset] ;           //after writing to smem do synchronize
-                __syncthreads();
-            } // end if
-
-            offset *=2;
-        } // end for loop
-
-        b_d[tid] = smem[threadIdx.x];        // *write the result to array b_d[tid] location
-        __syncthreads();                    // wait for all threads to write results
-
-        //if ((tid + 1) % 16384 == 0) { inc++; printf("\n incremented %d times\n", inc);}
-        tid += 16384;               //there are no actual grid present, we just increment the tid to fetch next elemennts from input array.
-
-    } // end while (tid < n)*/
-} // end kernel function
-
-
-
-
 void Execute(int argc){
 
     	parse_database(argc);
