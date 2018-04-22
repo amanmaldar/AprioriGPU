@@ -133,7 +133,7 @@ void Execute(int argc){
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
 	
-	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (globalDataset_device);
+	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (*globalDataset_device);
 
  
     cout << "two_freq_itemset:      " << two_freq_itemset << endl << "\n";
