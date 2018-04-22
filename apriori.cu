@@ -30,11 +30,12 @@ __shared__ int smem[128];
 
 __global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <int> *globalDatasetThreadIndex_device) {
 
+	int tid = threadIdx;
     int begin = globalDatasetThreadIndex_device[threadIdx];
 	int index=0;
 	while (tid <= 9){
-		while (globalDataset_device[index] != -1){
-			smem[index] = globalDataset_device[begin+index];
+		while (globalDataset_device.at(index) != -1){
+			smem[index] = globalDataset_device.at(begin+index);
 			index++;
 		}
 		int sum = 0;
@@ -142,6 +143,7 @@ void Execute(int argc){
  
 	vector <int> *globalDataset_device; //device storage pointers
 	vector <int> *globalDatasetThreadIndex_device;
+	vector <int> *ans_device;
 	vector <int> ans;
 	for(int i=0;i<9;i++){
 		ans.push_back(0);
@@ -159,12 +161,12 @@ void Execute(int argc){
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
 	
-	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (globalDataset_device, globalDatasetThreadIndex_device);
+	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (globalDataset_device, globalDatasetThreadIndex_device, ans_device);
     cudaMemcpy (ans, ans_device, sizeof (int) * 9, cudaMemcpyDeviceToHost);
 
 	cout << "answer addition is: ";
 	for(int i=0;i<9;i++){
-		cout << ans[i] << " ";
+		cout << ans.at(i) << " ";
 	}
  
     //cout << "two_freq_itemset:      " << two_freq_itemset << endl << "\n";
