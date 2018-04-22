@@ -31,10 +31,10 @@ __shared__ int smem[128];
 __global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <int> *globalDatasetThreadIndex_device, vector <int> *ans_device) {
 
 	int tid = threadIdx.x;
-    int begin = globalDatasetThreadIndex_device[threadIdx.x];
+    int begin = globalDatasetThreadIndex_device.at(threadIdx.x);
 	int index=0;
 	while (tid <= 9){
-		while (globalDataset_device.at(index) != -1){
+		while (globalDataset_device.at(begin+index)) != -1){
 			smem[index] = globalDataset_device.at(begin+index);
 			index++;
 		}
