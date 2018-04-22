@@ -32,20 +32,22 @@ __global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <
 //__global__ void prefix_scan_kernel (int *globalDataset_device, int *globalDatasetThreadIndex_device, int *ans_device) {
 
 	int tid = threadIdx.x;
-    int begin = globalDatasetThreadIndex_device[threadIdx.x];
+	int ptr =  globalDatasetThreadIndex_device.data();
+	int indexPtr = globalDataset_device.data();
+    int begin = ptr[threadIdx.x];
 	int index=0;
 	int sum = 0;
 	//int tmp = 
 	while (tid <= 9){
-		while (globalDataset_device[begin+index] != -1){
-			smem[index] = *globalDataset_device[begin+index];
+		while (indexPtr[begin+index] != -1){
+			smem[index] = indexPtr[begin+index];
 			index++;
 		}
 		
 		for (int i=0;i<index;i++){
 			sum+= smem[index];
 		}
-		*ans_device[threadIdx.x] = sum;
+		ans_device[threadIdx.x] = sum;
 		
 	}
     /*while (tid < n) {
