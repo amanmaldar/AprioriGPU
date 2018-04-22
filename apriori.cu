@@ -147,6 +147,12 @@ void Execute(int argc){
     //******************************************************************************************************************
     //Generate C2. Prune L2 . Compare against min_support and remove less frequent items.
  
+	int globalDatasetCpu;
+	for(int i=0;i<totalItems;i++){
+		globalDatasetCpu[i] = globalDataset.at(i);
+	}
+	
+ 
 	vector <int> *globalDataset_device; //device storage pointers
 	vector <int> *globalDatasetThreadIndex_device;
 	vector <int> *ans_device;
@@ -167,8 +173,8 @@ void Execute(int argc){
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
 	
-	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (globalDataset_device, globalDatasetThreadIndex_device, ans_device);
-    cudaMemcpy (&ans, ans_device, sizeof (int) * 9, cudaMemcpyDeviceToHost);
+	//prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (globalDataset_device, globalDatasetThreadIndex_device, ans_device);
+    //cudaMemcpy (&ans, ans_device, sizeof (int) * 9, cudaMemcpyDeviceToHost);
 
 	cout << "answer addition is: ";
 	for(int i=0;i<9;i++){
