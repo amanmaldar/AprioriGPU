@@ -25,10 +25,10 @@ double minSupp = 0.001; // 0.001;
 
 
 
-/*
+
 __shared__ int smem[128];
 
-__global__ void prefix_scan_kernel (globalDataset_device) {
+__global__ void prefix_scan_kernel (vector <int> *globalDataset_device) {
 /*while (tid < n) {
         smem[threadIdx.x] = a_d[tid];       // each thread copy data to shared memory
         __syncthreads();                    // wait for all threads
@@ -133,7 +133,7 @@ void Execute(int argc){
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
 	
-	//prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (globalDataset_device);
+	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (globalDataset_device);
 
  
     cout << "two_freq_itemset:      " << two_freq_itemset << endl << "\n";
