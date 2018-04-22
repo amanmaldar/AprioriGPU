@@ -123,9 +123,12 @@ void Execute(int argc){
     //******************************************************************************************************************
     //Generate C2. Prune L2 . Compare against min_support and remove less frequent items.
  
+ 	cout << " Printing itemId_TidMapping copy: " << endl;
+
 	int globalDatasetCpu[totalItems];
 	for(int i=0;i<totalItems;i++){
 		globalDatasetCpu[i] = globalDataset.at(i);
+		cout << globalDatasetCpu[i] << " " ;
 	}
 	
  
