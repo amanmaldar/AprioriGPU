@@ -28,22 +28,24 @@ double minSupp = 0.001; // 0.001;
 
 __shared__ int smem[128];
 
-__global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <int> *globalDatasetThreadIndex_device, vector <int> *ans_device) {
+//__global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <int> *globalDatasetThreadIndex_device, vector <int> *ans_device) {
+__global__ void prefix_scan_kernel (int *globalDataset_device, int *globalDatasetThreadIndex_device, int *ans_device) {
 
 	int tid = threadIdx.x;
-    int begin = globalDatasetThreadIndex_device.at(threadIdx.x);
+    int begin = globalDatasetThreadIndex_device[threadIdx.x];
 	int index=0;
 	int sum = 0;
 	//int tmp = 
 	while (tid <= 9){
-		while (globalDataset_device.at(begin+index) != -1){
-			smem[index] = globalDataset_device.at(begin+index);
+		while (globalDataset_device[begin+index] != -1){
+			smem[index] = globalDataset_device[begin+index];
 			index++;
 		}
 		
 		for (int i=0;i<index;i++){
 			sum+= smem[index];
 		}
+		ans_device[threadIdx.x] = sum;
 		
 	}
     /*while (tid < n) {
