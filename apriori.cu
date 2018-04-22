@@ -64,6 +64,8 @@ void Execute(int argc){
     vector <int> globalDatasetThreadIndex;
     int k =0;                   // global pointer for globalMap
     //globalDatasetThreadIndex.push_back(k);
+	int *globalDatasetCpu = (int *) malloc sizeof(int)* totalItems;
+
 	for(int i=0;i<=maxItemID;i++){
         globalDatasetThreadIndex.push_back(k);
 
@@ -71,10 +73,12 @@ void Execute(int argc){
         //tmp11 = {1,2,3};
         for(int j=1;j<tmp11.size();j++){ // last item should be inclusive, first element is excluded
             globalDataset.push_back(tmp11[j]);
+			globalDatasetCpu[k] = tmp11[j];
 			k++;
 		}
 
         globalDataset.push_back(-1);    // seperate mappings by -1
+		globalDatasetCpu[k] = -1;
         k++;
        // globalDatasetThreadIndex.push_back(k);
 	}
@@ -125,9 +129,9 @@ void Execute(int argc){
  
  	cout << " Printing itemId_TidMapping copy: " << endl;
 
-	int globalDatasetCpu[totalItems];
+	//int globalDatasetCpu[totalItems];
 	for(int i=0;i<totalItems;i++){
-		globalDatasetCpu[i] = globalDataset.at(i);
+	//	globalDatasetCpu[i] = globalDataset.at(i);
 		cout << globalDatasetCpu[i] << " " ;
 	}
 	
