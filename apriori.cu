@@ -32,8 +32,8 @@ __global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <
 //__global__ void prefix_scan_kernel (int *globalDataset_device, int *globalDatasetThreadIndex_device, int *ans_device) {
 
 	int tid = threadIdx.x;
-	int ptr =  globalDatasetThreadIndex_device.data();
-	int indexPtr = globalDataset_device.data();
+	int *ptr =  globalDatasetThreadIndex_device.data();
+	int *indexPtr = globalDataset_device.data();
     int begin = ptr[threadIdx.x];
 	int index=0;
 	int sum = 0;
