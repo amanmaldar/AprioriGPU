@@ -55,8 +55,7 @@ void Execute(int argc){
     }cout << endl;
 	
 	
-	//int numberOfBlocks = 1;
-	//int threadsInBlock = 100;
+
 	  
     L1.push_back(0);    // initialized first index with 0 as we are not using it.
     //minSupport = round(minSupp *  TID_Transactions);
@@ -91,11 +90,14 @@ void Execute(int argc){
     //******************************************************************************************************************
     //Generate C2. Prune L2 . Compare against min_support and remove less frequent items.
  
-	//vector <int> *globalDataset_device; //device storage pointers
-    //cudaMalloc ((void **) &globalDataset_device, sizeof (globalDataset));
-	//cudaMemcpy (a_d, itemId_TidMapping, sizeof (itemId_TidMapping), cudaMemcpyHostToDevice);
+	vector <int> *globalDataset_device; //device storage pointers
+    cudaMalloc ((void **) &globalDataset_device, sizeof (globalDataset));
+	cudaMemcpy (globalDataset_device, globalDataset, sizeof (globalDataset), cudaMemcpyHostToDevice);
 
-	//prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (a_d,8);
+	int numberOfBlocks = 1;
+	int threadsInBlock = 100;
+	
+	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (a_d,8);
 
  
     cout << "two_freq_itemset:      " << two_freq_itemset << endl << "\n";
