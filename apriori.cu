@@ -38,14 +38,14 @@ __global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <
 	//int tmp = 
 	while (tid <= 9){
 		while (globalDataset_device[begin+index] != -1){
-			smem[index] = globalDataset_device[begin+index];
+			smem[index] = *globalDataset_device[begin+index];
 			index++;
 		}
 		
 		for (int i=0;i<index;i++){
 			sum+= smem[index];
 		}
-		ans_device[threadIdx.x] = sum;
+		*ans_device[threadIdx.x] = sum;
 		
 	}
     /*while (tid < n) {
