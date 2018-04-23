@@ -44,7 +44,7 @@ __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_devi
 		//printf("tid: %d  A_device[begin+index1]: %d  begin: %d \n", tid, A_device[begin+index1], begin);
 		while (A_device[begin+index1] != -1){
 			//printf("\n A_device[begin+index1]: %d \n", A_device[begin+index1]);
-			smem[index1] = A_device[begin+index1];
+			smem[begin+index1] = A_device[begin+index1];
 			__syncthreads(); 	//wait for all threads
 			
 			index1++;
@@ -52,8 +52,8 @@ __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_devi
 		printf("index1: %d \n", index1);
 		//printf("tid: %d sum[tid]:",tid);
 		for (int i=begin;i<begin+index1;i++){
-			//sum += smem[i];
-			printf(" %d ", i);
+			sum += smem[i];
+			//printf(" %d ", i);
 			__syncthreads(); 	//wait for all threads
 		}
 		//ans_device[threadIdx.x] = sum;
