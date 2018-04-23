@@ -122,13 +122,13 @@ void Execute(int argc){
 
 	
     cudaMalloc ((void **) &A_device, sizeof (A_cpu));
-    cudaMalloc ((void **) &B_device, sizeof (B_cpu));
+    cudaMalloc ((void **) &B_device, sizeof (int) * 9);
     cudaMalloc ((void **) &ans_device, sizeof (int) * 9);
 
 	
     cudaMemcpy (A_device, A_cpu, sizeof (A_cpu), cudaMemcpyHostToDevice);
-    cudaMemcpy (B_device, B_cpu, sizeof (B_cpu), cudaMemcpyHostToDevice);
-	cudaMemcpy (ans_device, ans_cpu, sizeof (ans_cpu), cudaMemcpyHostToDevice);
+    cudaMemcpy (B_device, B_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
+	cudaMemcpy (ans_device, ans_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
 
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
