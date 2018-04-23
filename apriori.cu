@@ -27,7 +27,7 @@ double minSupp = 0.001; // 0.001;
 
 
 __shared__ int smem[128];
-__shared__ int index1[9];
+//__shared__ int index1[9];
 
 __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_device) {
 //__global__ void prefix_scan_kernel (int *globalDataset_device, int *globalDatasetThreadIndex_device, int *ans_device) {
@@ -35,7 +35,7 @@ __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_devi
 	int tid = threadIdx.x;
 
     
-	index1[tid]=0;
+	int index1=0;
 	int sum = 0;
 	int begin = B_device[tid];
 	while (tid < 9){
