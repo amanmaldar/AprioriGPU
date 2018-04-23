@@ -25,22 +25,22 @@ double minSupp = 0.001; // 0.001;
 
 
 
-/*
+
 __shared__ int smem[128];
 
-__global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <int> *globalDatasetThreadIndex_device, vector <int> *ans_device) {
+__global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_device) {
 //__global__ void prefix_scan_kernel (int *globalDataset_device, int *globalDatasetThreadIndex_device, int *ans_device) {
 
 	int tid = threadIdx.x;
-	int *ptr =  globalDatasetThreadIndex_device.data();
-	int *indexPtr = globalDataset_device.data();
-    int begin = ptr[threadIdx.x];
+
+    
 	int index=0;
 	int sum = 0;
 	//int tmp = 
 	while (tid <= 9){
-		while (indexPtr[begin+index] != -1){
-			smem[index] = indexPtr[begin+index];
+		int begin = B_device[threadIdx.x];
+		while (A_device[begin+index] != -1){
+			smem[index] = A_device[begin+index];
 			index++;
 		}
 		
@@ -52,7 +52,7 @@ __global__ void prefix_scan_kernel (vector <int> *globalDataset_device, vector <
 	}
 } // end kernel function
 
-*/
+
 
 
 void Execute(int argc){
@@ -106,42 +106,7 @@ void Execute(int argc){
 	
 	return;
 	
-	
 
-	  
-    L1.push_back(0);    // initialized first index with 0 as we are not using it.
-    //minSupport = round(minSupp *  TID_Transactions);
-    minSupport = 1;
-    // Following code generates single items which have support greater than min_sup
-    // compare the occurrence of the object against minSupport
-
-    cout << "\n Support:" << minSupport << endl << "\n";
-    //Generate L1 - filtered single items ? I think this should be C1, not L1.
-
-    for (int i=0; i<= maxItemID; i++)
-    {
-        if(itemIDcount[i] >= minSupport){
-            L1.push_back(i);     //push TID into frequentItem
-            one_freq_itemset++;
-            //cout << "1 Frequent Item is: (" << i << ") Freq is: " << itemIDcount[i] << endl;
-        }
-    }
-    //cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n";
-    //******************************************************************************************************************
-    //Generate L2 .  Make a pair of frequent items in L1
-    for (int i=0;i <= L1.size() -1 -1; i++)     //-1 is done for eliminating first entry
-    {
-        for (int j=i+1;j <= L1.size() -1; j++){
-            twoStruct.a = L1[i];
-            twoStruct.b = L1[j];
-            L2.push_back(twoStruct);
-            //cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
-
-        }
-    }
-    //******************************************************************************************************************
-    //Generate C2. Prune L2 . Compare against min_support and remove less frequent items.
-	
 	//vector <int> A; //= globalDataset     // convert itemId_TidMapping into long array
     //vector <int> B ; // = globalDatasetThreadIndex;
 	//int *A_cpu = globalDataset
@@ -204,7 +169,47 @@ int main(int argc, char **argv){
 
 
 
+/*
+	
 
+	  
+    L1.push_back(0);    // initialized first index with 0 as we are not using it.
+    //minSupport = round(minSupp *  TID_Transactions);
+    minSupport = 1;
+    // Following code generates single items which have support greater than min_sup
+    // compare the occurrence of the object against minSupport
+
+    cout << "\n Support:" << minSupport << endl << "\n";
+    //Generate L1 - filtered single items ? I think this should be C1, not L1.
+
+    for (int i=0; i<= maxItemID; i++)
+    {
+        if(itemIDcount[i] >= minSupport){
+            L1.push_back(i);     //push TID into frequentItem
+            one_freq_itemset++;
+            //cout << "1 Frequent Item is: (" << i << ") Freq is: " << itemIDcount[i] << endl;
+        }
+    }
+    //cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n";
+    //******************************************************************************************************************
+    //Generate L2 .  Make a pair of frequent items in L1
+    for (int i=0;i <= L1.size() -1 -1; i++)     //-1 is done for eliminating first entry
+    {
+        for (int j=i+1;j <= L1.size() -1; j++){
+            twoStruct.a = L1[i];
+            twoStruct.b = L1[j];
+            L2.push_back(twoStruct);
+            //cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
+
+        }
+    }
+    //******************************************************************************************************************
+    //Generate C2. Prune L2 . Compare against min_support and remove less frequent items.
+	
+
+
+
+*/
 
 
 
