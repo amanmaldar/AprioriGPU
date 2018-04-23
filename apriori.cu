@@ -64,7 +64,8 @@ void Execute(int argc){
     //int *globalDatasetCpu = (int *) malloc (sizeof(int)* totalItems);
     int *A_cpu = (int *) malloc (sizeof(int)* totalItems);
     int *B_cpu = (int *) malloc (sizeof(int)* (maxItemID+1));    //index array lenght same as number of items
-
+	int *ans_cpu = (int *) malloc (sizeof(int)* (maxItemID+1));
+	
     int k =0;                   // global pointer for globalMap
     //globalDatasetThreadIndex.push_back(k);
 	for(int i=0;i<=maxItemID;i++){
@@ -146,13 +147,10 @@ void Execute(int argc){
 	//int *A_cpu = globalDataset
     //int *B_cpu = globalDatasetThreadIndex
 	
-	vector <int> *A_device; //device storage pointers
-	vector <int> *B_device;
-	vector <int> *ans_device;
-	vector <int> ans;
-	for(int i=0;i<9;i++){
-		ans.push_back(0);
-	}
+	int *A_device; //device storage pointers
+	int *B_device;
+	int *ans_device;
+
 	
     cudaMalloc ((void **) &A_device, sizeof (A_cpu));
     cudaMalloc ((void **) &B_device, sizeof (B_cpu));
@@ -162,17 +160,17 @@ void Execute(int argc){
     cudaMemcpy (A_device, &A_cpu, sizeof (A_cpu), cudaMemcpyHostToDevice);
     cudaMemcpy (B_device, &B_cpu, sizeof (B_cpu), cudaMemcpyHostToDevice);
 	
-	cudaMemcpy (ans_device, &ans, sizeof (ans), cudaMemcpyDeviceToHost);
+	cudaMemcpy (ans_device, &ans, sizeof (ans), cudaMemcpyHostToDevice);
 
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
 	
-	//prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (globalDataset_device, globalDatasetThreadIndex_device, ans_device);
-    //cudaMemcpy (&ans, ans_device, sizeof (int) * 9, cudaMemcpyDeviceToHost);
+	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, ans_device);
+    cudaMemcpy (ans_cpu, ans_device, sizeof (int) * 9, cudaMemcpyDeviceToHost);
 
 	cout << "answer addition is: ";
 	for(int i=0;i<9;i++){
-		cout << ans.at(i) << " ";
+		cout << ans_cpu[i] << " ";
 	} cout << endl;
  
     //cout << "two_freq_itemset:      " << two_freq_itemset << endl << "\n";
