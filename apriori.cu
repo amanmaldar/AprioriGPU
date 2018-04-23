@@ -46,10 +46,10 @@ __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_devi
 			smem[index1] = A_device[begin+index1];
 			__syncthreads(); 	//wait for all threads
 
-			//printf("index1: %d \n", index1);
+			
 			index1++;
 		}
-		
+		printf("index1: %d \n", index1);
 		for (int i=0;i<index1;i++){
 			sum+= smem[index1];
 		}
