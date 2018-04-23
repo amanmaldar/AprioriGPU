@@ -27,7 +27,7 @@ double minSupp = 0.001; // 0.001;
 
 
 __shared__ int smem[128];
-__shared__ int index[9];
+__shared__ int index1[9];
 
 __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_device) {
 //__global__ void prefix_scan_kernel (int *globalDataset_device, int *globalDatasetThreadIndex_device, int *ans_device) {
@@ -35,21 +35,21 @@ __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_devi
 	int tid = threadIdx.x;
 
     
-	index[tid]=0;
+	index1[tid]=0;
 	int sum = 0;
 	int begin = B_device[tid];
 	while (tid < 9){
 		printf("tid: %d begin: %d A_device[begin]: %d \n", tid, begin,A_device[begin]);
-		//printf("tid: %d  A_device[begin+index]: %d  begin: %d \n", tid, A_device[begin+index], begin);
-		/*while (A_device[begin+index] != -1){
-			//printf("\n A_device[begin+index]: %d \n", A_device[begin+index]);
-			//smem[index] = A_device[begin+index];
-			printf("index: %d \n", index);
-			index++;
+		//printf("tid: %d  A_device[begin+index1]: %d  begin: %d \n", tid, A_device[begin+index1], begin);
+		/*while (A_device[begin+index1] != -1){
+			//printf("\n A_device[begin+index1]: %d \n", A_device[begin+index1]);
+			//smem[index1] = A_device[begin+index1];
+			printf("index1: %d \n", index1);
+			index1++;
 		}
 		
-		/*for (int i=0;i<index;i++){
-			sum+= smem[index];
+		/*for (int i=0;i<index1;i++){
+			sum+= smem[index1];
 		}*/
 		//ans_device[threadIdx.x] = sum;
 		ans_device[tid] = begin;
