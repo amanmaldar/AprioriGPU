@@ -60,36 +60,52 @@ void Execute(int argc){
     	parse_database(argc);
 
     //return;
-	vector <int> globalDataset;     // convert itemId_TidMapping into long array
-    vector <int> globalDatasetThreadIndex;
+	vector <int> A; //= globalDataset     // convert itemId_TidMapping into long array
+    vector <int> B ; // = globalDatasetThreadIndex;
+    //int *globalDatasetCpu = (int *) malloc (sizeof(int)* totalItems);
+    int *A_cpu = (int *) malloc (sizeof(int)* totalItems);
+    int *B_cpu = (int *) malloc (sizeof(int)* (maxItemID+1));    //index array lenght same as number of items
+
     int k =0;                   // global pointer for globalMap
     //globalDatasetThreadIndex.push_back(k);
-	int *globalDatasetCpu = (int *) malloc (sizeof(int)* totalItems);
-
 	for(int i=0;i<=maxItemID;i++){
-        globalDatasetThreadIndex.push_back(k);
-
+        B.push_back(k);
+        B_cpu[i] = k;
         vector <int> tmp11 = itemId_TidMapping[i];    // copy entire vector
         //tmp11 = {1,2,3};
         for(int j=1;j<tmp11.size();j++){ // last item should be inclusive, first element is excluded
-            globalDataset.push_back(tmp11[j]);
-			globalDatasetCpu[k] = tmp11[j];
-			k++;
+            A.push_back(tmp11[j]);
+            A_cpu[k] = tmp11[j];
+            //globalDatasetCpu[k] = globalDataset[k];
+            k++;
 		}
 
-        globalDataset.push_back(-1);    // seperate mappings by -1
-		globalDatasetCpu[k] = -1;
+        A.push_back(-1);    // seperate mappings by -1
+        A_cpu[k] = -1;
         k++;
        // globalDatasetThreadIndex.push_back(k);
 	}
-	cout << " Printing itemId_TidMapping as array: " << endl;
-	for(int i =0;i<globalDataset.size();i++){
-		cout << globalDataset[i] << " " ;
-	}cout << endl;
-    cout << " Printing starting indexes " << endl;
-    for(int i =0;i<globalDatasetThreadIndex.size();i++){
-        cout << globalDatasetThreadIndex[i] << " " ;
+/*	cout << " Printing itemId_TidMapping as array: " << endl;
+    for(int i =0;i<A.size();i++){
+        //A_cpu[i] = A[i];
+        cout << A[i] << " " ;
+    }cout << endl;*/
+    cout << " Printing itemId_TidMapping copy: " << totalItems << endl;
+    for(int i =0;i<totalItems;i++){
+        cout << A_cpu[i] << " " ;
     }cout << endl;
+
+ /*   cout << " Printing starting indexes " << endl;
+    for(int i =0;i<B.size();i++){
+        cout << B[i] << " " ;
+    }cout << endl;*/
+
+    cout << " Printing starting indexes " << endl;
+    for(int i =0;i<B.size();i++){
+        cout << B_cpu[i] << " " ;
+    }cout << endl;
+	
+	return;
 	
 	
 

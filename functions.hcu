@@ -51,6 +51,8 @@ void parse_database(int argc){
         }
         TID_Transactions++;
     } // Parsing done
+	 cout << "totalItems: " << totalItems << endl;
+    totalItems += maxItemID + 1;    //used to adjust lenght of A
     infile.close();
 
 }
