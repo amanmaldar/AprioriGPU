@@ -27,13 +27,14 @@ double minSupp = 0.001; // 0.001;
 
 
 __shared__ int smem[128];
-//__shared__ int index1[9];
+__shared__ int sum[9];
 
 __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_device) {
 //__global__ void prefix_scan_kernel (int *globalDataset_device, int *globalDatasetThreadIndex_device, int *ans_device) {
 
 	int tid = threadIdx.x;
-
+	sum[tid] = 0;
+	__syncthreads(); 	//wait for all threads
     
 	int index1=0;
 	int sum = 0;
@@ -45,16 +46,15 @@ __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_devi
 			//printf("\n A_device[begin+index1]: %d \n", A_device[begin+index1]);
 			smem[index1] = A_device[begin+index1];
 			__syncthreads(); 	//wait for all threads
-
 			
 			index1++;
 		}
 		printf("index1: %d \n", index1);
 		for (int i=begin;i<begin+index1;i++){
-			sum+= smem[i];
+			sum[tid] += smem[i];
 		}
 		//ans_device[threadIdx.x] = sum;
-		ans_device[tid] = sum;
+		ans_device[tid] = sum[tid];
 		tid+=9;
 	}
 } // end kernel function
