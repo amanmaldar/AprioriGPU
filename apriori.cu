@@ -39,7 +39,7 @@ __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_devi
 	int sum = 0;
 	int begin = B_device[tid];
 	while (tid < 9){
-		printf("tid: %d begin: %d A_device[begin]: %d \n", tid, begin,A_device[2]);
+		printf("tid: %d begin: %d A_device[begin]: %d \n", tid, begin,A_device[begin]);
 		//printf("tid: %d  A_device[begin+index1]: %d  begin: %d \n", tid, A_device[begin+index1], begin);
 		/*while (A_device[begin+index1] != -1){
 			//printf("\n A_device[begin+index1]: %d \n", A_device[begin+index1]);
@@ -122,12 +122,12 @@ void Execute(int argc){
 	int *ans_device;
 
 	
-    cudaMalloc ((void **) &A_device, sizeof (A_cpu));
+    cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
     cudaMalloc ((void **) &B_device, sizeof (int) * 9);
     cudaMalloc ((void **) &ans_device, sizeof (int) * 9);
 
 	
-    cudaMemcpy (A_device, A_cpu, sizeof (A_cpu), cudaMemcpyHostToDevice);
+    cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
     cudaMemcpy (B_device, B_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
 	cudaMemcpy (ans_device, ans_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
 
