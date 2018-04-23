@@ -128,8 +128,7 @@ void Execute(int argc){
 	
     cudaMemcpy (A_device, A_cpu, sizeof (A_cpu), cudaMemcpyHostToDevice);
     cudaMemcpy (B_device, B_cpu, sizeof (B_cpu), cudaMemcpyHostToDevice);
-	
-	cudaMemcpy (ans_device, &ans_cpu, sizeof (ans_cpu), cudaMemcpyHostToDevice);
+	cudaMemcpy (ans_device, ans_cpu, sizeof (ans_cpu), cudaMemcpyHostToDevice);
 
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
