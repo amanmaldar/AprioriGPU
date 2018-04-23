@@ -37,9 +37,10 @@ __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_devi
 	int index=0;
 	int sum = 0;
 	//int tmp = 
+	int begin = B_device[threadIdx.x];
 	while (tid < 9){
-		int begin = B_device[threadIdx.x];
-		printf("tid: %d : A_device[begin+index]: %d \n", tid),A_device[begin+index];
+		
+		printf("tid: %d : A_device[begin+index]: %d begin: %d \n", tid,A_device[begin+index], begin);
 		while (A_device[begin+index] != -1){
 			printf("\n A_device[begin+index]: \n", A_device[begin+index]);
 			smem[index] = A_device[begin+index];
