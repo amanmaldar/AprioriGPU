@@ -50,7 +50,8 @@ __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_devi
 		for (int i=0;i<index;i++){
 			sum+= smem[index];
 		}
-		ans_device[threadIdx.x] = sum;
+		//ans_device[threadIdx.x] = sum;
+		ans_device[threadIdx.x] = begin;
 		
 	}
 } // end kernel function
