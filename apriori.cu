@@ -72,7 +72,6 @@ void Execute(int argc){
         B.push_back(k);
         B_cpu[i] = k;
         vector <int> tmp11 = itemId_TidMapping[i];    // copy entire vector
-        //tmp11 = {1,2,3};
         for(int j=1;j<tmp11.size();j++){ // last item should be inclusive, first element is excluded
             A.push_back(tmp11[j]);
             A_cpu[k] = tmp11[j];
