@@ -59,7 +59,6 @@ void Execute(int argc){
 
     	parse_database(argc);
 
-    //return;
 	vector <int> A; //= globalDataset     // convert itemId_TidMapping into long array
     vector <int> B ; // = globalDatasetThreadIndex;
     //int *globalDatasetCpu = (int *) malloc (sizeof(int)* totalItems);
@@ -141,32 +140,29 @@ void Execute(int argc){
     }
     //******************************************************************************************************************
     //Generate C2. Prune L2 . Compare against min_support and remove less frequent items.
- 
- 	cout << " Printing itemId_TidMapping copy: " << endl;
-
-	//int globalDatasetCpu[totalItems];
-	for(int i=0;i<totalItems;i++){
-	//	globalDatasetCpu[i] = globalDataset.at(i);
-		cout << globalDatasetCpu[i] << " " ;
-	}
 	
- 
-	vector <int> *globalDataset_device; //device storage pointers
-	vector <int> *globalDatasetThreadIndex_device;
+	//vector <int> A; //= globalDataset     // convert itemId_TidMapping into long array
+    //vector <int> B ; // = globalDatasetThreadIndex;
+	//int *A_cpu = globalDataset
+    //int *B_cpu = globalDatasetThreadIndex
+	
+	vector <int> *A_device; //device storage pointers
+	vector <int> *B_device;
 	vector <int> *ans_device;
 	vector <int> ans;
 	for(int i=0;i<9;i++){
 		ans.push_back(0);
 	}
 	
-    cudaMalloc ((void **) &globalDataset_device, sizeof (globalDataset));
-    cudaMalloc ((void **) &globalDatasetThreadIndex_device, sizeof (globalDatasetThreadIndex));
+    cudaMalloc ((void **) &A_device, sizeof (A_cpu));
+    cudaMalloc ((void **) &B_device, sizeof (B_cpu));
     cudaMalloc ((void **) &ans_device, sizeof (int) * 9);
 
 	
-    cudaMemcpy (globalDataset_device, &globalDataset, sizeof (globalDataset), cudaMemcpyHostToDevice);
-    cudaMemcpy (globalDatasetThreadIndex_device, &globalDatasetThreadIndex, sizeof (globalDatasetThreadIndex), cudaMemcpyHostToDevice);
-	cudaMemcpy (ans_device, &ans, sizeof (ans), cudaMemcpyHostToDevice);
+    cudaMemcpy (A_device, &A_cpu, sizeof (A_cpu), cudaMemcpyHostToDevice);
+    cudaMemcpy (B_device, &B_cpu, sizeof (B_cpu), cudaMemcpyHostToDevice);
+	
+	cudaMemcpy (ans_device, &ans, sizeof (ans), cudaMemcpyDeviceToHost);
 
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
