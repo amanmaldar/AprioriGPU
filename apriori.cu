@@ -125,8 +125,8 @@ void Execute(int argc){
     cudaMalloc ((void **) &ans_device, sizeof (int) * 9);
 
 	
-    cudaMemcpy (A_device, &A_cpu, sizeof (A_cpu), cudaMemcpyHostToDevice);
-    cudaMemcpy (B_device, &B_cpu, sizeof (B_cpu), cudaMemcpyHostToDevice);
+    cudaMemcpy (A_device, A_cpu, sizeof (A_cpu), cudaMemcpyHostToDevice);
+    cudaMemcpy (B_device, B_cpu, sizeof (B_cpu), cudaMemcpyHostToDevice);
 	
 	cudaMemcpy (ans_device, &ans_cpu, sizeof (ans_cpu), cudaMemcpyHostToDevice);
 
