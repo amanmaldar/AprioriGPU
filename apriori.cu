@@ -100,6 +100,7 @@ void Execute(int argc){
     for(int i =0;i<totalItems;i++){
         cout << A_cpu[i] << " " ;
     }cout << endl;
+	cout << A_cpu[7] << " " << A_cpu[8] << " " << A_cpu[9] << " tesing \n " ;
 
  /*   cout << " Printing starting indexes " << endl;
     for(int i =0;i<B.size();i++){
