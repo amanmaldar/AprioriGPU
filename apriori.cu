@@ -152,7 +152,8 @@ void Execute(int argc){
     //cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n";
 	//-----------------------------------------------------------------------------------------------------------
 	
-	int pairs[];
+	int *pairs_cpu;
+	pairs_cpu = new int[50];
 	//----------------This section generates the pair of 2-------------------------------------------------------
 	//Generate L2 .  Make a pair of frequent items in L1
 	for (int i=0;i <= L1.size() -1 -1; i++)     //-1 is done for eliminating first entry
@@ -173,7 +174,7 @@ void Execute(int argc){
 	int *A_device; //device storage pointers
 	int *B_device;
 	int *ans_device;
-	int *pairs_device;
+	//int *pairs_device;
 	
     cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
     cudaMalloc ((void **) &B_device, sizeof (int) * 9);
