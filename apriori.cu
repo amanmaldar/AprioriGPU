@@ -61,7 +61,7 @@ while (tid < 1)
 {	
 	// p =3 , q = 5
 int len_p = 4; // B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
-int len_q = 3; // B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
+//int len_q = 3; // B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 common = 0;
 
 for (int i = 0; i < len_p; i++) 
@@ -180,9 +180,11 @@ void Execute(int argc){
 */
 	int *p_cpu = (int *) malloc (sizeof(int));
 	int *q_cpu = (int *) malloc (sizeof(int));
+	int *common_cpu = (int *) malloc (sizeof(int));
 	*p_cpu = 3;
 	*q_cpu = 5;
-	int *common_cpu = (int *) malloc (sizeof(int));
+	*common_cpu = 0;
+	
 	int *p_device;
 	int *q_device;
 	int *common_device;
@@ -198,7 +200,7 @@ void Execute(int argc){
 	cudaMemcpy (common_device, common_cpu, sizeof (int), cudaMemcpyHostToDevice);
 
 	int numberOfBlocks = 1;
-	int threadsInBlock = 100;
+	int threadsInBlock = 2;
 	
 	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device,common_device);
 
