@@ -153,7 +153,7 @@ void Execute(int argc){
 	//-----------------------------------------------------------------------------------------------------------
 	
 	int *pairs_cpu;
-	pairs_cpu = new int[50];
+	pairs_cpu = new int[100];
 	//----------------This section generates the pair of 2-------------------------------------------------------
 	//Generate L2 .  Make a pair of frequent items in L1
 	int k1 = 0;
