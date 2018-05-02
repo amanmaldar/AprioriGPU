@@ -153,7 +153,7 @@ void Execute(int argc){
 	//-----------------------------------------------------------------------------------------------------------
 	
 	int *pairs_cpu;
-	pairs_cpu = new int[100];
+	pairs_cpu = new int[90];
 	//----------------This section generates the pair of 2-------------------------------------------------------
 	//Generate L2 .  Make a pair of frequent items in L1
 	int k1 = 0;
@@ -173,7 +173,7 @@ void Execute(int argc){
 
 	//-----------------------------------------------------------------------------------------------------------
 	
-	
+	// next - PASS THIS ARRAY TO GPU AND LET DIFFERENT THREADS WORK ON DIFFERENT PAIRS
 	int *A_device; //device storage pointers
 	int *B_device;
 	int *ans_device;
