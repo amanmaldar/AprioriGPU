@@ -53,7 +53,7 @@ __global__ void addition_scan_kernel (int *A_device, int *B_device , int *ans_de
 } // end kernel function
 */
 
-__global__ void 2_common_kernel (int *A_device, int *B_device , int *p, int *q, int *common) {
+__global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int *q, int *common) {
 
 int tid = threadIdx.x;
 //__syncthreads(); 	
@@ -195,7 +195,7 @@ void Execute(int argc){
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
 	
-	2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device,common_device);
+	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device,common_device);
 
     cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
 	
