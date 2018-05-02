@@ -162,11 +162,11 @@ void Execute(int argc){
 			twoStruct.a = L1[i];
 			twoStruct.b = L1[j];
 			L2.push_back(twoStruct);
-			pairs[i*2] = L1[i];
-			pairs[i*2 + 1] = L1[j];
+			pairs_cpu[i*2] = L1[i];
+			pairs_cpu[i*2 + 1] = L1[j];
 			cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
 		}
-		cout << "pairs size is " << pairs.size();
+		cout << "pairs size is " << pairs_cpu.size();
 	}
 	//-----------------------------------------------------------------------------------------------------------
 	
