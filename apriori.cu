@@ -77,7 +77,7 @@ for (int i = 0; i < len_p; i++)
 			//y = A_device[B_device[q]+j];
 			ytmp = 21+j;
 			y = A_device[ytmp];
-			printf("tid: %d  %d x: %d y: %d\n", tid, x, y );
+			printf("tid: %d x: %d y: %d\n", tid, x, y );
 			if (x < y)
 			{
 				i++;
