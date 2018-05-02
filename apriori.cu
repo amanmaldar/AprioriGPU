@@ -22,9 +22,9 @@ Data: (6entries.txt)
 
 //double minSupp = 0.001; // 0.001;
 
-
-__shared__ int smem[128];
 /*
+__shared__ int smem[128];
+
 __global__ void addition_scan_kernel (int *A_device, int *B_device , int *ans_device) {
 
 	int tid = threadIdx.x;
@@ -73,10 +73,11 @@ for (int i = 0; i < len_p; i++)
 	int y = 0;
 		for (int j = 0; j < len_p; i++)
 		{	
+			
 			//y = A_device[B_device[q]+j];
 			ytmp = 21+j;
 			y = A_device[ytmp];
-			
+			printf("tid: %d  %d x: %d y: %d\n", tid, x, y );
 			if (x < y)
 			{
 				i++;
@@ -195,14 +196,14 @@ void Execute(int argc){
     cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
     cudaMemcpy (B_device, B_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
     //cudaMemcpy (ans_device, ans_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
-	cudaMemcpy (p_device, p_cpu, sizeof (int), cudaMemcpyHostToDevice);
-	cudaMemcpy (q_device, q_cpu, sizeof (int), cudaMemcpyHostToDevice);
-	cudaMemcpy (common_device, common_cpu, sizeof (int), cudaMemcpyHostToDevice);
+	cudaMemcpy (p_device, p_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
+	cudaMemcpy (q_device, q_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
+	cudaMemcpy (common_device, common_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 
 	int numberOfBlocks = 1;
 	int threadsInBlock = 2;
 	
-	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device,common_device);
+	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device, common_device);
 
     cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
 	
