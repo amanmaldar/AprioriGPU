@@ -73,11 +73,11 @@ for (int i = 0; i < len_p; i++)
 	//xtmp += i;
 	int x = A_device[xtmp+i];		
 	int y = 0;
-		for (int j = 0; j < len_q; i++)
+		for (int j = 0; j < len_q; j++)
 		{	
 			//y = A_device[B_device[q]+j];
 			//ytmp += j;
-			y = A_device[ytmp+i];
+			y = A_device[ytmp+j];
 			printf("tid: %d x: %d y: %d\n", tid, x, y );
 			
 
