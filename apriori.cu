@@ -91,7 +91,7 @@ for (int i = 0; i < len_p; i++)
 			}
 		} // end inner for 
 } // end outer for
-	common_device = 10;
+	*common_device = 10;
 	tid++;
 } // end while
 } // end kernel function
