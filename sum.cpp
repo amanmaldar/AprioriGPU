@@ -15,24 +15,27 @@ int main() {
 	for (int i = 0; i < 5; i++) 
 	{
 		{
-			for (int j = 0; j < 5; i++)
+			for (int j = 0; j < 5; j++)
 			{
-				if (num1[i] < num2[j])
+/*				if (num1[i] < num2[j])
 				{
 					i++;
+                    continue;
 				}
 
 				else if (num2[j] < num1[i])
 				{
 					j++;
+                    continue;
 				}
-
-				else if (num1[i] == num2[j])
+*/
+				if (num1[i] == num2[j])
 				{
 
 					cout << " " << num1[i];
-					i++;
-					j++;
+					//i++;
+					//j++;
+                    //continue;
 
 				}
 			}
