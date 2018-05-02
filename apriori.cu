@@ -67,22 +67,22 @@ int len_q = B_device[*q+1] - B_device[*q] - 1; // = 25-21 -1 = 3   2,3,6
 
 *common_device = 0;
 	
-int x_offset = 11;
-int y_offset = 21;
-//int x_offset = A_device[B_device[*p]];
-//int y_offset = A_device[B_device[*q]];
+int p_offset = 11;
+int q_offset = 21;
+//int p_offset = B_device[*p];
+//int q_offset = B_device[*q];
 	
 for (int i = 0; i < len_p; i++) 
 {
 	//int x = A_device[B_device[p]+i];
 	//xtmp += i;
-	int x = A_device[x_offset+i];		
+	int x = A_device[p_offset+i];		
 	int y = 0;
 		for (int j = 0; j < len_q; j++)
 		{	
 			//y = A_device[B_device[q]+j];
 			//ytmp += j;
-			y = A_device[y_offset+j];
+			y = A_device[q_offset+j];
 			//printf("tid: %d x: %d y: %d\n", tid, x, y );
 			
 
