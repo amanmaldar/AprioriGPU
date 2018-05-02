@@ -86,12 +86,12 @@ for (int i = 0; i < len_p; i++)
 				//cout << " " << num1[i];
 				//i++;
 				//j++;
-				printf("tid: %d x: %d y: %d\n", tid, x, y );
-				//common_device++;
+				//printf("tid: %d x: %d y: %d\n", tid, x, y );
+				*common_device++;
 			}
 		} // end inner for 
 } // end outer for
-	*common_device = 10;
+	//*common_device = 10;
 	tid++;
 } // end while
 } // end kernel function
