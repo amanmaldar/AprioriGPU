@@ -67,12 +67,15 @@ common = 0;
 for (int i = 0; i < len_p; i++) 
 {
 	//int x = A_device[B_device[p]+i];
-	int xtmp = 16+i;
+	int xtmp = 11+i;
 	int x = A_device[xtmp];		
 	int y = 0;
 		for (int j = 0; j < len_p; i++)
 		{	
-			y = A_device[B_device[q]+j];
+			//y = A_device[B_device[q]+j];
+			int ytmp = 21+j;
+			int y = A_device[ytmp];
+			
 			if (x < y)
 			{
 				i++;
