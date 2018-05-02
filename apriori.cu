@@ -80,17 +80,9 @@ for (int i = 0; i < len_p; i++)
 	int y = 0;
 		for (int j = 0; j < len_q; j++)
 		{	
-			//y = A_device[B_device[q]+j];
-			//ytmp += j;
-			y = A_device[q_offset+j];
-			//printf("tid: %d x: %d y: %d\n", tid, x, y );
-			
-
+			y = A_device[q_offset+j];			
 			if (x == y)
 			{
-				//cout << " " << num1[i];
-				//i++;
-				//j++;
 				printf("tid: %d x: %d y: %d\n", tid, x, y );
 				*common_device +=1;
 			}
@@ -160,19 +152,33 @@ void Execute(int argc){
     //cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n";
 	//-----------------------------------------------------------------------------------------------------------
 	
+	int pairs[];
 	//----------------This section generates the pair of 2-------------------------------------------------------
-	
+	//Generate L2 .  Make a pair of frequent items in L1
+	for (int i=0;i <= L1.size() -1 -1; i++)     //-1 is done for eliminating first entry
+	{
+		for (int j=i+1;j <= L1.size() -1; j++){
+			twoStruct.a = L1[i];
+			twoStruct.b = L1[j];
+			L2.push_back(twoStruct);
+			pairs[i*2] = L1[i];
+			pairs[i*2 + 1] = L1[j];
+			cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
+		}
+		cout << "pairs size is " << pairs.size();
+	}
 	//-----------------------------------------------------------------------------------------------------------
 	
 	
 	int *A_device; //device storage pointers
 	int *B_device;
 	int *ans_device;
-
+	int *pairs_device;
 	
     cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
     cudaMalloc ((void **) &B_device, sizeof (int) * 9);
     cudaMalloc ((void **) &ans_device, sizeof (int) * 9);
+	 //cudaMalloc ((void **) &pairs_device, sizeof (int) * 9);
 
 
 	int *p_cpu = (int *) malloc (sizeof(int));
@@ -232,26 +238,6 @@ int main(int argc, char **argv){
 
 /*
 	
-
-	  
-    L1.push_back(0);    // initialized first index with 0 as we are not using it.
-    //minSupport = round(minSupp *  TID_Transactions);
-    minSupport = 1;
-    // Following code generates single items which have support greater than min_sup
-    // compare the occurrence of the object against minSupport
-
-    cout << "\n Support:" << minSupport << endl << "\n";
-    //Generate L1 - filtered single items ? I think this should be C1, not L1.
-
-    for (int i=0; i<= maxItemID; i++)
-    {
-        if(itemIDcount[i] >= minSupport){
-            L1.push_back(i);     //push TID into frequentItem
-            one_freq_itemset++;
-            //cout << "1 Frequent Item is: (" << i << ") Freq is: " << itemIDcount[i] << endl;
-        }
-    }
-    //cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n";
     //******************************************************************************************************************
     //Generate L2 .  Make a pair of frequent items in L1
     for (int i=0;i <= L1.size() -1 -1; i++)     //-1 is done for eliminating first entry
