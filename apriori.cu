@@ -67,10 +67,10 @@ int len_q = B_device[*q+1] - B_device[*q] - 1; // = 25-21 -1 = 3   2,3,6
 
 *common_device = 0;
 	
-int p_offset = 11;
-int q_offset = 21;
-//int p_offset = B_device[*p];
-//int q_offset = B_device[*q];
+//int p_offset = 11;
+//int q_offset = 21;
+int p_offset = B_device[*p];
+int q_offset = B_device[*q];
 	
 for (int i = 0; i < len_p; i++) 
 {
