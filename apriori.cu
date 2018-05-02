@@ -175,8 +175,8 @@ void Execute(int argc){
 */
 	int *p_cpu = (int *) malloc (sizeof(int));
 	int *q_cpu = (int *) malloc (sizeof(int));
-	p_cpu = 3;
-	q_cpu = 5;
+	*p_cpu = 3;
+	*q_cpu = 5;
 	int *common_cpu = (int *) malloc (sizeof(int));
 	int *p_device;
 	int *q_device;
