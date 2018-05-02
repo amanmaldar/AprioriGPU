@@ -57,7 +57,7 @@ __global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int 
 
 int tid = threadIdx.x;
 //__syncthreads(); 	
-while (tid < 2) 
+while (tid < 1) 
 {	
 	// p =3 , q = 5
 int len_p = 4; // B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
@@ -68,13 +68,14 @@ for (int i = 0; i < len_p; i++)
 {
 	//int x = A_device[B_device[p]+i];
 	int xtmp = 11+i;
+	int ytmp = 0;
 	int x = A_device[xtmp];		
 	int y = 0;
 		for (int j = 0; j < len_p; i++)
 		{	
 			//y = A_device[B_device[q]+j];
-			int ytmp = 21+j;
-			int y = A_device[ytmp];
+			ytmp = 21+j;
+			y = A_device[ytmp];
 			
 			if (x < y)
 			{
@@ -95,6 +96,7 @@ for (int i = 0; i < len_p; i++)
 			}
 		} // end inner for 
 } // end outer for
+	tid++;
 } // end while
 } // end kernel function
 
