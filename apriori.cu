@@ -86,7 +86,7 @@ for (int i = 0; i < len_p; i++)
 				//cout << " " << num1[i];
 				//i++;
 				//j++;
-				common++;
+				*common++;
 			}
 		} // end inner for 
 } // end outer for
