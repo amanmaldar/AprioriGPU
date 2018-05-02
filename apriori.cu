@@ -25,7 +25,7 @@ Data: (6entries.txt)
 
 __shared__ int smem[128];
 
-__global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_device) {
+__global__ void addition_scan_kernel (int *A_device, int *B_device , int *ans_device) {
 
 	int tid = threadIdx.x;
 	__syncthreads(); 	
@@ -50,6 +50,46 @@ __global__ void prefix_scan_kernel (int *A_device, int *B_device , int *ans_devi
 		ans_device[tid] = sum;
 		tid+=9;
 	}
+} // end kernel function
+
+
+__global__ void 2_common_kernel (int *A_device, int *B_device , int *p, int *q, int *common) {
+
+int tid = threadIdx.x;
+//__syncthreads(); 	
+while (tid < 2) 
+{	
+int len_p= B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
+int len_q= B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
+common = 0;
+
+for (int i = 0; i < len_p; i++) 
+{
+	int x = A_device[B_device[p]+i];
+	int y = 0;
+		for (int j = 0; j < len_p; i++)
+		{	
+			y = A_device[B_device[q]+j]
+			if (x < y)
+			{
+				i++;
+			}
+
+			else if (y < x)
+			{
+				j++;
+			}
+
+			else if (num1[i] == num2[j])
+			{
+				cout << " " << num1[i];
+				i++;
+				j++;
+				common++;
+			}
+		} // end inner for 
+} // end outer for
+} // end while
 } // end kernel function
 
 
@@ -119,7 +159,7 @@ void Execute(int argc){
     cudaMalloc ((void **) &B_device, sizeof (int) * 9);
     cudaMalloc ((void **) &ans_device, sizeof (int) * 9);
 
-	
+/*
     cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
     cudaMemcpy (B_device, B_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
 	cudaMemcpy (ans_device, ans_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
@@ -127,14 +167,34 @@ void Execute(int argc){
 	int numberOfBlocks = 1;
 	int threadsInBlock = 100;
 	
-	prefix_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, ans_device);
+	addition_scan_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, ans_device);
     cudaMemcpy (ans_cpu, ans_device, sizeof (int) * 9, cudaMemcpyDeviceToHost);
+*/
+	int *p_cpu = (int *) malloc (sizeof(int));
+	int *q_cpu = (int *) malloc (sizeof(int));
+	int *common_cpu = (int *) malloc (sizeof(int));
+	int *p_device;
+	int *q_device;
+	int *common_device;
+	cudaMalloc ((void **) &p_device, sizeof (int));
+	cudaMalloc ((void **) &q_device, sizeof (int));
+	cudaMalloc ((void **) &common_device, sizeof (int));
+	
+    cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
+    cudaMemcpy (B_device, B_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
+    //cudaMemcpy (ans_device, ans_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
+	cudaMemcpy (p_device, p_cpu, sizeof (int), cudaMemcpyHostToDevice);
+	cudaMemcpy (q_device, q_cpu, sizeof (int), cudaMemcpyHostToDevice);
+	cudaMemcpy (common_device, common_cpu, sizeof (int), cudaMemcpyHostToDevice);
 
-	cout << "answer addition is: ";
-	for(int i=0;i<9;i++){
-		cout << ans_cpu[i] << " ";
-	} cout << endl;
- 
+	int numberOfBlocks = 1;
+	int threadsInBlock = 100;
+	
+	2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device,common_device);
+
+    cudaMemcpy (common_cpu, common_device, sizeof (int) * 9, cudaMemcpyDeviceToHost);
+	
+	cout << "total common elements are: " << common_cpu << endl; 
 
     return;
     
