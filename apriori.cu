@@ -53,7 +53,7 @@ __global__ void addition_scan_kernel (int *A_device, int *B_device , int *ans_de
 } // end kernel function
 */
 
-__global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int *q, int *common) {
+__global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int *q, int *common_device) {
 
 int tid = threadIdx.x;
 //__syncthreads(); 	
@@ -78,7 +78,7 @@ for (int i = 0; i < len_p; i++)
 			//y = A_device[B_device[q]+j];
 			//ytmp += j;
 			y = A_device[ytmp+j];
-			printf("tid: %d x: %d y: %d\n", tid, x, y );
+			//printf("tid: %d x: %d y: %d\n", tid, x, y );
 			
 
 			if (x == y)
@@ -86,7 +86,8 @@ for (int i = 0; i < len_p; i++)
 				//cout << " " << num1[i];
 				//i++;
 				//j++;
-				*common++;
+				printf("tid: %d x: %d y: %d\n", tid, x, y );
+				common_device++;
 			}
 		} // end inner for 
 } // end outer for
