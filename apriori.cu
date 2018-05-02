@@ -67,15 +67,16 @@ common = 0;
 for (int i = 0; i < len_p; i++) 
 {
 	//int x = A_device[B_device[p]+i];
-	int xtmp = 11+i;
-	int ytmp = 0;
+	int xtmp = 11;
+	int ytmp = 21;
 	int x = A_device[xtmp];		
 	int y = 0;
 		for (int j = 0; j < len_p; i++)
 		{	
-			
+			xtmp+=i;
 			//y = A_device[B_device[q]+j];
-			ytmp = 21+j;
+			ytmp += j;
+			x = A_device[xtmp];	
 			y = A_device[ytmp];
 			printf("tid: %d x: %d y: %d\n", tid, x, y );
 			if (x < y)
