@@ -24,7 +24,7 @@ Data: (6entries.txt)
 
 
 __shared__ int smem[128];
-
+/*
 __global__ void addition_scan_kernel (int *A_device, int *B_device , int *ans_device) {
 
 	int tid = threadIdx.x;
@@ -51,7 +51,7 @@ __global__ void addition_scan_kernel (int *A_device, int *B_device , int *ans_de
 		tid+=9;
 	}
 } // end kernel function
-
+*/
 
 __global__ void 2_common_kernel (int *A_device, int *B_device , int *p, int *q, int *common) {
 
@@ -69,7 +69,7 @@ for (int i = 0; i < len_p; i++)
 	int y = 0;
 		for (int j = 0; j < len_p; i++)
 		{	
-			y = A_device[B_device[q]+j]
+			y = A_device[B_device[q]+j];
 			if (x < y)
 			{
 				i++;
@@ -192,7 +192,7 @@ void Execute(int argc){
 	
 	2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device,common_device);
 
-    cudaMemcpy (common_cpu, common_device, sizeof (int) * 9, cudaMemcpyDeviceToHost);
+    cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
 	
 	cout << "total common elements are: " << common_cpu << endl; 
 
