@@ -202,7 +202,7 @@ void Execute(int argc){
 
     cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
 	
-	cout << "total common elements are: " << common_cpu << endl; 
+	cout << "total common elements are: " << *common_cpu << endl; 
 
     return;
     
