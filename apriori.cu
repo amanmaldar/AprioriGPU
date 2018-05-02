@@ -59,8 +59,8 @@ int tid = threadIdx.x;
 //__syncthreads(); 	
 while (tid < 2) 
 {	
-int len_p= B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
-int len_q= B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
+int len_p = 4; // B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
+int len_q = 3; // B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 common = 0;
 
 for (int i = 0; i < len_p; i++) 
@@ -80,9 +80,9 @@ for (int i = 0; i < len_p; i++)
 				j++;
 			}
 
-			else if (num1[i] == num2[j])
+			else if (x == y)
 			{
-				cout << " " << num1[i];
+				//cout << " " << num1[i];
 				i++;
 				j++;
 				common++;
