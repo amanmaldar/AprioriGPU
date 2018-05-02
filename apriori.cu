@@ -60,8 +60,11 @@ int tid = threadIdx.x;
 while (tid < 1) 
 {	
 	// p =3 , q = 5
-int len_p = 4; // B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
-int len_q = 3; // B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
+//int len_p = 4; // B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
+//int len_q = 3; // B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
+int len_p = *B_device[*p+1] - *B_device[*p] - 1; // = 16-11 -1 = 4 	1,2,5,6
+int len_q = *B_device[*q+1] - *B_device[*q] - 1; // = 25-21 -1 = 3   2,3,6
+
 *common_device = 0;
 	
 int xtmp = 11;
