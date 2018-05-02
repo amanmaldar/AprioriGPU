@@ -87,7 +87,7 @@ for (int i = 0; i < len_p; i++)
 				//i++;
 				//j++;
 				//printf("tid: %d x: %d y: %d\n", tid, x, y );
-				*common_device++;
+				*common_device +=1;
 			}
 		} // end inner for 
 } // end outer for
