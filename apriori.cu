@@ -166,7 +166,7 @@ void Execute(int argc){
 			pairs_cpu[i*2 + 1] = L1[j];
 			cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
 		}
-		cout << "pairs size is " << pairs_cpu.size();
+		cout << "pairs size is: " << sizeof(pairs_cpu)/sizeof(int) << endl;
 	}
 	//-----------------------------------------------------------------------------------------------------------
 	
