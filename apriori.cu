@@ -169,7 +169,7 @@ void Execute(int argc){
 			k1+=2;
 		}
 	}
-	cout << "pairs size is: " << sizeof(pairs_cpu)/sizeof(int) << " k1: " << k1 <<endl;
+	cout << "pairs size is: " << sizeof(pairs_cpu) << " k1: " << k1 <<endl;
 
 	//-----------------------------------------------------------------------------------------------------------
 	
