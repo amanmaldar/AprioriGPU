@@ -61,39 +61,31 @@ while (tid < 1)
 {	
 	// p =3 , q = 5
 int len_p = 4; // B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
-//int len_q = 3; // B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
+int len_q = 3; // B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 common = 0;
-
+	
+int xtmp = 11;
+int ytmp = 21;
+	
 for (int i = 0; i < len_p; i++) 
 {
 	//int x = A_device[B_device[p]+i];
-	int xtmp = 11;
-	int ytmp = 21;
-	int x = A_device[xtmp];		
+	//xtmp += i;
+	int x = A_device[xtmp+i];		
 	int y = 0;
-		for (int j = 0; j < len_p; i++)
+		for (int j = 0; j < len_q; i++)
 		{	
-			xtmp+=i;
 			//y = A_device[B_device[q]+j];
-			ytmp += j;
-			x = A_device[xtmp];	
-			y = A_device[ytmp];
+			//ytmp += j;
+			y = A_device[ytmp+i];
 			printf("tid: %d x: %d y: %d\n", tid, x, y );
-			if (x < y)
-			{
-				i++;
-			}
+			
 
-			else if (y < x)
-			{
-				j++;
-			}
-
-			else if (x == y)
+			if (x == y)
 			{
 				//cout << " " << num1[i];
-				i++;
-				j++;
+				//i++;
+				//j++;
 				common++;
 			}
 		} // end inner for 
