@@ -91,7 +91,7 @@ for (int i = 0; i < len_p; i++)
 				//cout << " " << num1[i];
 				//i++;
 				//j++;
-				//printf("tid: %d x: %d y: %d\n", tid, x, y );
+				printf("tid: %d x: %d y: %d\n", tid, x, y );
 				*common_device +=1;
 			}
 		} // end inner for 
@@ -182,8 +182,8 @@ void Execute(int argc){
 	int *p_cpu = (int *) malloc (sizeof(int));
 	int *q_cpu = (int *) malloc (sizeof(int));
 	int *common_cpu = (int *) malloc (sizeof(int));
-	*p_cpu = 3;
-	*q_cpu = 5;
+	*p_cpu = 2;
+	*q_cpu = 3;
 	*common_cpu = 0;
 	
 	int *p_device;
