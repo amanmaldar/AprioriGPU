@@ -58,7 +58,7 @@ for (int i = 0; i < len_p; i++)
 			y = A_device[q_offset+j];			
 			if (x == y)
 			{	if (tid == 20 || tid == 32 || tid == 35)
-				printf("tid: %d x: %d y: %d\n", tid, x, y );
+				{ printf("tid: %d x: %d y: %d\n", tid, x, y );}
 				*common_device +=1;
 				pairs_device_count[tid] += 1;
 			}
