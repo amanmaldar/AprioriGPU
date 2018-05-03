@@ -324,9 +324,9 @@ void Execute(int argc){
                 break;  // break internal for loop once base is not same as first entry in next pair. Increment *it
             }
     }
-	pairs_cpu[0] = 2;
-	pairs_cpu[1] = 3;
-	pairs_cpu[2] = 4;
+	//pairs_cpu[0] = 2;
+	//pairs_cpu[1] = 3;
+	//pairs_cpu[2] = 4;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 84, cudaMemcpyHostToDevice);	//28*3 pairs
 	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*28, cudaMemcpyDeviceToHost);
