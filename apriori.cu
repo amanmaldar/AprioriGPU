@@ -67,7 +67,7 @@ for (int i = 0; i < len_r; i++)
 {
 	int x = A_device[r_offset+i];		// without shared memory	
 	int y = 0;
-		for (int j = 0; j < k; j++)
+		for (int j = 0; j < len_s; j++)
 		{	
 			y = A_device[s_offset+j];		// without shared memory		
 			if (x == y)
@@ -448,7 +448,7 @@ void Execute(int argc){
 		       pairs_cpu[k1] = threeStruct.a;
 			pairs_cpu[k1+1] = threeStruct.b;
 			pairs_cpu[k1+2] = threeStruct.c;
-		      pairs_cpu[k1+3] = threeStruct.cd;
+		      pairs_cpu[k1+3] = threeStruct.d;
 		    pairs_cpu_count[k1/4] = 0;	// initialize with zero
 		      
 		    k1 +=4;
