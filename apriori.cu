@@ -40,6 +40,7 @@ int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
 //int q_offset = 21;
 int p_offset = B_device[p];
 int q_offset = B_device[q];
+int r_offset = B_device[r];
 
 int k = 0;
 for (int i = 0; i < len_p; i++) 
@@ -87,7 +88,7 @@ __global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int 
 
 //int tid = threadIdx.x;
 int tid = blockIdx.x;
-__shared__ int smem[128];  
+//__shared__ int smem[128];  
 
 
 //__syncthreads(); 	
