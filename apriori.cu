@@ -396,6 +396,9 @@ void Execute(int argc){
 		    k1 +=3;
                     cout << "3 Items are: (" <<it->a << "," << it->b << "," << it1->b<< ") "  << endl;	// 28 total
             }
+	 else
+               break;  // break internal for loop once base is not same as first entry in next pair. Increment *it
+           }
     }
 	//pairs_cpu[0] = 2;
 	//pairs_cpu[1] = 3;
@@ -479,7 +482,7 @@ void Execute(int argc){
    
 }   // end Execute
 
-}
+
 
 int main(int argc, char **argv){
 
