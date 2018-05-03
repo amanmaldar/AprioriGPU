@@ -24,6 +24,9 @@ __global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int 
 
 //int tid = threadIdx.x;
 int tid = blockIdx.x;
+__shared__ int smem[128];  
+
+
 //__syncthreads(); 	
 while (tid < 36) 	//36
 {	
@@ -39,29 +42,43 @@ int p = pairs_device[tid*2];
 int q = pairs_device[tid*2+1];
 int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
 int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
-	
-	
+
 *common_device = 0;
 	
 //int p_offset = 11;
 //int q_offset = 21;
 int p_offset = B_device[p];
 int q_offset = B_device[q];
-	
+
+// copy data into shared memory
+for (int i =0; i <len_p; i++)
+{
+	smem[i] = A_device[p_offset+i];
+	__syncthreads();
+}
+
+for (int i =0; i <len_q; i++)
+{
+	smem[len_p+i] = B_device[q_offset+i];
+	__syncthreads();
+}
+
 for (int i = 0; i < len_p; i++) 
 {
 	//int x = A_device[B_device[p]+i];
 	//xtmp += i;
-	int x = A_device[p_offset+i];		
+	//int x = A_device[p_offset+i];		// without shared memory	
+	int x = smem[i];		
 	int y = 0;
 		for (int j = 0; j < len_q; j++)
 		{	
-			y = A_device[q_offset+j];			
+			//y = A_device[q_offset+j];		// without shared memory		
+			y = smem[len_p+j];
 			if (x == y)
 			{	//if (tid == 20 || tid == 32 || tid == 35)
 				//{ printf("tid: %d x: %d y: %d\n", tid, x, y );}
 				*common_device +=1;
-				pairs_device_count[tid] += 1;
+				pairs_device_count[tid] += 1;	
 			}
 		} // end inner for 
 } // end outer for
