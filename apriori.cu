@@ -27,8 +27,9 @@ __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_d
 int tid = blockIdx.x;
 __shared__ int smem[128];  
 
-while (tid < 10) 	//36
+while (tid < 28) 	//36
 {	
+pairs_device_count[tid] = 0;
 int p = pairs_device[tid*3];
 int q = pairs_device[tid*3+1];
 int r = pairs_device[tid*3+2]; 
@@ -59,7 +60,7 @@ for (int i = 0; i < len_p; i++)
 			}
 		} // end inner for 
 } // end outer for
-/*
+
 for (int i = 0; i < len_r; i++) 
 {
 	int x = A_device[r_offset+i];		// without shared memory	
@@ -76,7 +77,7 @@ for (int i = 0; i < len_r; i++)
 			}
 		} // end inner for 
 } // end outer for
-*/	
+
 
 	tid += 28;
 } // end while
