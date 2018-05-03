@@ -451,9 +451,8 @@ void Execute(int argc){
 		      pairs_cpu[k1+3] = fourStruct.d;
 		    pairs_cpu_count[k1/4] = 0;	// initialize with zero
 		      
-		    k1 +=4;
                   cout << "4 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+2]<< "," << pairs_cpu[k1+3] << ") "  << endl;
-
+			k1 +=4;
               } // end if
         } // end inner for
     }// end outer for
