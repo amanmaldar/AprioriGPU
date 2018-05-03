@@ -53,7 +53,7 @@ __global__ void addition_scan_kernel (int *A_device, int *B_device , int *ans_de
 } // end kernel function
 */
 
-__global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int *q, int *common_device) {
+__global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int *q, int *common_device, int *pairs_device, int *pairs_device_count) {
 
 int tid = threadIdx.x;
 //__syncthreads(); 	
@@ -154,6 +154,7 @@ void Execute(int argc){
 	
 	int *pairs_cpu;
 	pairs_cpu = new int[90];
+	pairs_cpu_count = new int[45];
 	//----------------This section generates the pair of 2-------------------------------------------------------
 	//Generate L2 .  Make a pair of frequent items in L1
 	int k1 = 0;
@@ -165,6 +166,7 @@ void Execute(int argc){
 			L2.push_back(twoStruct);
 			pairs_cpu[k1] = L1[i];
 			pairs_cpu[k1+1] = L1[j];
+			pairs_cpu_count[k1/2] = 0;
 			cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
 			k1+=2;
 		}
@@ -177,12 +179,14 @@ void Execute(int argc){
 	int *A_device; //device storage pointers
 	int *B_device;
 	int *ans_device;
-	//int *pairs_device;
+	int *pairs_device;
+	int *pairs_device_count;
 	
     cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
     cudaMalloc ((void **) &B_device, sizeof (int) * 9);
     cudaMalloc ((void **) &ans_device, sizeof (int) * 9);
-	 //cudaMalloc ((void **) &pairs_device, sizeof (int) * 9);
+    cudaMalloc ((void **) &pairs_device, sizeof (int) * 90);
+    cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 45);
 
 
 	int *p_cpu = (int *) malloc (sizeof(int));
@@ -205,12 +209,15 @@ void Execute(int argc){
 	cudaMemcpy (p_device, p_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 	cudaMemcpy (q_device, q_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 	cudaMemcpy (common_device, common_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
+	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 90, cudaMemcpyHostToDevice);
 
-	int numberOfBlocks = 1;
-	int threadsInBlock = 2;
 	
-	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device, common_device);
+	int numberOfBlocks = 1;
+	int threadsInBlock = 45;
+	
+	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device, common_device, pairs_device, pairs_device_count );
 
+    cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
     cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
 	
 	cout << "total common elements are: " << *common_cpu << endl; 
