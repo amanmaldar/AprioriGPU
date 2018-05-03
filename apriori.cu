@@ -312,7 +312,7 @@ void Execute(int argc){
 
 	for (int i =0 ; i < 28; i++){
 	if (pairs_cpu_count[i] >= 0) {
-            cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<vecLocal2.size() << endl;
+            cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
 	    three_freq_itemset++;
 	}
 	}
