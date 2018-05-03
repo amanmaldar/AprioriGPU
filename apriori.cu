@@ -20,6 +20,48 @@ Data: (6entries.txt)
 #include "functions.hcu"
 
 
+//find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
+
+__global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count) {
+
+int tid = blockIdx.x;
+__shared__ int smem[128];  
+
+while (tid < 1) 	//36
+{	
+int p = pairs_device[tid*3];
+int q = pairs_device[tid*3+1];
+int r = pairs_device[tid*3+2]; 
+int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
+int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
+int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
+	
+//int p_offset = 11;
+//int q_offset = 21;
+int p_offset = B_device[p];
+int q_offset = B_device[q];
+
+
+for (int i = 0; i < len_p; i++) 
+{
+	int x = A_device[p_offset+i];		// without shared memory	
+	int y = 0;
+		for (int j = 0; j < len_q; j++)
+		{	
+			y = A_device[q_offset+j];		// without shared memory		
+			if (x == y)
+			{	
+				// printf("tid: %d x: %d y: %d\n", tid, x, y );
+				pairs_device_count[tid] += 1;	
+			}
+		} // end inner for 
+} // end outer for
+	tid += 28;
+} // end while
+} // end kernel function
+
+//----------------------------------------------------------------------------
+
 __global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int *q, int *common_device, int *pairs_device, int *pairs_device_count) {
 
 //int tid = threadIdx.x;
@@ -151,8 +193,8 @@ void Execute(int argc){
 	//-----------------------------------------------------------------------------------------------------------
 	
 	int *pairs_cpu, *pairs_cpu_count;
-	pairs_cpu = new int[72];
-	pairs_cpu_count = new int[36];
+	pairs_cpu = new int[150];		// 72 this is large in size but we copy only required size of bytes
+	pairs_cpu_count = new int[150];		// 36 this is large in size but we copy only required size of bytes
 	//----------------This section generates the pair of 2-------------------------------------------------------
 	//Generate L2 .  Make a pair of frequent items in L1
 	int k1 = 0;
@@ -164,7 +206,7 @@ void Execute(int argc){
 			L2.push_back(twoStruct);
 			pairs_cpu[k1] = L1[i];
 			pairs_cpu[k1+1] = L1[j];
-			pairs_cpu_count[k1/2] = 0;
+			pairs_cpu_count[k1/2] = 0;	//initizlize with zero
 			cout << "2 Items are: (" <<pairs_cpu[k1]<< "," << pairs_cpu[k1+1] << ") " << endl;
 			k1+=2;
 		}
@@ -183,8 +225,8 @@ void Execute(int argc){
     cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
     cudaMalloc ((void **) &B_device, sizeof (int) * 10); // maxItemID+1+1 = 10
     cudaMalloc ((void **) &ans_device, sizeof (int) * 9);
-    cudaMalloc ((void **) &pairs_device, sizeof (int) * 72);
-    cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 36);
+    cudaMalloc ((void **) &pairs_device, sizeof (int) * 150);		// 72 this is large in size but we copy only required size of bytes
+    cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 150);	// 36 // this is large in size but we copy only required size of bytes
 
 
 	int *p_cpu = (int *) malloc (sizeof(int));
@@ -203,13 +245,12 @@ void Execute(int argc){
 	
     cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
     cudaMemcpy (B_device, B_cpu, sizeof (int) * 10, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
-    //cudaMemcpy (ans_device, ans_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
-	cudaMemcpy (p_device, p_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
-	cudaMemcpy (q_device, q_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
-	cudaMemcpy (common_device, common_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
+	//cudaMemcpy (p_device, p_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
+	//cudaMemcpy (q_device, q_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
+	//cudaMemcpy (common_device, common_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 	//pairs_cpu[0] = 2;
 	//pairs_cpu[1] = 8;
-	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 72, cudaMemcpyHostToDevice);
+	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 72, cudaMemcpyHostToDevice);	// COPY PAIRS
 
 	
 	int numberOfBlocks = 36;
@@ -217,7 +258,7 @@ void Execute(int argc){
 	
 	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device, common_device, pairs_device, pairs_device_count );
 
-    cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
+   // cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
     cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*36, cudaMemcpyDeviceToHost);
 	
 	//cout << "total common elements are: " << *common_cpu << endl; 
@@ -237,13 +278,13 @@ void Execute(int argc){
     //Generate L3
     int delta=1;
     // FOLLOWING 2 FOR LOOPS GENERATE SET OF 3 ITEMS
-
+	k1 = 0;
     for (auto it = C2.begin(); it != C2.end(); it++,delta++ ) {     //delta is stride
         int base = it->a;
 
         auto it1 = C2.begin();                     // assign second iterator to same set *imp
         for (int k = 0; k < delta; k++) { it1++; }   //add a offset to second iterator and iterate over same set
-
+	
         for (it1 = it1; it1 != C2.end(); it1++) {  //iterating over same set.
             if (base == it1->a) {
                     threeStruct.a = it->a;
@@ -251,13 +292,34 @@ void Execute(int argc){
                     threeStruct.c = it1->b;
                     threeStruct.freq = 0;
                     L3.push_back(threeStruct);
-                    cout << "3 Items are: (" <<it->a << "," << it->b << "," << it1->b<< ") "  << endl;
+		    pairs_cpu[k1] = threeStruct.a;
+			pairs_cpu[k1+1] = threeStruct.b;
+			pairs_cpu[k1+2] = threeStruct.c;
+		    pairs_cpu_count[k1/3] = 0;	// initialize with zero
+		    k1 +=3;
+                    cout << "3 Items are: (" <<it->a << "," << it->b << "," << it1->b<< ") "  << endl;	// 28 total
             }
             else
                 break;  // break internal for loop once base is not same as first entry in next pair. Increment *it
             }
     }
+	pairs_cpu[0] = 2;
+	pairs_cpu[1] = 3;
+	pairs_cpu[2] = 4;
+	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 84, cudaMemcpyHostToDevice);	//28*3 pairs
+	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
+        cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*28, cudaMemcpyDeviceToHost);
 
+	for (int i =0 ; i < 28; i++){
+	if (pairs_cpu_count[i] >= 0) {
+            cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<vecLocal2.size() << endl;
+	    three_freq_itemset++;
+	}
+	}
+	cout << "three_freq_itemset:    " << three_freq_itemset << endl << "\n";
+    //******************************************************************************************************************
+
+	
     return;
     
    
