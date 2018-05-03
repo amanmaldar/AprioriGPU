@@ -134,9 +134,9 @@ void Execute(int argc){
 	//----------------This section generates the pair of 2-------------------------------------------------------
 	//Generate L2 .  Make a pair of frequent items in L1
 	int k1 = 0;
-	for (int i=1;i <= L1.size() -1 -1; i++)     //-1 is done for eliminating first entry from L1 [1]
+	for (int i=1;i < L1.size() -1; i++)     //-1 is done for eliminating first entry from L1 [1]
 	{
-		for (int j=i+1;j <= L1.size() -1; j++){
+		for (int j=i+1;j < L1.size() ; j++){
 			twoStruct.a = L1[i];
 			twoStruct.b = L1[j];
 			L2.push_back(twoStruct);
