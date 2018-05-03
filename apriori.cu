@@ -24,7 +24,7 @@ __global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int 
 
 int tid = threadIdx.x;
 //__syncthreads(); 	
-while (tid < 1) 	//36
+while (tid < 36) 	//36
 {	
 	//printf("tid: %d \n", tid);
 	// p =3 , q = 5
@@ -93,7 +93,7 @@ void Execute(int argc){
 		A_cpu[k] = -1;								// seperate mappings by -1
         k++;
 	if (i == maxItemID) {
-		 B_cpu[i+1] = k;
+		 B_cpu[i+1] = k;	//add last index
 	}
 	}
 	//B_cpu[maxItemID+1+1] = k; //add last index
@@ -203,7 +203,7 @@ void Execute(int argc){
 	
 	cout << "total common elements are: " << *common_cpu << endl; 
 	for (int i =0 ; i < 36; i++){
-		if (pairs_cpu_count[i] >= 0) {
+		if (pairs_cpu_count[i] >= 1) {
 			cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
 		}
 	}
