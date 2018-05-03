@@ -59,7 +59,7 @@ int tid = threadIdx.x;
 //__syncthreads(); 	
 while (tid < 5) 
 {	
-	printf("tid: %d", tid);
+	printf("tid: %d \n", tid);
 	// p =3 , q = 5
 //int len_p = 4; // B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
 //int len_q = 3; // B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
@@ -91,7 +91,7 @@ for (int i = 0; i < len_p; i++)
 			y = A_device[q_offset+j];			
 			if (x == y)
 			{
-				//printf("tid: %d x: %d y: %d\n", tid, x, y );
+				printf("tid: %d x: %d y: %d\n", tid, x, y );
 				*common_device +=1;
 				pairs_device_count[tid] += 1;
 			}
@@ -229,7 +229,7 @@ void Execute(int argc){
 	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device, common_device, pairs_device, pairs_device_count );
 
     cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
-    cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int), cudaMemcpyDeviceToHost);
+    cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*5, cudaMemcpyDeviceToHost);
 	
 	cout << "total common elements are: " << *common_cpu << endl; 
 	for (int i =0 ; i < 5; i++){
