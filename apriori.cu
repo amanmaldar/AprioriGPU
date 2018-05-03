@@ -426,7 +426,7 @@ void Execute(int argc){
 //----------------------------------------------------------------------------------
 	    //Generate L4
     delta= 1;
-
+	k1=0;
     for(auto it2 = C3.begin(); it2 != C3.end(); it2++,delta++)
     {
         int c,d;
