@@ -146,13 +146,13 @@ void Execute(int argc){
         if(itemIDcount[i] >= minSupport){
             L1.push_back(i);     //push TID into frequentItem
             one_freq_itemset++;
-            cout << "1 Frequent Item is: (" << i << ") Freq is: " << itemIDcount[i] << endl;
+            //cout << "1 Frequent Item is: (" << i << ") Freq is: " << itemIDcount[i] << endl;
         }
     }
     //cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n";
 	//-----------------------------------------------------------------------------------------------------------
 	
-	int *pairs_cpu;
+	int *pairs_cpu, *pairs_cpu_count;
 	pairs_cpu = new int[90];
 	pairs_cpu_count = new int[45];
 	//----------------This section generates the pair of 2-------------------------------------------------------
@@ -167,7 +167,7 @@ void Execute(int argc){
 			pairs_cpu[k1] = L1[i];
 			pairs_cpu[k1+1] = L1[j];
 			pairs_cpu_count[k1/2] = 0;
-			cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
+			//cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
 			k1+=2;
 		}
 	}
