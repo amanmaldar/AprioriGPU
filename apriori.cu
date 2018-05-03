@@ -66,8 +66,8 @@ while (tid < 5)
 //int len_p = B_device[*p+1] - B_device[*p] - 1; // = 16-11 -1 = 4 	1,2,5,6
 //int len_q = B_device[*q+1] - B_device[*q] - 1; // = 25-21 -1 = 3   2,3,6
 
-int p = pairs_device[tid];
-int q = pairs_device[tid+1];
+int p = pairs_device[tid*2];
+int q = pairs_device[tid*2+1];
 int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
 int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 	
