@@ -24,7 +24,7 @@ __global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int 
 
 int tid = threadIdx.x;
 //__syncthreads(); 	
-while (tid < 45) 
+while (tid < 36) 
 {	
 	//printf("tid: %d \n", tid);
 	// p =3 , q = 5
@@ -65,7 +65,7 @@ for (int i = 0; i < len_p; i++)
 		} // end inner for 
 } // end outer for
 	//*common_device = 10;
-	tid += 45;
+	tid += 36;
 } // end while
 } // end kernel function
 
@@ -129,8 +129,8 @@ void Execute(int argc){
 	//-----------------------------------------------------------------------------------------------------------
 	
 	int *pairs_cpu, *pairs_cpu_count;
-	pairs_cpu = new int[90];
-	pairs_cpu_count = new int[45];
+	pairs_cpu = new int[72];
+	pairs_cpu_count = new int[36];
 	//----------------This section generates the pair of 2-------------------------------------------------------
 	//Generate L2 .  Make a pair of frequent items in L1
 	int k1 = 0;
@@ -161,8 +161,8 @@ void Execute(int argc){
     cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
     cudaMalloc ((void **) &B_device, sizeof (int) * 9);
     cudaMalloc ((void **) &ans_device, sizeof (int) * 9);
-    cudaMalloc ((void **) &pairs_device, sizeof (int) * 90);
-    cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 45);
+    cudaMalloc ((void **) &pairs_device, sizeof (int) * 72);
+    cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 36);
 
 
 	int *p_cpu = (int *) malloc (sizeof(int));
@@ -191,15 +191,15 @@ void Execute(int argc){
 
 	
 	int numberOfBlocks = 1;
-	int threadsInBlock = 45;
+	int threadsInBlock = 36;
 	
 	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device, common_device, pairs_device, pairs_device_count );
 
     cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
-    cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*45, cudaMemcpyDeviceToHost);
+    cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*36, cudaMemcpyDeviceToHost);
 	
 	cout << "total common elements are: " << *common_cpu << endl; 
-	for (int i =0 ; i < 45; i++){
+	for (int i =0 ; i < 36; i++){
 		if (pairs_cpu_count[i] >= 1)
 			cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
 
