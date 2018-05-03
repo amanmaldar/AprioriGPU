@@ -176,7 +176,7 @@ void Execute(int argc){
 			pairs_cpu[k1] = L1[i];
 			pairs_cpu[k1+1] = L1[j];
 			pairs_cpu_count[k1/2] = 0;
-			//cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
+			cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
 			k1+=2;
 		}
 	}
