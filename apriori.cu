@@ -304,7 +304,7 @@ void Execute(int argc){
 			pairs_cpu[k1] = L1[i];
 			pairs_cpu[k1+1] = L1[j];
 			pairs_cpu_count[k1/2] = 0;	//initizlize with zero
-			//cout << "2 Items are: (" <<pairs_cpu[k1]<< "," << pairs_cpu[k1+1] << ") " << endl;
+			cout << "2 Items are: (" <<pairs_cpu[k1]<< "," << pairs_cpu[k1+1] << ") " << endl;
 			k1+=2;
 		}
 	}
@@ -361,7 +361,7 @@ void Execute(int argc){
 	//cout << "total common elements are: " << *common_cpu << endl; 
 	for (int i =0 ; i < 36; i++){
 		if (pairs_cpu_count[i] >= 1) {
-			//cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
+			cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
 			twoStruct.a = pairs_cpu[i*2];
 		    twoStruct.b = pairs_cpu[i*2+1];
 		    twoStruct.freq = pairs_cpu_count[i];
@@ -395,9 +395,6 @@ void Execute(int argc){
 		    pairs_cpu_count[k1/3] = 0;	// initialize with zero
 		    k1 +=3;
                     cout << "3 Items are: (" <<it->a << "," << it->b << "," << it1->b<< ") "  << endl;	// 28 total
-            }
-            else
-                break;  // break internal for loop once base is not same as first entry in next pair. Increment *it
             }
     }
 	//pairs_cpu[0] = 2;
@@ -502,27 +499,6 @@ int main(int argc, char **argv){
 
 
 
-/*
-	
-    //******************************************************************************************************************
-    //Generate L2 .  Make a pair of frequent items in L1
-    for (int i=0;i <= L1.size() -1 -1; i++)     //-1 is done for eliminating first entry
-    {
-        for (int j=i+1;j <= L1.size() -1; j++){
-            twoStruct.a = L1[i];
-            twoStruct.b = L1[j];
-            L2.push_back(twoStruct);
-            //cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
-
-        }
-    }
-    //******************************************************************************************************************
-    //Generate C2. Prune L2 . Compare against min_support and remove less frequent items.
-	
-
-
-
-*/
 
 
 
