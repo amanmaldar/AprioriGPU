@@ -188,8 +188,8 @@ void Execute(int argc){
 	cudaMemcpy (p_device, p_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 	cudaMemcpy (q_device, q_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 	cudaMemcpy (common_device, common_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
-	pairs_cpu[0] = 2;
-	pairs_cpu[1] = 8;
+	//pairs_cpu[0] = 2;
+	//pairs_cpu[1] = 8;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 72, cudaMemcpyHostToDevice);
 
 	
