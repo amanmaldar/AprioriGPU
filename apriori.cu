@@ -57,7 +57,7 @@ __global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int 
 
 int tid = threadIdx.x;
 //__syncthreads(); 	
-while (tid < 1) 
+while (tid < 5) 
 {	
 	// p =3 , q = 5
 //int len_p = 4; // B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
