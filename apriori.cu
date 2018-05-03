@@ -27,7 +27,7 @@ __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_d
 int tid = blockIdx.x;
 __shared__ int smem[128];  
 
-while (tid < 28) 	//36
+while (tid < 10) 	//36
 {	
 int p = pairs_device[tid*3];
 int q = pairs_device[tid*3+1];
@@ -229,7 +229,7 @@ void Execute(int argc){
 			pairs_cpu[k1] = L1[i];
 			pairs_cpu[k1+1] = L1[j];
 			pairs_cpu_count[k1/2] = 0;	//initizlize with zero
-			cout << "2 Items are: (" <<pairs_cpu[k1]<< "," << pairs_cpu[k1+1] << ") " << endl;
+			//cout << "2 Items are: (" <<pairs_cpu[k1]<< "," << pairs_cpu[k1+1] << ") " << endl;
 			k1+=2;
 		}
 	}
@@ -286,7 +286,7 @@ void Execute(int argc){
 	//cout << "total common elements are: " << *common_cpu << endl; 
 	for (int i =0 ; i < 36; i++){
 		if (pairs_cpu_count[i] >= 1) {
-			cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
+			//cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
 			twoStruct.a = pairs_cpu[i*2];
 		    twoStruct.b = pairs_cpu[i*2+1];
 		    twoStruct.freq = pairs_cpu_count[i];
