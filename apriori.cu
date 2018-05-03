@@ -50,7 +50,7 @@ int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 int p_offset = B_device[p];
 int q_offset = B_device[q];
 
-// copy data into shared memory
+/*//--------------- copy data into shared memory--------------------------
 for (int i =0; i <len_p; i++)
 {
 	smem[i] = A_device[p_offset+i];
@@ -62,18 +62,19 @@ for (int i =0; i <len_q; i++)
 	smem[len_p+i] = A_device[q_offset+i];
 	__syncthreads();
 }
-
+//-------------------------------------------*/
+	
 for (int i = 0; i < len_p; i++) 
 {
 	//int x = A_device[B_device[p]+i];
 	//xtmp += i;
-	//int x = A_device[p_offset+i];		// without shared memory	
-	int x = smem[i];		
+	int x = A_device[p_offset+i];		// without shared memory	
+	//int x = smem[i];			// with shared memory
 	int y = 0;
 		for (int j = 0; j < len_q; j++)
 		{	
-			//y = A_device[q_offset+j];		// without shared memory		
-			y = smem[len_p+j];
+			y = A_device[q_offset+j];		// without shared memory		
+			//y = smem[len_p+j];			// with shared memory
 			if (x == y)
 			{	//if (tid == 20 || tid == 32 || tid == 35)
 				//{ printf("tid: %d x: %d y: %d\n", tid, x, y );}
