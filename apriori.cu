@@ -77,7 +77,7 @@ void Execute(int argc){
     parse_database(argc);
 
     int *A_cpu = (int *) malloc (sizeof(int)* totalItems);
-    int *B_cpu = (int *) malloc (sizeof(int)* (maxItemID+1));    //index array lenght same as number of items
+    int *B_cpu = (int *) malloc (sizeof(int)* (maxItemID+1+1));    //index array lenght same as number of items // add an ending index
 	int *ans_cpu = (int *) malloc (sizeof(int)* (maxItemID+1));
 	
 //---------------This section processes the variables that should be transferred to GPU memory as global database--------
@@ -94,6 +94,7 @@ void Execute(int argc){
         k++;
 
 	}
+	B_cpu[maxItemID+1+1] = k; //add last index
 
     cout << " Printing itemId_TidMapping copy A_cpu: " << totalItems << endl;
     for(int i =0;i<totalItems;i++) {
@@ -102,7 +103,7 @@ void Execute(int argc){
 
 
     cout << " Printing starting indexes B_cpu: " << endl;
-    for(int i =0;i<= maxItemID;i++) {
+    for(int i =0;i<= maxItemID+1;i++) {
         cout << B_cpu[i] << " " ;
     } cout << endl;
 	//-----------------------------------------------------------------------------------------------------------
@@ -159,7 +160,7 @@ void Execute(int argc){
 	int *pairs_device_count;
 	
     cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
-    cudaMalloc ((void **) &B_device, sizeof (int) * 9);
+    cudaMalloc ((void **) &B_device, sizeof (int) * 10); // maxItemID+1+1 = 10
     cudaMalloc ((void **) &ans_device, sizeof (int) * 9);
     cudaMalloc ((void **) &pairs_device, sizeof (int) * 72);
     cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 36);
@@ -180,7 +181,7 @@ void Execute(int argc){
 	cudaMalloc ((void **) &common_device, sizeof (int));
 	
     cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
-    cudaMemcpy (B_device, B_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
+    cudaMemcpy (B_device, B_cpu, sizeof (int) * 10, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
     //cudaMemcpy (ans_device, ans_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);
 	cudaMemcpy (p_device, p_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 	cudaMemcpy (q_device, q_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
