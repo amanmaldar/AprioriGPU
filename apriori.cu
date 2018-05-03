@@ -57,9 +57,9 @@ __global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int 
 
 int tid = threadIdx.x;
 //__syncthreads(); 	
-while (tid < 5) 
+while (tid < 45) 
 {	
-	printf("tid: %d \n", tid);
+	//printf("tid: %d \n", tid);
 	// p =3 , q = 5
 //int len_p = 4; // B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
 //int len_q = 3; // B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
@@ -91,14 +91,14 @@ for (int i = 0; i < len_p; i++)
 			y = A_device[q_offset+j];			
 			if (x == y)
 			{
-				printf("tid: %d x: %d y: %d\n", tid, x, y );
+				//printf("tid: %d x: %d y: %d\n", tid, x, y );
 				*common_device +=1;
 				pairs_device_count[tid] += 1;
 			}
 		} // end inner for 
 } // end outer for
 	//*common_device = 10;
-	tid += 5;
+	tid += 45;
 } // end while
 } // end kernel function
 
@@ -229,10 +229,10 @@ void Execute(int argc){
 	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device, common_device, pairs_device, pairs_device_count );
 
     cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
-    cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*5, cudaMemcpyDeviceToHost);
+    cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*45, cudaMemcpyDeviceToHost);
 	
 	cout << "total common elements are: " << *common_cpu << endl; 
-	for (int i =0 ; i < 5; i++){
+	for (int i =0 ; i < 45; i++){
 		cout << "pair: " << pairs_cpu[i*2] << " " << pairs_cpu[i*2+1] <<" " <<  pairs_cpu_count[i] << endl;
 	}
 
