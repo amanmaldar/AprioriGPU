@@ -445,10 +445,10 @@ void Execute(int argc){
                   fourStruct.freq =0;
                   L4.push_back(fourStruct);
 		      
-		       pairs_cpu[k1] = threeStruct.a;
-			pairs_cpu[k1+1] = threeStruct.b;
-			pairs_cpu[k1+2] = threeStruct.c;
-		      pairs_cpu[k1+3] = threeStruct.d;
+		       pairs_cpu[k1] = fourStruct.a;
+			pairs_cpu[k1+1] = fourStruct.b;
+			pairs_cpu[k1+2] = fourStruct.c;
+		      pairs_cpu[k1+3] = fourStruct.d;
 		    pairs_cpu_count[k1/4] = 0;	// initialize with zero
 		      
 		    k1 +=4;
