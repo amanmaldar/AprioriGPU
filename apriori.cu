@@ -328,8 +328,8 @@ void Execute(int argc){
 	//pairs_cpu[0] = 2;
 	//pairs_cpu[1] = 3;
 	//pairs_cpu[2] = 4;
-		int numberOfBlocks = 28;
-	int threadsInBlock = 1;
+	numberOfBlocks = 28;
+	threadsInBlock = 1;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 84, cudaMemcpyHostToDevice);	//28*3 pairs
 	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*28, cudaMemcpyDeviceToHost);
