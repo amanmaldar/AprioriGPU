@@ -24,7 +24,7 @@ __global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int 
 
 int tid = threadIdx.x;
 //__syncthreads(); 	
-while (tid < 36) 
+while (tid < 1) 	//36
 {	
 	//printf("tid: %d \n", tid);
 	// p =3 , q = 5
@@ -185,8 +185,8 @@ void Execute(int argc){
 	cudaMemcpy (p_device, p_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 	cudaMemcpy (q_device, q_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 	cudaMemcpy (common_device, common_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
-	//pairs_cpu[0] = 0;
-	//pairs_cpu[1] = 2;
+	pairs_cpu[0] = 0;
+	pairs_cpu[1] = 8;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 72, cudaMemcpyHostToDevice);
 
 	
