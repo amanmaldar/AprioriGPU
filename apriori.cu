@@ -53,9 +53,7 @@ for (int i = 0; i < len_p; i++)
 			y = A_device[q_offset+j];		// without shared memory		
 			if (x == y)
 			{	
-				// printf("tid: %d x: %d y: %d\n", tid, x, y );
 				smem[k] = x;
-				//pairs_device_count[tid] += 1;	
 				k += 1;
 			}
 		} // end inner for 
@@ -70,14 +68,10 @@ for (int i = 0; i < len_r; i++)
 			y = smem[j];		// without shared memory		
 			if (x == y)
 			{	
-				// printf("tid: %d x: %d y: %d\n", tid, x, y );
-				//smem[k] = x;
 				pairs_device_count[tid] += 1;	
-				//k += 1;
 			}
 		} // end inner for 
 } // end outer for
-
 
 	tid += 28;
 } // end while
@@ -336,7 +330,7 @@ void Execute(int argc){
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*28, cudaMemcpyDeviceToHost);
 
 	for (int i =0 ; i < 28; i++){
-	if (pairs_cpu_count[i] >= 0) {
+	if (pairs_cpu_count[i] >= 1) {
             cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
 	    three_freq_itemset++;
 	}
