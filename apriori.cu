@@ -62,15 +62,22 @@ while (tid < 1)
 	// p =3 , q = 5
 //int len_p = 4; // B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
 //int len_q = 3; // B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
-int len_p = B_device[*p+1] - B_device[*p] - 1; // = 16-11 -1 = 4 	1,2,5,6
-int len_q = B_device[*q+1] - B_device[*q] - 1; // = 25-21 -1 = 3   2,3,6
 
+//int len_p = B_device[*p+1] - B_device[*p] - 1; // = 16-11 -1 = 4 	1,2,5,6
+//int len_q = B_device[*q+1] - B_device[*q] - 1; // = 25-21 -1 = 3   2,3,6
+
+int p = pairs_device[tid];
+int q = pairs_device[tid+1];
+int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
+int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
+	
+	
 *common_device = 0;
 	
 //int p_offset = 11;
 //int q_offset = 21;
-int p_offset = B_device[*p];
-int q_offset = B_device[*q];
+int p_offset = B_device[p];
+int q_offset = B_device[q];
 	
 for (int i = 0; i < len_p; i++) 
 {
@@ -85,6 +92,7 @@ for (int i = 0; i < len_p; i++)
 			{
 				printf("tid: %d x: %d y: %d\n", tid, x, y );
 				*common_device +=1;
+				pairs_device_count[tid] += 1;
 			}
 		} // end inner for 
 } // end outer for
@@ -209,6 +217,8 @@ void Execute(int argc){
 	cudaMemcpy (p_device, p_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 	cudaMemcpy (q_device, q_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 	cudaMemcpy (common_device, common_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
+	pairs_cpu[0] = 3;
+	pairs_cpu[1] = 5;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 90, cudaMemcpyHostToDevice);
 
 	
@@ -218,9 +228,12 @@ void Execute(int argc){
 	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device, common_device, pairs_device, pairs_device_count );
 
     cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
-    cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
+    cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int), cudaMemcpyDeviceToHost);
 	
 	cout << "total common elements are: " << *common_cpu << endl; 
+	for (int i =0 ; i < 5; i++){
+		cout << "pair: " << pair_cpu[i*2] << " " << pair_cpu[i*2+1] <<" " <<  pairs_cpu_count << endl;
+	}
 
     return;
     
