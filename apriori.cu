@@ -55,7 +55,7 @@ for (int i = 0; i < len_p; i++)
 			{	
 				// printf("tid: %d x: %d y: %d\n", tid, x, y );
 				smem[k] = x;
-				pairs_device_count[tid] += 1;	
+				//pairs_device_count[tid] += 1;	
 				k += 1;
 			}
 		} // end inner for 
