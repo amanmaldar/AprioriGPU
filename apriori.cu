@@ -22,7 +22,8 @@ Data: (6entries.txt)
 
 __global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int *q, int *common_device, int *pairs_device, int *pairs_device_count) {
 
-int tid = threadIdx.x;
+//int tid = threadIdx.x;
+int tid = blockIdx.x;
 //__syncthreads(); 	
 while (tid < 36) 	//36
 {	
@@ -193,8 +194,8 @@ void Execute(int argc){
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 72, cudaMemcpyHostToDevice);
 
 	
-	int numberOfBlocks = 1;
-	int threadsInBlock = 36;
+	int numberOfBlocks = 36;
+	int threadsInBlock = 1;
 	
 	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device, common_device, pairs_device, pairs_device_count );
 
