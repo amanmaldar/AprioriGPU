@@ -70,7 +70,7 @@ for (int i = 0; i < len_r; i++)
 			if (x == y)
 			{	
 				// printf("tid: %d x: %d y: %d\n", tid, x, y );
-				smem[k] = x;
+				//smem[k] = x;
 				pairs_device_count[tid] += 1;	
 				//k += 1;
 			}
