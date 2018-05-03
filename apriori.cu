@@ -187,7 +187,7 @@ void Execute(int argc){
 	cudaMemcpy (common_device, common_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 	//pairs_cpu[0] = 0;
 	//pairs_cpu[1] = 2;
-	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 90, cudaMemcpyHostToDevice);
+	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 72, cudaMemcpyHostToDevice);
 
 	
 	int numberOfBlocks = 1;
@@ -200,9 +200,9 @@ void Execute(int argc){
 	
 	cout << "total common elements are: " << *common_cpu << endl; 
 	for (int i =0 ; i < 36; i++){
-		if (pairs_cpu_count[i] >= 1)
+		if (pairs_cpu_count[i] >= 1) {
 			cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
-
+		}
 	}
 
     return;
