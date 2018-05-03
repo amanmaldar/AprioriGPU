@@ -20,39 +20,6 @@ Data: (6entries.txt)
 #include "functions.hcu"
 
 
-//double minSupp = 0.001; // 0.001;
-
-/*
-__shared__ int smem[128];
-
-__global__ void addition_scan_kernel (int *A_device, int *B_device , int *ans_device) {
-
-	int tid = threadIdx.x;
-	__syncthreads(); 	
-    
-	int index1=0;
-	int sum = 0;
-	int begin = B_device[tid];
-	while (tid < 9){
-		printf("tid: %d begin: %d A_device[begin]: %d \n", tid, begin,A_device[begin]);
-		while (A_device[begin+index1] != -1){
-		// map data from A_device to smem // limitation on smem comes in picture
-			smem[begin+index1] = A_device[begin+index1];
-			__syncthreads(); 	
-			
-			index1++;
-		}
-		printf("index1: %d \n", index1);
-		for (int i=begin;i<begin+index1;i++){
-			sum += smem[i];
-			__syncthreads(); 	
-		}
-		ans_device[tid] = sum;
-		tid+=9;
-	}
-} // end kernel function
-*/
-
 __global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int *q, int *common_device, int *pairs_device, int *pairs_device_count) {
 
 int tid = threadIdx.x;
@@ -113,8 +80,8 @@ void Execute(int argc){
     int *B_cpu = (int *) malloc (sizeof(int)* (maxItemID+1));    //index array lenght same as number of items
 	int *ans_cpu = (int *) malloc (sizeof(int)* (maxItemID+1));
 	
-	//---------------This section processes the variables that should be transferred to GPU memory as global database--------
-	// TIP - gloabal Map should contain all the itemIds, even if they are not frequent, we need them to have correct mapping
+//---------------This section processes the variables that should be transferred to GPU memory as global database--------
+// TIP - gloabal Map should contain all the itemIds, even if they are not frequent, we need them to have correct mapping
     int k =0;                  						 // global pointer for globalMap
 	for(int i=0;i<=maxItemID;i++) {
         B_cpu[i] = k;
@@ -142,7 +109,7 @@ void Execute(int argc){
 	
 	
 	//-----------Generates single frequent items. Used later to create pairs-------------------------------------
-    L1.push_back(0);    // initialized first index with 0 as we are not using it.
+    L1.push_back(0);    // initialized first index with 0 as we are not using it. [1]
     minSupport = 1;
     // Following code generates single items which have support greater than min_sup
     // compare the occurrence of the object against minSupport
@@ -167,7 +134,7 @@ void Execute(int argc){
 	//----------------This section generates the pair of 2-------------------------------------------------------
 	//Generate L2 .  Make a pair of frequent items in L1
 	int k1 = 0;
-	for (int i=1;i <= L1.size() -1 -1; i++)     //-1 is done for eliminating first entry
+	for (int i=1;i <= L1.size() -1 -1; i++)     //-1 is done for eliminating first entry from L1 [1]
 	{
 		for (int j=i+1;j <= L1.size() -1; j++){
 			twoStruct.a = L1[i];
@@ -176,7 +143,7 @@ void Execute(int argc){
 			pairs_cpu[k1] = L1[i];
 			pairs_cpu[k1+1] = L1[j];
 			pairs_cpu_count[k1/2] = 0;
-			cout << "2 Items are: (" <<L1[i]<< "," << L1[j] << ") " << endl;
+			cout << "2 Items are: (" <<pairs_cpu[k1]<< "," << pairs_cpu[k1+1] << ") " << endl;
 			k1+=2;
 		}
 	}
