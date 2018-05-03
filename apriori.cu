@@ -41,7 +41,7 @@ int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
 int p_offset = B_device[p];
 int q_offset = B_device[q];
 
-
+int k = 0;
 for (int i = 0; i < len_p; i++) 
 {
 	int x = A_device[p_offset+i];		// without shared memory	
@@ -52,10 +52,31 @@ for (int i = 0; i < len_p; i++)
 			if (x == y)
 			{	
 				// printf("tid: %d x: %d y: %d\n", tid, x, y );
-				pairs_device_count[tid] += 1;	
+				smem[k] = x;
+				//pairs_device_count[tid] += 1;	
+				k += 1;
 			}
 		} // end inner for 
 } // end outer for
+
+for (int i = 0; i < len_r; i++) 
+{
+	int x = A_device[r_offset+i];		// without shared memory	
+	int y = 0;
+		for (int j = 0; j < k; j++)
+		{	
+			y = smem[j];		// without shared memory		
+			if (x == y)
+			{	
+				// printf("tid: %d x: %d y: %d\n", tid, x, y );
+				smem[k] = x;
+				pairs_device_count[tid] += 1;	
+				//k += 1;
+			}
+		} // end inner for 
+} // end outer for
+	
+
 	tid += 28;
 } // end while
 } // end kernel function
