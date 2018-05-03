@@ -73,7 +73,7 @@ for (int i = 0; i < len_r; i++)
 			if (x == y)
 			{	
 				//pairs_device_count[tid] += 1;	
-				smem1[k2] = x;
+				smem2[k2] = x;
 				k2 += 1;
 			}
 		} // end inner for 
@@ -97,7 +97,7 @@ for (int i = 0; i < k1; i++)
 
 	
 
-	tid += 28;
+	tid += 13;
 } // end while
 } // end kernel function
 
