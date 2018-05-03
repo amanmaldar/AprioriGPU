@@ -233,7 +233,7 @@ void Execute(int argc){
 	
 	cout << "total common elements are: " << *common_cpu << endl; 
 	for (int i =0 ; i < 45; i++){
-		cout << "pair: " << pairs_cpu[i*2] << " " << pairs_cpu[i*2+1] <<" " <<  pairs_cpu_count[i] << endl;
+		cout << "pair of items: " << pairs_cpu[i*2] << " " << pairs_cpu[i*2+1] <<" freq: " <<  pairs_cpu_count[i] << endl;
 	}
 
     return;
