@@ -233,7 +233,30 @@ void Execute(int argc){
 	}
 	    cout << "two_freq_itemset:      " << two_freq_itemset << endl;
     //---------------------------------------------------------------------
+	
+    //Generate L3
+    int delta=1;
+    // FOLLOWING 2 FOR LOOPS GENERATE SET OF 3 ITEMS
 
+    for (auto it = C2.begin(); it != C2.end(); it++,delta++ ) {     //delta is stride
+        int base = it->a;
+
+        auto it1 = C2.begin();                     // assign second iterator to same set *imp
+        for (int k = 0; k < delta; k++) { it1++; }   //add a offset to second iterator and iterate over same set
+
+        for (it1 = it1; it1 != C2.end(); it1++) {  //iterating over same set.
+            if (base == it1->a) {
+                    threeStruct.a = it->a;
+                    threeStruct.b = it ->b;
+                    threeStruct.c = it1->b;
+                    threeStruct.freq = 0;
+                    L3.push_back(threeStruct);
+                    cout << "3 Items are: (" <<it->a << "," << it->b << "," << it1->b<< ") "  << endl;
+            }
+            else
+                break;  // break internal for loop once base is not same as first entry in next pair. Increment *it
+            }
+    }
 
     return;
     
