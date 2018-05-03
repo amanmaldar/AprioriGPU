@@ -92,9 +92,11 @@ void Execute(int argc){
 		}
 		A_cpu[k] = -1;								// seperate mappings by -1
         k++;
-
+	if (i == maxItemID) {
+		 B_cpu[i+1] = k;
 	}
-	B_cpu[maxItemID+1+1] = k; //add last index
+	}
+	//B_cpu[maxItemID+1+1] = k; //add last index
 
     cout << " Printing itemId_TidMapping copy A_cpu: " << totalItems << endl;
     for(int i =0;i<totalItems;i++) {
