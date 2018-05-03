@@ -201,12 +201,20 @@ void Execute(int argc){
     cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
     cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*36, cudaMemcpyDeviceToHost);
 	
-	cout << "total common elements are: " << *common_cpu << endl; 
+	//cout << "total common elements are: " << *common_cpu << endl; 
 	for (int i =0 ; i < 36; i++){
 		if (pairs_cpu_count[i] >= 1) {
-			cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
+			//cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
+			twoStruct.a = fir;
+		    twoStruct.b = sec;
+		    twoStruct.freq = vecLocal.size();
+		    C2.push_back(twoStruct);
+		    two_freq_itemset++;
 		}
 	}
+	    cout << "two_freq_itemset:      " << two_freq_itemset << endl;
+    //---------------------------------------------------------------------
+
 
     return;
     
