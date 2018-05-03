@@ -19,9 +19,89 @@ Data: (6entries.txt)
 #include "apriori.hcu"
 #include "functions.hcu"
 
+//----------------------------------------------------------------------------
 
-//find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
+__global__ void find4_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count) {
 
+int tid = blockIdx.x;
+__shared__ int smem1[128];  
+__shared__ int smem2[128];
+
+while (tid < 13) 	//36
+{	
+pairs_device_count[tid] = 0;
+int p = pairs_device[tid*4];
+int q = pairs_device[tid*4+1];
+int r = pairs_device[tid*4+2]; 
+int s = pairs_device[tid*4+3]; 
+int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
+int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
+int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
+int len_s = B_device[s+1] - B_device[s] - 1; // = 25-21 -1 = 3   2,3,6
+
+	
+//int p_offset = 11;
+//int q_offset = 21;
+int p_offset = B_device[p];
+int q_offset = B_device[q];
+int r_offset = B_device[r];
+int s_offset = B_device[s];
+
+int k1,k2 = 0;
+for (int i = 0; i < len_p; i++) 
+{
+	int x = A_device[p_offset+i];		// without shared memory	
+	int y = 0;
+		for (int j = 0; j < len_q; j++)
+		{	
+			y = A_device[q_offset+j];		// without shared memory		
+			if (x == y)
+			{	
+				smem1[k1] = x;
+				k1 += 1;
+			}
+		} // end inner for 
+} // end outer for
+
+for (int i = 0; i < len_r; i++) 
+{
+	int x = A_device[r_offset+i];		// without shared memory	
+	int y = 0;
+		for (int j = 0; j < k; j++)
+		{	
+			y = A_device[s_offset+j];		// without shared memory		
+			if (x == y)
+			{	
+				//pairs_device_count[tid] += 1;	
+				smem1[k2] = x;
+				k2 += 1;
+			}
+		} // end inner for 
+} // end outer for
+
+	
+for (int i = 0; i < k1; i++) 
+{
+	int x = smem1[i];		// without shared memory	
+	int y = 0;
+		for (int j = 0; j < k2; j++)
+		{	
+			y = smem2[j];		// without shared memory		
+			if (x == y)
+			{	
+				pairs_device_count[tid] += 1;	
+				//smem1[k] = x;
+			}
+		} // end inner for 
+} // end outer for
+
+	
+
+	tid += 28;
+} // end while
+} // end kernel function
+
+//----------------------------------------------------------------------------
 __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count) {
 
 int tid = blockIdx.x;
@@ -333,11 +413,70 @@ void Execute(int argc){
 	if (pairs_cpu_count[i] >= 1) {
             cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
 	    three_freq_itemset++;
+	    threeStruct.a = pairs_cpu[i*3];
+            threeStruct.b = pairs_cpu[i*3+1];
+            threeStruct.c = pairs_cpu[i*3+2];
+            threeStruct.freq = pairs_cpu_count[i];
+            C3.push_back(threeStruct);
 	}
 	}
 	cout << "three_freq_itemset:    " << three_freq_itemset << endl << "\n";
     //******************************************************************************************************************
 
+//----------------------------------------------------------------------------------
+	    //Generate L4
+    delta= 1;
+
+    for(auto it2 = C3.begin(); it2 != C3.end(); it2++,delta++)
+    {
+        int c,d;
+        auto it3 = C3.begin();                          // assign second iterator to same set *imp
+        for (int k = 0; k < delta; k++) { it3++; }       //add a offset to second iterator and iterate over same set
+
+        c = it2->a;
+        d = it2->b;
+
+        for (it3 = it3; it3 != C3.end(); it3++) {    //iterating over same set.
+              if (c == it3->a && d == it3->b) {
+                  fourStruct.a = it2->a;
+                  fourStruct.b = it2->b;
+                  fourStruct.c = it2->c;
+                  fourStruct.d = it3->c;
+                  fourStruct.freq =0;
+                  L4.push_back(fourStruct);
+		      
+		       pairs_cpu[k1] = threeStruct.a;
+			pairs_cpu[k1+1] = threeStruct.b;
+			pairs_cpu[k1+2] = threeStruct.c;
+		      pairs_cpu[k1+3] = threeStruct.cd;
+		    pairs_cpu_count[k1/4] = 0;	// initialize with zero
+		      
+		    k1 +=4;
+                  cout << "4 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+2]<< "," << pairs_cpu[k1+3] << ") "  << endl;
+
+              } // end if
+        } // end inner for
+    }// end outer for
+	
+	//pairs_cpu[0] = 2;
+	//pairs_cpu[1] = 3;
+	//pairs_cpu[2] = 4;
+	numberOfBlocks = 13;
+	threadsInBlock = 1;
+	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 52, cudaMemcpyHostToDevice);	//13*4 pairs
+	find4_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
+        cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*13, cudaMemcpyDeviceToHost);	// 13 pairs
+
+	for (int i =0 ; i < 13; i++){
+	if (pairs_cpu_count[i] >= 1) {
+		four_freq_itemset++;
+         cout << "4 Frequent Items are: (" <<pairs_cpu[i*4] << "," <<pairs_cpu[i*4+1] << "," << pairs_cpu[i*4+2]<< "," << pairs_cpu[i*4+3] << ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
+	}
+	}
+	cout << "four_freq_itemset:    " << four_freq_itemset << endl << "\n";
+//---------------------------------------------------------------------------------
+	
+	
 	
     return;
     
