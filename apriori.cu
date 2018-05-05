@@ -274,16 +274,13 @@ void Execute(int argc){
     {
         if(C1[i] >= minSupport){		//itemIDcount = C1
             L1.push_back(i);     		//push TID into frequentItem
-            one_freq_itemset++;
-            //if (printing == 1) { cout << "1 Frequent Item is: (" << i << ") Freq is: " << C1[i] << endl; }
-			
+            one_freq_itemset++;			
         }
     }
-	printL1();
-    //if (printing == 1) {  cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n"; }
+	 printL1();			// we will print L1 through C1 only.
 //-----------------------------------------------------------------------------------------------------------
 	
-	return ;
+
 //----------------This section generates the pair of 2-------------------------------------------------------
 //Generate C2 .  Make a pair of frequent items in L1
 	int *pairs_cpu, *pairs_cpu_count;
@@ -308,9 +305,10 @@ void Execute(int argc){
 			pairs_cpu[k1] = i -> a;
 			pairs_cpu[k1+1] = i -> b;
 			pairs_cpu_count[k1/2] = 0;	//initizlize with zero
-			cout << "2 Items are: (" <<pairs_cpu[k1]<< "," << pairs_cpu[k1+1] << ") " << endl;
+			//cout << "2 Items are: (" <<pairs_cpu[k1]<< "," << pairs_cpu[k1+1] << ") " << endl;
 			k1+=2;
 	}
+	 printC2()
 	
 	//-----------------------------------------------------------------------------------------------------------
 	
@@ -341,7 +339,7 @@ void Execute(int argc){
 	
 	for (int i =0 ; i < 36; i++){
 		if (pairs_cpu_count[i] >= 1) {
-			cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
+			//cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
 			twoStruct.a = pairs_cpu[i*2];
 		    twoStruct.b = pairs_cpu[i*2+1];
 		    twoStruct.freq = pairs_cpu_count[i];
@@ -349,8 +347,8 @@ void Execute(int argc){
 		    two_freq_itemset++;
 		}
 	}
-	    cout << "two_freq_itemset:      " << two_freq_itemset << endl;
-	
+	    //cout << "two_freq_itemset:      " << two_freq_itemset << endl;
+	printL2();
 	
     //---------------------------------------------------------------------
 	
