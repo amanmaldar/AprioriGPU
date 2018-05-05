@@ -169,14 +169,6 @@ int tid = blockIdx.x;
 //__syncthreads(); 	
 while (tid < 36) 	//36
 {	
-	//printf("tid: %d \n", tid);
-	// p =3 , q = 5
-//int len_p = 4; // B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
-//int len_q = 3; // B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
-
-//int len_p = B_device[*p+1] - B_device[*p] - 1; // = 16-11 -1 = 4 	1,2,5,6
-//int len_q = B_device[*q+1] - B_device[*q] - 1; // = 25-21 -1 = 3   2,3,6
-
 int p = pairs_device[tid*2];
 int q = pairs_device[tid*2+1];
 int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
@@ -232,84 +224,92 @@ for (int i = 0; i < len_p; i++)
 
 void Execute(int argc){
 
-    parse_database(argc);
+	// Generate C1. Parsing the database generates C1.
+    parse_database(argc);	
 
     int *A_cpu = (int *) malloc (sizeof(int)* totalItems);
     int *B_cpu = (int *) malloc (sizeof(int)* (maxItemID+1+1));    //index array lenght same as number of items // add an ending index
-	int *ans_cpu = (int *) malloc (sizeof(int)* (maxItemID+1));
 	
 //---------------This section processes the variables that should be transferred to GPU memory as global database--------
 // TIP - gloabal Map should contain all the itemIds, even if they are not frequent, we need them to have correct mapping
     int k =0;                  						 // global pointer for globalMap
-	for(int i=0;i<=maxItemID;i++) {
-        B_cpu[i] = k;
-        vector <int> tmp11 = itemId_TidMapping[i];    // copy entire vector
-        for(int j=1;j<tmp11.size();j++) {			  // last item should be inclusive, first element is excluded
-            A_cpu[k] = tmp11[j];
-            k++;
+	int globalDbIdx = 0;							// globalDbIdx = C1_Index			
+	for(int i = 0; i <= maxItemID; i++) {
+        B_cpu[i] = globalDbIdx;
+        vector <int> tmp = itemId_TidMapping[i];    	// copy entire vector
+        for(int j = 1; j < tmp11.size(); j++) {			// last item should be inclusive, first element is excluded
+            A_cpu[globalDbIdx] = tmp[j];
+            globalDbIdx++;
 		}
-		A_cpu[k] = -1;								// seperate mappings by -1
-        k++;
-	if (i == maxItemID) {
-		 B_cpu[i+1] = k;	//add last index
+		A_cpu[globalDbIdx] = -1;						// seperate mappings by -1
+		
+        globalDbIdx++;
+		if (i == maxItemID) {
+			 B_cpu[i+1] = globalDbIdx;	//add last index
+		}
 	}
+
+	if (printing == 1) {
+		cout << " Printing itemId_TidMapping A_cpu: (C1) " << totalItems << endl;
+		for(int i =0;i<totalItems;i++) {
+			cout << A_cpu[i] << " " ;
+		} cout << endl;
 	}
-	//B_cpu[maxItemID+1+1] = k; //add last index
 
-    cout << " Printing itemId_TidMapping copy A_cpu: " << totalItems << endl;
-    for(int i =0;i<totalItems;i++) {
-        cout << A_cpu[i] << " " ;
-    } cout << endl;
-
-
-    cout << " Printing starting indexes B_cpu: " << endl;
-    for(int i =0;i<= maxItemID+1;i++) {
-        cout << B_cpu[i] << " " ;
-    } cout << endl;
-	//-----------------------------------------------------------------------------------------------------------
+	if (printing == 1) {
+		cout << " Printing starting indexes B_cpu: (C1Index)" << endl;
+		for(int i =0;i<= maxItemID+1;i++) {
+			cout << B_cpu[i] << " " ;
+		} cout << endl;
+	}
+//-----------------------------------------------------------------------------------------------------------
 	
 	
-	//-----------Generates single frequent items. Used later to create pairs-------------------------------------
-    L1.push_back(0);    // initialized first index with 0 as we are not using it. [1]
+//-----------Generates L1. Single frequent items. Used later to create pairs.-------------------------------------
+    L1.push_back(0);    // initialized first index with 0 as we are not using it. For loop later starts at i=1 [1]
     minSupport = 1;
-    // Following code generates single items which have support greater than min_sup
+    // Following code generates single items which have support greater than minSupport
     // compare the occurrence of the object against minSupport
 
-    cout << "\n Support:" << minSupport << endl << "\n";
-    //Generate L1 - filtered single items ? I think this should be C1, not L1.
-
+    if (printing == 1) { cout << "\n Support:" << minSupport << endl << "\n"; }
+	
     for (int i=0; i<= maxItemID; i++)
     {
-        if(itemIDcount[i] >= minSupport){
-            L1.push_back(i);     //push TID into frequentItem
+        if(C1[i] >= minSupport){		//itemIDcount = C1
+            L1.push_back(i);     		//push TID into frequentItem
             one_freq_itemset++;
-            //cout << "1 Frequent Item is: (" << i << ") Freq is: " << itemIDcount[i] << endl;
+            if (printing == 1) { cout << "1 Frequent Item is: (" << i << ") Freq is: " << itemIDcount[i] << endl; }
         }
     }
-    //cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n";
-	//-----------------------------------------------------------------------------------------------------------
+    if (printing == 1) {  cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n"; }
+//-----------------------------------------------------------------------------------------------------------
 	
+//----------------This section generates the pair of 2-------------------------------------------------------
+//Generate C2 .  Make a pair of frequent items in L1
 	int *pairs_cpu, *pairs_cpu_count;
-	pairs_cpu = new int[150];		// 72 this is large in size but we copy only required size of bytes
-	pairs_cpu_count = new int[150];		// 36 this is large in size but we copy only required size of bytes
-	//----------------This section generates the pair of 2-------------------------------------------------------
-	//Generate L2 .  Make a pair of frequent items in L1
 	int k1 = 0;
-	for (int i=1;i < L1.size() -1; i++)     //-1 is done for eliminating first entry from L1 [1]
+	for (int i = 1; i < L1.size() -1; i++)     //-1 is done for eliminating first entry from L1 [1]
 	{
-		for (int j=i+1;j < L1.size() ; j++){
+		for (int j = i+1; j < L1.size(); j++) {
 			twoStruct.a = L1[i];
 			twoStruct.b = L1[j];
-			L2.push_back(twoStruct);
-			pairs_cpu[k1] = L1[i];
-			pairs_cpu[k1+1] = L1[j];
-			pairs_cpu_count[k1/2] = 0;	//initizlize with zero
-			cout << "2 Items are: (" <<pairs_cpu[k1]<< "," << pairs_cpu[k1+1] << ") " << endl;
+			C2.push_back(twoStruct);
 			k1+=2;
 		}
 	}
-	//cout << "pairs size is: " << sizeof(pairs_cpu) << " k1: " << k1 <<endl;
+	cout << "pairs size is: " << sizeof(pairs_cpu) << " k1: " << k1 <<endl;
 
+	pairs_cpu = new int[k1];		// 72 this is large in size but we copy only required size of bytes
+	pairs_cpu_count = new int[k1/2];		// 36 this is large in size but we copy only required size of bytes
+	k1 = 0;
+	for (auto i = C2.begin(); i < C2.end(); i++) {
+			pairs_cpu[k1] = i -> a;
+			pairs_cpu[k1+1] = i -> b;
+			pairs_cpu_count[k1/2] = 0;	//initizlize with zero
+			cout << "2 Items are: (" <<pairs_cpu[k1]<< "," << pairs_cpu[k1+1] << ") " << endl;
+			k1+=2;
+	}
+	
 	//-----------------------------------------------------------------------------------------------------------
 	
 	// next - PASS THIS ARRAY TO GPU AND LET DIFFERENT THREADS WORK ON DIFFERENT PAIRS
@@ -384,7 +384,7 @@ void Execute(int argc){
 	
         for (it1 = it1; it1 != C2.end(); it1++) {  //iterating over same set.
             if (base == it1->a) {
-                    threeStruct.a = it->a;
+                    threeStruct.a = it ->a;
                     threeStruct.b = it ->b;
                     threeStruct.c = it1->b;
                     threeStruct.freq = 0;
