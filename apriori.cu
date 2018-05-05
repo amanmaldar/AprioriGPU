@@ -232,12 +232,12 @@ void Execute(int argc){
 	
 //---------------This section processes the variables that should be transferred to GPU memory as global database--------
 // TIP - gloabal Map should contain all the itemIds, even if they are not frequent, we need them to have correct mapping
-    int k =0;                  						 // global pointer for globalMap
+    //int k =0;                  						 // global pointer for globalMap
 	int globalDbIdx = 0;							// globalDbIdx = C1_Index			
 	for(int i = 0; i <= maxItemID; i++) {
         B_cpu[i] = globalDbIdx;
         vector <int> tmp = itemId_TidMapping[i];    	// copy entire vector
-        for(int j = 1; j < tmp11.size(); j++) {			// last item should be inclusive, first element is excluded
+        for(int j = 1; j < tmp.size(); j++) {			// last item should be inclusive, first element is excluded
             A_cpu[globalDbIdx] = tmp[j];
             globalDbIdx++;
 		}
@@ -278,7 +278,7 @@ void Execute(int argc){
         if(C1[i] >= minSupport){		//itemIDcount = C1
             L1.push_back(i);     		//push TID into frequentItem
             one_freq_itemset++;
-            if (printing == 1) { cout << "1 Frequent Item is: (" << i << ") Freq is: " << itemIDcount[i] << endl; }
+            if (printing == 1) { cout << "1 Frequent Item is: (" << i << ") Freq is: " << C1[i] << endl; }
         }
     }
     if (printing == 1) {  cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n"; }
