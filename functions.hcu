@@ -40,8 +40,8 @@ void parse_database(int argc){
 
         while( iss >> n ){              // work on a every single itemID on transaction.
 
-            itemIDcount[n] +=1;
-			totalItems++;
+            C1[n] +=1;	// itemIDcount = C1
+		totalItems++;
             // m captures the number of items in one transaction (one line of file).
 
             //push TID to corresponding vector of itemID
