@@ -9,7 +9,7 @@
 using namespace std;
 void printL1(){
 	for (auto i = L1.begin()+1; i <= L1.end(); i++) {
-		cout << "1 Frequent Item is: (" << *i << ") Freq is: " << L1[i] << endl; 
+		cout << "1 Frequent Item is: (" << *i << ") Freq is: " << L1.at(i) << endl; 
 	}
 	if (printing == 1) {  cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n"; }
 }
