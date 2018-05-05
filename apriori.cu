@@ -159,7 +159,7 @@ for (int i = 0; i < len_r; i++)
 
 //----------------------------------------------------------------------------
 
-__global__ void find2_common_kernel (int *A_device, int *B_device , int *p, int *q, int *common_device, int *pairs_device, int *pairs_device_count) {
+__global__ void find2_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count) {
 
 //int tid = threadIdx.x;
 int tid = blockIdx.x;
@@ -327,70 +327,48 @@ void Execute(int argc){
     cudaMalloc ((void **) &pairs_device, sizeof (int) * 150);		// 72 this is large in size but we copy only required size of bytes
     cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 150);	// 36 // this is large in size but we copy only required size of bytes
 
-
-	int *p_cpu = (int *) malloc (sizeof(int));
-	int *q_cpu = (int *) malloc (sizeof(int));
-	int *common_cpu = (int *) malloc (sizeof(int));
-	*p_cpu = 2;
-	*q_cpu = 3;
-	*common_cpu = 0;
-	
-	int *p_device;
-	int *q_device;
-	int *common_device;
-	cudaMalloc ((void **) &p_device, sizeof (int));
-	cudaMalloc ((void **) &q_device, sizeof (int));
-	cudaMalloc ((void **) &common_device, sizeof (int));
-	
     cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
     cudaMemcpy (B_device, B_cpu, sizeof (int) * 10, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
-	//cudaMemcpy (p_device, p_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
-	//cudaMemcpy (q_device, q_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
-	//cudaMemcpy (common_device, common_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
-	//pairs_cpu[0] = 2;
-	//pairs_cpu[1] = 8;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 72, cudaMemcpyHostToDevice);	// COPY PAIRS
 
 	
 	int numberOfBlocks = 36;
 	int threadsInBlock = 1;
 	
-	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, p_device, q_device, common_device, pairs_device, pairs_device_count );
-
-   // cudaMemcpy (common_cpu, common_device, sizeof (int), cudaMemcpyDeviceToHost);
+	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
+	
     cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*36, cudaMemcpyDeviceToHost);
 	
-	//cout << "total common elements are: " << *common_cpu << endl; 
 	for (int i =0 ; i < 36; i++){
 		if (pairs_cpu_count[i] >= 1) {
 			cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
 			twoStruct.a = pairs_cpu[i*2];
 		    twoStruct.b = pairs_cpu[i*2+1];
 		    twoStruct.freq = pairs_cpu_count[i];
-		    C2.push_back(twoStruct);
+		    L2.push_back(twoStruct);
 		    two_freq_itemset++;
 		}
 	}
 	    cout << "two_freq_itemset:      " << two_freq_itemset << endl;
     //---------------------------------------------------------------------
 	
-    //Generate L3
+    //Generate C3
     int delta=1;
     // FOLLOWING 2 FOR LOOPS GENERATE SET OF 3 ITEMS
 	k1 = 0;
-    for (auto it = C2.begin(); it != C2.end(); it++,delta++ ) {     //delta is stride
+    for (auto it = L2.begin(); it != L2.end(); it++,delta++ ) {     //delta is stride
         int base = it->a;
 
-        auto it1 = C2.begin();                     // assign second iterator to same set *imp
+        auto it1 = L2.begin();                     // assign second iterator to same set *imp
         for (int k = 0; k < delta; k++) { it1++; }   //add a offset to second iterator and iterate over same set
 	
-        for (it1 = it1; it1 != C2.end(); it1++) {  //iterating over same set.
+        for (it1 = it1; it1 != L2.end(); it1++) {  //iterating over same set.
             if (base == it1->a) {
                     threeStruct.a = it ->a;
                     threeStruct.b = it ->b;
                     threeStruct.c = it1->b;
                     threeStruct.freq = 0;
-                    L3.push_back(threeStruct);
+                    C3.push_back(threeStruct);
 		    pairs_cpu[k1] = threeStruct.a;
 			pairs_cpu[k1+1] = threeStruct.b;
 			pairs_cpu[k1+2] = threeStruct.c;
@@ -419,33 +397,33 @@ void Execute(int argc){
             threeStruct.b = pairs_cpu[i*3+1];
             threeStruct.c = pairs_cpu[i*3+2];
             threeStruct.freq = pairs_cpu_count[i];
-            C3.push_back(threeStruct);
+            L3.push_back(threeStruct);
 	}
 	}
 	cout << "three_freq_itemset:    " << three_freq_itemset << endl << "\n";
     //******************************************************************************************************************
 
 //----------------------------------------------------------------------------------
-	    //Generate L4
+	    //Generate C4
     delta= 1;
 	k1=0;
-    for(auto it2 = C3.begin(); it2 != C3.end(); it2++,delta++)
+    for(auto it2 = L3.begin(); it2 != L3.end(); it2++,delta++)
     {
         int c,d;
-        auto it3 = C3.begin();                          // assign second iterator to same set *imp
+        auto it3 = L3.begin();                          // assign second iterator to same set *imp
         for (int k = 0; k < delta; k++) { it3++; }       //add a offset to second iterator and iterate over same set
 
         c = it2->a;
         d = it2->b;
 
-        for (it3 = it3; it3 != C3.end(); it3++) {    //iterating over same set.
+        for (it3 = it3; it3 != L3.end(); it3++) {    //iterating over same set.
               if (c == it3->a && d == it3->b) {
                   fourStruct.a = it2->a;
                   fourStruct.b = it2->b;
                   fourStruct.c = it2->c;
                   fourStruct.d = it3->c;
                   fourStruct.freq =0;
-                  L4.push_back(fourStruct);
+                  C4.push_back(fourStruct);
 		      
 		       pairs_cpu[k1] = fourStruct.a;
 			pairs_cpu[k1+1] = fourStruct.b;
@@ -459,9 +437,7 @@ void Execute(int argc){
         } // end inner for
     }// end outer for
 	
-	//pairs_cpu[0] = 2;
-	//pairs_cpu[1] = 3;
-	//pairs_cpu[2] = 4;
+
 	numberOfBlocks = 13;
 	threadsInBlock = 1;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 52, cudaMemcpyHostToDevice);	//13*4 pairs
@@ -472,6 +448,7 @@ void Execute(int argc){
 	if (pairs_cpu_count[i] >= 1) {
 		four_freq_itemset++;
          cout << "4 Frequent Items are: (" <<pairs_cpu[i*4] << "," <<pairs_cpu[i*4+1] << "," << pairs_cpu[i*4+2]<< "," << pairs_cpu[i*4+3] << ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
+		// L4 .push back
 	}
 	}
 	cout << "four_freq_itemset:    " << four_freq_itemset << endl << "\n";
