@@ -7,16 +7,16 @@
 #include "apriori.hcu"
 
 using namespace std;
-void printC1(){
-	for (auto i = C1.begin(); i < C1.end(); i++) {
-		if (printing == 1) { cout << "1 Frequent Item is: (" << *i << ") Freq is: " << C1[i] << endl; }
+void printL1(){
+	for (auto i = L1.begin(); i < L1.end(); i++) {
+		if (printing == 1) { cout << "1 Frequent Item is: (" << *i << ") Freq is: " << L1[i] << endl; }
 	}
 	if (printing == 1) {  cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n"; }
 }
 void printC2();
 void printC2();
 void printC4();
-void printL1();
+//void printL1();
 void printL2();
 void printL3();
 void printL4();
