@@ -7,28 +7,48 @@
 #include "apriori.hcu"
 
 using namespace std;
-void printL1(){
 
-	 for (int i=0; i<= maxItemID; i++)
-    {
-        if(C1[i] >= minSupport){		//itemIDcount = C1
-            //L1.push_back(i);     		//push TID into frequentItem
-            //one_freq_itemset++;
-            if (printing == 1) { cout << "1 Frequent Item is: (" << i << ") Freq is: " << C1[i] << endl; }
-			
-        }
-  
+//print all the items along with freq
+void printC1(){
+	for (int i=0; i<= maxItemID; i++)
+	{
+			if (printing == 1) 
+				cout << "Database Item:: (" << i << ") Freq is: " << C1[i] << endl; 
+
 	}
-	
-	
 }
-void printC2();
-void printC2();
-void printC4();
+
+void printL1(){
+	for (int i=0; i<= maxItemID; i++)
+	{
+		if(C1[i] >= minSupport){		//itemIDcount = C1
+			if (printing == 1) 
+				cout << "1 Frequent Item is: (" << i << ") Freq is: " << C1[i] << endl; 
+		}
+	}
+}
+
+
+void printC2(){
+	for (auto i = C2.begin(); i < C2.end(); i++) {
+			cout << "2 Items are: (" <<i -> a<< "," << i -> b<< ") " << endl;
+	}
+}
+
+
+void printL2(){
+
+for (auto i = L2.begin(); i != L2.end(); i++){
+			cout << "2 Items are: (" <<i -> a<< "," << i -> b<< ") " << endl;
+}
+			cout << "two_freq_itemset:      " << two_freq_itemset << endl;
+
+}
+//void printC4();
 //void printL1();
-void printL2();
-void printL3();
-void printL4();
+//void printL2();
+//void printL3();
+//void printL4();
 
 
 
