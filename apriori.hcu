@@ -60,8 +60,14 @@ vector <FourStruct> C4,L4;
 
 //-------------------functions------------
 void Execute(int argc);
-void generateL4(vector <FourStruct> C4);
-void generateL3(vector <ThreeStruct>  C3);
+void printC1();
+void printC2();
+void printC2();
+void printC4();
+void printL1();
+void printL2();
+void printL3();
+void printL4();
 
 
 
