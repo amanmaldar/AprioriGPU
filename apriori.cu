@@ -207,12 +207,12 @@ for (int i = 0; i < len_p; i++)
 			if (x == y)
 			{	//if (tid == 20 || tid == 32 || tid == 35)
 				//{ printf("tid: %d x: %d y: %d\n", tid, x, y );}
-				*common_device +=1;
+			
 				pairs_device_count[tid] += 1;	
 			}
 		} // end inner for 
 } // end outer for
-	//*common_device = 10;
+
 	tid += 36;
 } // end while
 } // end kernel function
