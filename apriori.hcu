@@ -88,7 +88,7 @@ string fileName;
 
 // itemIDcount is used to store number of times particular itemID appears in dataset.
 // It is used to determine support for single elements. itemID will go from 1 to maxItemID
-vector <int> itemIDcount;
+vector <int> C1; // C1 = itemIDcount;
 //int itemIDcount[maxItemID];
 
 
