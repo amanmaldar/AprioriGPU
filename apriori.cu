@@ -228,9 +228,8 @@ void Execute(int argc){
     int *A_cpu = (int *) malloc (sizeof(int)* totalItems);
     int *B_cpu = (int *) malloc (sizeof(int)* (maxItemID+1+1));    //index array lenght same as number of items // add an ending index
 	
-//---------------This section processes the variables that should be transferred to GPU memory as global database--------
-// TIP - gloabal Map should contain all the itemIds, even if they are not frequent, we need them to have correct mapping
-    //int k =0;                  						 // global pointer for globalMap
+	//---------------This section processes the variables that should be transferred to GPU memory as global database--------
+	// TIP - gloabal Map should contain all the itemIds, even if they are not frequent, we need them to have correct mapping
 	int globalDbIdx = 0;							// globalDbIdx = C1_Index			
 	for(int i = 0; i <= maxItemID; i++) {
         B_cpu[i] = globalDbIdx;
@@ -276,10 +275,11 @@ void Execute(int argc){
         if(C1[i] >= minSupport){		//itemIDcount = C1
             L1.push_back(i);     		//push TID into frequentItem
             one_freq_itemset++;
-            if (printing == 1) { cout << "1 Frequent Item is: (" << i << ") Freq is: " << C1[i] << endl; }
+            //if (printing == 1) { cout << "1 Frequent Item is: (" << i << ") Freq is: " << C1[i] << endl; }
+			printC1();
         }
     }
-    if (printing == 1) {  cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n"; }
+    //if (printing == 1) {  cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n"; }
 //-----------------------------------------------------------------------------------------------------------
 	
 //----------------This section generates the pair of 2-------------------------------------------------------
@@ -369,12 +369,6 @@ void Execute(int argc){
                     threeStruct.c = it1->b;
                     threeStruct.freq = 0;
                     C3.push_back(threeStruct);
-		    //pairs_cpu[k1] = threeStruct.a;
-			//pairs_cpu[k1+1] = threeStruct.b;
-			//pairs_cpu[k1+2] = threeStruct.c;
-		    //pairs_cpu_count[k1/3] = 0;	// initialize with zero
-		   // k1 +=3;
-                    //cout << "3 Items are: (" <<it->a << "," << it->b << "," << it1->b<< ") "  << endl;	// 28 total
             }	// if end
 	 		else
                break;  // break internal for loop once base is not same as first entry in next pair. Increment *it
@@ -438,14 +432,6 @@ void Execute(int argc){
                   fourStruct.freq =0;
                   C4.push_back(fourStruct);
 		      
-		      // pairs_cpu[k1] = fourStruct.a;
-			//pairs_cpu[k1+1] = fourStruct.b;
-			//pairs_cpu[k1+2] = fourStruct.c;
-		     // pairs_cpu[k1+3] = fourStruct.d;
-		    //pairs_cpu_count[k1/4] = 0;	// initialize with zero
-		      
-                  //cout << "4 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+2]<< "," << pairs_cpu[k1+3] << ") "  << endl;
-			//k1 +=4;
               } // end if
         } // end inner for
     }// end outer for
