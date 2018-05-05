@@ -385,9 +385,10 @@ void Execute(int argc){
 			pairs_cpu[k1+2] = i -> c;
 		    pairs_cpu_count[k1/3] = 0;	// initialize with zero
 		    
-            cout << "3 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+3]<< ") "  << endl;	// 28 total
+            //cout << "3 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+3]<< ") "  << endl;	// 28 total
      		k1 +=3;
 	}
+	printC3();
 	
 	
 	numberOfBlocks = 28;
@@ -398,7 +399,7 @@ void Execute(int argc){
 
 	for (int i =0 ; i < 28; i++){
 	if (pairs_cpu_count[i] >= 1) {
-            cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
+          //  cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
 	    three_freq_itemset++;
 	    threeStruct.a = pairs_cpu[i*3];
             threeStruct.b = pairs_cpu[i*3+1];
@@ -407,7 +408,9 @@ void Execute(int argc){
             L3.push_back(threeStruct);
 	}
 	}
-	cout << "three_freq_itemset:    " << three_freq_itemset << endl << "\n";
+	//cout << "three_freq_itemset:    " << three_freq_itemset << endl << "\n";
+	
+	printL3();
     //******************************************************************************************************************
 
 //----------------------------------------------------------------------------------
@@ -447,9 +450,10 @@ void Execute(int argc){
 		      pairs_cpu[k1+3] = i->d;
 		    pairs_cpu_count[k1/4] = 0;	// initialize with zero
 		      
-                  cout << "4 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+2]<< "," << pairs_cpu[k1+3] << ") "  << endl;
+                 // cout << "4 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+2]<< "," << pairs_cpu[k1+3] << ") "  << endl;
 			k1 +=4;
 	}
+	printC4();
 	
 	
 	numberOfBlocks = 13;
@@ -461,11 +465,18 @@ void Execute(int argc){
 	for (int i =0 ; i < 13; i++){
 	if (pairs_cpu_count[i] >= 1) {
 		four_freq_itemset++;
-         cout << "4 Frequent Items are: (" <<pairs_cpu[i*4] << "," <<pairs_cpu[i*4+1] << "," << pairs_cpu[i*4+2]<< "," << pairs_cpu[i*4+3] << ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
+         //cout << "4 Frequent Items are: (" <<pairs_cpu[i*4] << "," <<pairs_cpu[i*4+1] << "," << pairs_cpu[i*4+2]<< "," << pairs_cpu[i*4+3] << ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
 		// L4 .push back
+		four_freq_itemset++;
+	    fourStruct.a = pairs_cpu[i*4];
+            fourStruct.b = pairs_cpu[i*4+1];
+            fourStruct.c = pairs_cpu[i*4+2];
+            fourStruct.freq = pairs_cpu_count[i];
+            L4.push_back(fourStruct);
 	}
 	}
-	cout << "four_freq_itemset:    " << four_freq_itemset << endl << "\n";
+	//cout << "four_freq_itemset:    " << four_freq_itemset << endl << "\n";
+	printL4();
 //---------------------------------------------------------------------------------
 	
 	
