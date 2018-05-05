@@ -276,7 +276,7 @@ void Execute(int argc){
             L1.push_back(i);     		//push TID into frequentItem
             one_freq_itemset++;
             //if (printing == 1) { cout << "1 Frequent Item is: (" << i << ") Freq is: " << C1[i] << endl; }
-			printC1();
+			printL1();
         }
     }
     //if (printing == 1) {  cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n"; }
