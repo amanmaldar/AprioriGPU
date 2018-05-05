@@ -6,10 +6,10 @@
 #define APRIORI_FUNCTIONS_H
 #include "apriori.hcu"
 
-
+using namespace std;
 void printC1(){
 	for (auto i = C1.begin(); i < C1.end(); i++) {
-		if (printing == 1) { cout << "1 Frequent Item is: (" << i << ") Freq is: " << C1.at(i) << endl; }
+		if (printing == 1) { cout << "1 Frequent Item is: (" << *i << ") Freq is: " << C1.at(i) << endl; }
 	}
 	if (printing == 1) {  cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n"; }
 }
