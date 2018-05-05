@@ -161,7 +161,6 @@ for (int i = 0; i < len_r; i++)
 
 __global__ void find2_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count) {
 
-//int tid = threadIdx.x;
 int tid = blockIdx.x;
 //__shared__ int smem[128];  
 
@@ -174,7 +173,6 @@ int q = pairs_device[tid*2+1];
 int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
 int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 
-*common_device = 0;
 	
 //int p_offset = 11;
 //int q_offset = 21;
