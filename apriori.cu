@@ -277,7 +277,7 @@ void Execute(int argc){
             one_freq_itemset++;			
         }
     }
-	 printL1();			// we will print L1 through C1 only.
+	// printL1();			// we will print L1 through C1 only.
 //-----------------------------------------------------------------------------------------------------------
 	
 
@@ -308,7 +308,7 @@ void Execute(int argc){
 			//cout << "2 Items are: (" <<pairs_cpu[k1]<< "," << pairs_cpu[k1+1] << ") " << endl;
 			k1+=2;
 	}
-	 printC2();
+	 //printC2();
 	
 	//-----------------------------------------------------------------------------------------------------------
 	
@@ -348,7 +348,7 @@ void Execute(int argc){
 		}
 	}
 	    //cout << "two_freq_itemset:      " << two_freq_itemset << endl;
-	printL2();
+	//printL2();
 	
     //---------------------------------------------------------------------
 	
@@ -388,7 +388,7 @@ void Execute(int argc){
             //cout << "3 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+3]<< ") "  << endl;	// 28 total
      		k1 +=3;
 	}
-	printC3();
+	//printC3();
 	
 	
 	numberOfBlocks = 28;
@@ -410,7 +410,7 @@ void Execute(int argc){
 	}
 	//cout << "three_freq_itemset:    " << three_freq_itemset << endl << "\n";
 	
-	printL3();
+	//printL3();
     //******************************************************************************************************************
 
 //----------------------------------------------------------------------------------
@@ -453,7 +453,7 @@ void Execute(int argc){
                  // cout << "4 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+2]<< "," << pairs_cpu[k1+3] << ") "  << endl;
 			k1 +=4;
 	}
-	printC4();
+	//printC4();
 	
 	
 	numberOfBlocks = 13;
@@ -476,7 +476,7 @@ void Execute(int argc){
 	}
 	}
 	//cout << "four_freq_itemset:    " << four_freq_itemset << endl << "\n";
-	printL4();
+	//printL4();
 //---------------------------------------------------------------------------------
 	
 	
@@ -496,8 +496,19 @@ int main(int argc, char **argv){
 
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> el = end - start;
+	
+	printL1();
+	printC2();
+	printL2();
+	printL3();
+	printC3();
+	printL4();
+	printC4();
+	
     cout<<"Execution time is:     " << el.count() * 1000 << " mS " << endl;
 
+	
+	
     return 0;
 }
 
