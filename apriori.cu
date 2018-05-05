@@ -348,6 +348,8 @@ void Execute(int argc){
 		}
 	}
 	    cout << "two_freq_itemset:      " << two_freq_itemset << endl;
+	
+	
     //---------------------------------------------------------------------
 	
     //Generate C3
@@ -367,20 +369,33 @@ void Execute(int argc){
                     threeStruct.c = it1->b;
                     threeStruct.freq = 0;
                     C3.push_back(threeStruct);
-		    pairs_cpu[k1] = threeStruct.a;
-			pairs_cpu[k1+1] = threeStruct.b;
-			pairs_cpu[k1+2] = threeStruct.c;
+		    //pairs_cpu[k1] = threeStruct.a;
+			//pairs_cpu[k1+1] = threeStruct.b;
+			//pairs_cpu[k1+2] = threeStruct.c;
+		    //pairs_cpu_count[k1/3] = 0;	// initialize with zero
+		   // k1 +=3;
+                    //cout << "3 Items are: (" <<it->a << "," << it->b << "," << it1->b<< ") "  << endl;	// 28 total
+            }	// if end
+	 		else
+               break;  // break internal for loop once base is not same as first entry in next pair. Increment *it
+           } // internal for
+    } // external for
+
+	
+		//pairs_cpu = new int[k1];		// 72 this is large in size but we copy only required size of bytes
+	//pairs_cpu_count = new int[k1/3];		// 36 this is large in size but we copy only required size of bytes
+	k1 = 0;
+	for (auto i = C3.begin(); i < C3.end(); i++) {
+			pairs_cpu[k1] = i -> a;
+			pairs_cpu[k1+1] = i -> b;
+			pairs_cpu[k1+2] = i -> c;
 		    pairs_cpu_count[k1/3] = 0;	// initialize with zero
 		    k1 +=3;
-                    cout << "3 Items are: (" <<it->a << "," << it->b << "," << it1->b<< ") "  << endl;	// 28 total
-            }
-	 else
-               break;  // break internal for loop once base is not same as first entry in next pair. Increment *it
-           }
-    }
-	//pairs_cpu[0] = 2;
-	//pairs_cpu[1] = 3;
-	//pairs_cpu[2] = 4;
+            cout << "3 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+3]<< ") "  << endl;	// 28 total
+     }
+	
+	cout << "3 Items are:" << k1 << "***********";
+	
 	numberOfBlocks = 28;
 	threadsInBlock = 1;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 84, cudaMemcpyHostToDevice);	//28*3 pairs
