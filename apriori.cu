@@ -283,6 +283,7 @@ void Execute(int argc){
     //if (printing == 1) {  cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n"; }
 //-----------------------------------------------------------------------------------------------------------
 	
+	return ;
 //----------------This section generates the pair of 2-------------------------------------------------------
 //Generate C2 .  Make a pair of frequent items in L1
 	int *pairs_cpu, *pairs_cpu_count;
