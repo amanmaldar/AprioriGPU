@@ -390,11 +390,11 @@ void Execute(int argc){
 			pairs_cpu[k1+1] = i -> b;
 			pairs_cpu[k1+2] = i -> c;
 		    pairs_cpu_count[k1/3] = 0;	// initialize with zero
-		    k1 +=3;
+		    
             cout << "3 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+3]<< ") "  << endl;	// 28 total
-     }
+     		k1 +=3;
+	}
 	
-	cout << "3 Items are:" << k1 << "***********";
 	
 	numberOfBlocks = 28;
 	threadsInBlock = 1;
@@ -438,19 +438,34 @@ void Execute(int argc){
                   fourStruct.freq =0;
                   C4.push_back(fourStruct);
 		      
-		       pairs_cpu[k1] = fourStruct.a;
-			pairs_cpu[k1+1] = fourStruct.b;
-			pairs_cpu[k1+2] = fourStruct.c;
-		      pairs_cpu[k1+3] = fourStruct.d;
-		    pairs_cpu_count[k1/4] = 0;	// initialize with zero
+		      // pairs_cpu[k1] = fourStruct.a;
+			//pairs_cpu[k1+1] = fourStruct.b;
+			//pairs_cpu[k1+2] = fourStruct.c;
+		     // pairs_cpu[k1+3] = fourStruct.d;
+		    //pairs_cpu_count[k1/4] = 0;	// initialize with zero
 		      
-                  cout << "4 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+2]<< "," << pairs_cpu[k1+3] << ") "  << endl;
-			k1 +=4;
+                  //cout << "4 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+2]<< "," << pairs_cpu[k1+3] << ") "  << endl;
+			//k1 +=4;
               } // end if
         } // end inner for
     }// end outer for
 	
 
+	//pairs_cpu = new int[k1];		// 72 this is large in size but we copy only required size of bytes
+	//pairs_cpu_count = new int[k1/3];		// 36 this is large in size but we copy only required size of bytes
+	k1 = 0;
+	for (auto i = C4.begin(); i < C4.end(); i++) {
+			       pairs_cpu[k1] = i->a;
+			pairs_cpu[k1+1] = i->b;
+			pairs_cpu[k1+2] = i->c;
+		      pairs_cpu[k1+3] = i->d;
+		    pairs_cpu_count[k1/4] = 0;	// initialize with zero
+		      
+                  cout << "4 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+2]<< "," << pairs_cpu[k1+3] << ") "  << endl;
+			k1 +=4;
+	}
+	
+	
 	numberOfBlocks = 13;
 	threadsInBlock = 1;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 52, cudaMemcpyHostToDevice);	//13*4 pairs
