@@ -287,6 +287,8 @@ void Execute(int argc){
 //----------------This section generates the pair of 2-------------------------------------------------------
 //Generate C2 .  Make a pair of frequent items in L1
 	int *pairs_cpu, *pairs_cpu_count;
+	pairs_cpu = new int[150];		// 72 this is large in size but we copy only required size of bytes
+	pairs_cpu_count = new int[150];		// 36 this is large in size but we copy only required size of bytes
 	int k1 = 0;
 	for (int i = 1; i < L1.size() -1; i++)     //-1 is done for eliminating first entry from L1 [1]
 	{
@@ -299,8 +301,8 @@ void Execute(int argc){
 	}
 	cout << "pairs size is: " << sizeof(pairs_cpu) << " k1: " << k1 <<endl;
 
-	pairs_cpu = new int[k1];		// 72 this is large in size but we copy only required size of bytes
-	pairs_cpu_count = new int[k1/2];		// 36 this is large in size but we copy only required size of bytes
+	//pairs_cpu = new int[k1];		// 72 this is large in size but we copy only required size of bytes
+	//pairs_cpu_count = new int[k1/2];		// 36 this is large in size but we copy only required size of bytes
 	k1 = 0;
 	for (auto i = C2.begin(); i < C2.end(); i++) {
 			pairs_cpu[k1] = i -> a;
