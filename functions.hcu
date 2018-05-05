@@ -17,7 +17,7 @@ void parse_database(int argc){
     string line;
     // parse_database();
     for (int i = 0; i <= maxItemID; ++i){
-        itemIDcount.push_back(0) ;          //initialize all the itemID (1 -> 1000) counts with zero.
+        C1.push_back(0) ;          //initialize all the itemID (1 -> 1000) counts with zero.
     }
 
     // used later to calculate the count of pair
