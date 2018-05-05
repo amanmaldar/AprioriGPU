@@ -65,7 +65,7 @@ for (auto i = L3.begin(); i != L3.end(); i++){
 
 void printC4(){
 	for (auto i = C4.begin(); i < C4.end(); i++) {
-			cout << "4 Items are: (" <<i -> a<< "," << i -> b<< "," << i->c "," << i->d << ") " << endl;
+			cout << "4 Items are: (" <<i -> a<< "," << i -> b<< "," << i->c << "," << i->d << ") " << endl;
 	}
 }
 
