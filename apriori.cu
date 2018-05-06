@@ -98,7 +98,7 @@ for (int i = 0; i < pairs; i++)
 
 	
 
-	tid += 13;
+	tid += *threads_d;	//13
 } // end while
 } // end kernel function
 
@@ -154,7 +154,7 @@ for (int i = 0; i < len_r; i++)
 		} // end inner for 
 } // end outer for
 
-	tid += 28;
+	tid += *threads_d; //28
 } // end while
 } // end kernel function
 
@@ -214,12 +214,12 @@ for (int i = 0; i < len_p; i++)
 		} // end inner for 
 } // end outer for
 
-	tid += 36;
+	tid += *threads_d; //36
 } // end while
 } // end kernel function
 
 
-
+//----------------------------------------------------------------
 
 void Execute(char *prnt){
 
@@ -277,16 +277,21 @@ void Execute(char *prnt){
 	cudaMemcpy (B_device, B_cpu, sizeof (int) * sizeof_Bdevice, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
 
 	
-	int *pairs_device;
-	int *pairs_device_count;
-	int *threads_d;
 	
-	int *threads_cpu = (int *) malloc (sizeof(int));
-	
+	int *threads_d;	
+	int *threads_cpu = (int *) malloc (sizeof(int));	
 	cudaMalloc ((void **) &threads_d, sizeof (int));
 	
 	// allocate latge memory on CPU
 	int *pairs_cpu, *pairs_cpu_count;
+	
+	pairs_cpu = new int[50000];		// 72 this is large in size but we copy only required size of bytes
+	pairs_cpu_count = new int[50000];		// 36 this is large in size but we copy only required size of bytes
+	
+	
+	int *pairs_device;
+	int *pairs_device_count;
+	// allocate latge memory on GPU
 	cudaMalloc ((void **) &pairs_device, sizeof (int) * 50000);		
     cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 50000);
 
