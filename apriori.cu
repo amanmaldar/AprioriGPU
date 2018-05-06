@@ -323,17 +323,20 @@ void Execute(char *prnt){
 	int *pairs_device;
 	int *pairs_device_count;
 	
+	int sizeof_Bdevice = maxItemID + 1+1;	//10
+	int sizeof_pairs = pairs;
+	
     cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
-    cudaMalloc ((void **) &B_device, sizeof (int) * 9); // maxItemID+1+1 = 10
+    cudaMalloc ((void **) &B_device, sizeof (int) * sizeof_Bdevice); // maxItemID+1+1 (index of extra element to terminate looping in kernel) = 10
     cudaMalloc ((void **) &pairs_device, sizeof (int) * 150);		// 72 this is large in size but we copy only required size of bytes
     cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 150);	// 36 // this is large in size but we copy only required size of bytes
 
     cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
-    cudaMemcpy (B_device, B_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
-	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 72, cudaMemcpyHostToDevice);	// COPY PAIRS
+    cudaMemcpy (B_device, B_cpu, sizeof (int) * sizeof_Bdevice, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
+	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	// COPY PAIRS 72
 
 	
-	int numberOfBlocks = 36;
+	int numberOfBlocks = pairs; //36
 	int threadsInBlock = 1;
 	
 	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
