@@ -78,6 +78,7 @@ int TID_Transactions = 1;
 double minSupport;
 double minConfidence;
 int number_of_strong_rules=0;
+int printing = 0;
 
 int one_freq_itemset=0;
 int two_freq_itemset=0;
