@@ -264,6 +264,32 @@ void Execute(char *prnt){
 			cout << B_cpu[i] << " " ;
 		} cout << endl;
 	}
+	
+	// initilaiztion and declaration****************************************************
+		// next - PASS THIS ARRAY TO GPU AND LET DIFFERENT THREADS WORK ON DIFFERENT PAIRS
+	int *A_device; //device storage pointers
+	int *B_device;
+	int sizeof_Bdevice = maxItemID + 1+1;	//10		//global
+	cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
+	cudaMalloc ((void **) &B_device, sizeof (int) * sizeof_Bdevice); // maxItemID+1+1 (index of extra element to terminate looping in kernel) = 10
+
+	 cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
+	cudaMemcpy (B_device, B_cpu, sizeof (int) * sizeof_Bdevice, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
+
+	
+		int *pairs_device;
+	int *pairs_device_count;
+
+	int *threads_cpu = (int *) malloc (sizeof(int));
+	int *threads_d;
+	cudaMalloc ((void **) &threads_d, sizeof (int));
+	
+	
+	int *pairs_cpu, *pairs_cpu_count;
+	cudaMalloc ((void **) &pairs_device, sizeof (int) * 50000);		// 72 this is large in size but we copy only required size of bytes
+    	cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 50000);	// 36 // this is large in size but we copy only required size of bytes
+
+	//*********************************************************************8
 //-----------------------------------------------------------------------------------------------------------
 	
 	
@@ -288,9 +314,8 @@ void Execute(char *prnt){
 
 //----------------This section generates the pair of 2-------------------------------------------------------
 //Generate C2 .  Make a pair of frequent items in L1
-	int *pairs_cpu, *pairs_cpu_count;
-	//pairs_cpu = new int[150];		// 72 this is large in size but we copy only required size of bytes
-	//pairs_cpu_count = new int[150];		// 36 this is large in size but we copy only required size of bytes
+
+
 	int pairs = 0;
 	for (int i = 1; i < L1.size() -1; i++)     //-1 is done for eliminating first entry from L1 [1]
 	{
@@ -304,8 +329,8 @@ void Execute(char *prnt){
 	//cout << "pairs size is: " << sizeof(pairs_cpu) << " pairs: " << pairs <<endl;
 
 	
-	pairs_cpu = new int[pairs];		
-	pairs_cpu_count = new int[pairs];
+	///pairs_cpu = new int[pairs];		
+	//pairs_cpu_count = new int[pairs];
 	pairs = 0;
 	for (auto i = C2.begin(); i < C2.end(); i++) {
 			pairs_cpu[pairs] = i -> a;
@@ -319,25 +344,23 @@ void Execute(char *prnt){
 	//-----------------------------------------------------------------------------------------------------------
 	
 	// next - PASS THIS ARRAY TO GPU AND LET DIFFERENT THREADS WORK ON DIFFERENT PAIRS
-	int *A_device; //device storage pointers
-	int *B_device;
-	int *pairs_device;
-	int *pairs_device_count;
+	//int *A_device; //device storage pointers
+	//int *B_device;
+	///int *pairs_device;
+	//int *pairs_device_count;
 
-	int *threads_cpu = (int *) malloc (sizeof(int));
-	int *threads_d;
-	cudaMalloc ((void **) &threads_d, sizeof (int));
+	//int *threads_cpu = (int *) malloc (sizeof(int));
+	//int *threads_d;
+	//cudaMalloc ((void **) &threads_d, sizeof (int));
 	
-	int sizeof_Bdevice = maxItemID + 1+1;	//10		//global
+	//int sizeof_Bdevice = maxItemID + 1+1;	//10		//global
 	int sizeof_pairs = pairs;
 	
-    cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
-    cudaMalloc ((void **) &B_device, sizeof (int) * sizeof_Bdevice); // maxItemID+1+1 (index of extra element to terminate looping in kernel) = 10
-    cudaMalloc ((void **) &pairs_device, sizeof (int) * 150);		// 72 this is large in size but we copy only required size of bytes
-    cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 150);	// 36 // this is large in size but we copy only required size of bytes
+   // cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
+   // cudaMalloc ((void **) &B_device, sizeof (int) * sizeof_Bdevice); // maxItemID+1+1 (index of extra element to terminate looping in kernel) = 10
 
-    cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
-    cudaMemcpy (B_device, B_cpu, sizeof (int) * sizeof_Bdevice, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
+    //cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
+   // cudaMemcpy (B_device, B_cpu, sizeof (int) * sizeof_Bdevice, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	// COPY PAIRS 72
 
 	
@@ -361,8 +384,8 @@ void Execute(char *prnt){
 		    two_freq_itemset++;
 		}
 	}
-	   cout << "two_freq_itemset:      " << two_freq_itemset << endl;
-	printL2();
+	   //cout << "two_freq_itemset:      " << two_freq_itemset << endl;
+	//printL2();
 	return;
     //---------------------------------------------------------------------
 	
@@ -392,8 +415,8 @@ void Execute(char *prnt){
 	
 		//pairs_cpu = new int[pairs];		// 72 this is large in size but we copy only required size of bytes
 	//pairs_cpu_count = new int[pairs/3];		// 36 this is large in size but we copy only required size of bytes
-		pairs_cpu = new int[pairs];		
-	pairs_cpu_count = new int[pairs];
+		//pairs_cpu = new int[pairs];		
+	//pairs_cpu_count = new int[pairs];
 	pairs = 0;
 	for (auto i = C3.begin(); i < C3.end(); i++) {
 			pairs_cpu[pairs] = i -> a;
@@ -401,7 +424,7 @@ void Execute(char *prnt){
 			pairs_cpu[pairs+2] = i -> c;
 		    pairs_cpu_count[pairs/3] = 0;	// initialize with zero
 		    
-            //cout << "3 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+3]<< ") "  << endl;	// 28 total
+            cout << "3 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+3]<< ") "  << endl;	// 28 total
      		pairs +=3;
 	}
 	//printC3();
@@ -460,10 +483,7 @@ void Execute(char *prnt){
         } // end inner for
     }// end outer for
 	
-	pairs_cpu = new int[pairs];		
-	pairs_cpu_count = new int[pairs];
-	//pairs_cpu = new int[pairs];		// 72 this is large in size but we copy only required size of bytes
-	//pairs_cpu_count = new int[pairs/3];		// 36 this is large in size but we copy only required size of bytes
+
 	pairs = 0;
 	for (auto i = C4.begin(); i < C4.end(); i++) {
 			       pairs_cpu[pairs] = i->a;
@@ -476,6 +496,8 @@ void Execute(char *prnt){
 			pairs +=4;
 	}
 	//printC4();
+	pairs_cpu = new int[pairs];		
+	pairs_cpu_count = new int[pairs];
 	
 	sizeof_pairs = pairs;
 	numberOfBlocks = sizeof_pairs/4;
