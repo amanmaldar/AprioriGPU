@@ -411,8 +411,8 @@ void Execute(char *prnt){
 			pairs_cpu[pairs+2] = i -> c;
 		    pairs_cpu_count[pairs/3] = 0;	// initialize with zero
 		    
-            //cout << "3 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+3]<< ") "  << endl;	// 28 total
-     		//pairs +=3;
+            cout << "3 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+3]<< ") "  << endl;	// 28 total
+     		pairs +=3;
 	}
 	//printC3();
 	
@@ -481,7 +481,7 @@ void Execute(char *prnt){
 		    pairs_cpu_count[pairs/4] = 0;	// initialize with zero
 		      
                  // cout << "4 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+2]<< "," << pairs_cpu[pairs+3] << ") "  << endl;
-			
+			pairs += 4;
 	}
 	//printC4();
 	
