@@ -264,7 +264,7 @@ void Execute(char *prnt){
 			cout << B_cpu[i] << " " ;
 		} cout << endl;
 	}
-	
+
 	// initilaiztion and declaration****************************************************
 		// next - PASS THIS ARRAY TO GPU AND LET DIFFERENT THREADS WORK ON DIFFERENT PAIRS
 	int *A_device; //device storage pointers
