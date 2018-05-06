@@ -222,7 +222,9 @@ for (int i = 0; i < len_p; i++)
 
 
 void Execute(char *prnt){
-	cout << "testing: " << *prnt;
+	printing = (int) *prnt - 48;
+
+	//cout << "testing: " << *prnt;
 	//printing = int(*prnt); 	//decide printing actions
 	// Generate C1. Parsing the database generates C1.
 	auto parse_start = chrono::high_resolution_clock::now();
