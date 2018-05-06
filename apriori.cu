@@ -222,16 +222,12 @@ for (int i = 0; i < len_p; i++)
 
 
 void Execute(char *prnt){
-	//int t1 = (int) *prnt;
-	//printing = t1 - 48;
 
-	cout << "testing: " << *prnt -48 ;
-	//printing = int(*prnt); 	//decide printing actions
 	// Generate C1. Parsing the database generates C1.
 	auto parse_start = chrono::high_resolution_clock::now();
   	parse_database();
     auto parse_end = chrono::high_resolution_clock::now();
-     parse_el = parse_end - parse_start;
+    parse_el = parse_end - parse_start;
   	
 
     int *A_cpu = (int *) malloc (sizeof(int)* totalItems);
@@ -498,18 +494,12 @@ void Execute(char *prnt){
 
 
 int main(int argc, char **argv){
-	//cout <<  argv[1] << argv[1] << argc <<  endl;
 	
-//    char a = argc[]
 	int t1 = (int) *argv[1];
 	printing = t1 - 48;
-	 
 		
-	//printing = 1;
     auto start = chrono::high_resolution_clock::now();
-
     Execute(argv[1]);
-
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> el = end - start;
 	
@@ -526,7 +516,6 @@ int main(int argc, char **argv){
 	cout<<"Database Parsing time:    " << parse_el.count() * 1000 << " mS " << endl;
     cout<<"Total execution time:     " << el.count() * 1000 << " mS " << endl;
 
-	
 	
     return 0;
 }
