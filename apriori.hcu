@@ -21,7 +21,7 @@
 #include "chrono"
 
 using namespace std;
-#define printing 1
+#define printing 0
 
 //-------------------containers---------------------------
 vector <int> L1;
