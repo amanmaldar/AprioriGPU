@@ -223,7 +223,11 @@ for (int i = 0; i < len_p; i++)
 void Execute(int argc){
 
 	// Generate C1. Parsing the database generates C1.
-    parse_database(argc);	
+	auto parse_start = chrono::high_resolution_clock::now();
+  	parse_database(argc);
+    auto parse_end = chrono::high_resolution_clock::now();
+    chrono::duration<double> parse_el = parse_end - parse_start;
+  	
 
     int *A_cpu = (int *) malloc (sizeof(int)* totalItems);
     int *B_cpu = (int *) malloc (sizeof(int)* (maxItemID+1+1));    //index array lenght same as number of items // add an ending index
@@ -505,7 +509,8 @@ int main(int argc, char **argv){
 	printL4();
 	printC4();
 	
-    cout<<"Execution time is:     " << el.count() * 1000 << " mS " << endl;
+	cout<<"Database Parsing time:    " << parse_el.count() * 1000 << " mS " << endl;
+    cout<<"Total execution time:     " << el.count() * 1000 << " mS " << endl;
 
 	
 	
