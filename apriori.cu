@@ -500,8 +500,9 @@ void Execute(char *prnt){
 int main(int argc, char **argv){
 	//cout <<  argv[1] << argv[1] << argc <<  endl;
 
-	int t1 = (int) *prnt;
-	printing = t1 - 48;
+	//int t1 = (int) argc[1];
+	//printing = t1 - 48;
+	printing = 1;
     auto start = chrono::high_resolution_clock::now();
 
     Execute(argv[1]);
