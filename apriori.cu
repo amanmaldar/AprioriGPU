@@ -336,7 +336,7 @@ void Execute(char *prnt){
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	// COPY PAIRS 72
 
 	
-	int numberOfBlocks = pairs; //36
+	int numberOfBlocks = pairs/2; //36
 	int threadsInBlock = 1;
 	
 	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
