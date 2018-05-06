@@ -411,7 +411,7 @@ void Execute(char *prnt){
 			pairs_cpu[pairs+2] = i -> c;
 		    pairs_cpu_count[pairs/3] = 0;	// initialize with zero
 		    
-            cout << "3 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+3]<< ") "  << endl;	// 28 total
+            //cout << "3 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+3]<< ") "  << endl;	// 28 total
      		//pairs +=3;
 	}
 	//printC3();
@@ -486,7 +486,7 @@ void Execute(char *prnt){
 	//printC4();
 	
 	
-	sizeof_pairs = pairs;
+	//sizeof_pairs = pairs;
 	numberOfBlocks = sizeof_pairs/4;
 	threadsInBlock = 1;
 	pairs_return = sizeof_pairs/4;
