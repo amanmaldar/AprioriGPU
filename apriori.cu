@@ -48,7 +48,7 @@ int q_offset = B_device[q];
 int r_offset = B_device[r];
 int s_offset = B_device[s];
 
-int k1,k2 = 0;
+int pairs,k2 = 0;
 for (int i = 0; i < len_p; i++) 
 {
 	int x = A_device[p_offset+i];		// without shared memory	
@@ -58,8 +58,8 @@ for (int i = 0; i < len_p; i++)
 			y = A_device[q_offset+j];		// without shared memory		
 			if (x == y)
 			{	
-				smem1[k1] = x;
-				k1 += 1;
+				smem1[pairs] = x;
+				pairs += 1;
 			}
 		} // end inner for 
 } // end outer for
@@ -81,7 +81,7 @@ for (int i = 0; i < len_r; i++)
 } // end outer for
 
 	
-for (int i = 0; i < k1; i++) 
+for (int i = 0; i < pairs; i++) 
 {
 	int x = smem1[i];		// without shared memory	
 	int y = 0;
@@ -291,27 +291,27 @@ void Execute(char *prnt){
 	int *pairs_cpu, *pairs_cpu_count;
 	pairs_cpu = new int[150];		// 72 this is large in size but we copy only required size of bytes
 	pairs_cpu_count = new int[150];		// 36 this is large in size but we copy only required size of bytes
-	int k1 = 0;
+	int pairs = 0;
 	for (int i = 1; i < L1.size() -1; i++)     //-1 is done for eliminating first entry from L1 [1]
 	{
 		for (int j = i+1; j < L1.size(); j++) {
 			twoStruct.a = L1[i];
 			twoStruct.b = L1[j];
 			C2.push_back(twoStruct);
-			k1+=2;
+			pairs+=2;
 		}
 	}
-	//cout << "pairs size is: " << sizeof(pairs_cpu) << " k1: " << k1 <<endl;
+	//cout << "pairs size is: " << sizeof(pairs_cpu) << " pairs: " << pairs <<endl;
 
-	//pairs_cpu = new int[k1];		// 72 this is large in size but we copy only required size of bytes
-	//pairs_cpu_count = new int[k1/2];		// 36 this is large in size but we copy only required size of bytes
-	k1 = 0;
+	//pairs_cpu = new int[pairs];		// 72 this is large in size but we copy only required size of bytes
+	//pairs_cpu_count = new int[pairs/2];		// 36 this is large in size but we copy only required size of bytes
+	pairs = 0;
 	for (auto i = C2.begin(); i < C2.end(); i++) {
-			pairs_cpu[k1] = i -> a;
-			pairs_cpu[k1+1] = i -> b;
-			pairs_cpu_count[k1/2] = 0;	//initizlize with zero
-			//cout << "2 Items are: (" <<pairs_cpu[k1]<< "," << pairs_cpu[k1+1] << ") " << endl;
-			k1+=2;
+			pairs_cpu[pairs] = i -> a;
+			pairs_cpu[pairs+1] = i -> b;
+			pairs_cpu_count[pairs/2] = 0;	//initizlize with zero
+			//cout << "2 Items are: (" <<pairs_cpu[pairs]<< "," << pairs_cpu[pairs+1] << ") " << endl;
+			pairs+=2;
 	}
 	 //printC2();
 	
@@ -320,18 +320,16 @@ void Execute(char *prnt){
 	// next - PASS THIS ARRAY TO GPU AND LET DIFFERENT THREADS WORK ON DIFFERENT PAIRS
 	int *A_device; //device storage pointers
 	int *B_device;
-	int *ans_device;
 	int *pairs_device;
 	int *pairs_device_count;
 	
     cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
-    cudaMalloc ((void **) &B_device, sizeof (int) * 10); // maxItemID+1+1 = 10
-    cudaMalloc ((void **) &ans_device, sizeof (int) * 9);
+    cudaMalloc ((void **) &B_device, sizeof (int) * 9); // maxItemID+1+1 = 10
     cudaMalloc ((void **) &pairs_device, sizeof (int) * 150);		// 72 this is large in size but we copy only required size of bytes
     cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 150);	// 36 // this is large in size but we copy only required size of bytes
 
     cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
-    cudaMemcpy (B_device, B_cpu, sizeof (int) * 10, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
+    cudaMemcpy (B_device, B_cpu, sizeof (int) * 9, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 72, cudaMemcpyHostToDevice);	// COPY PAIRS
 
 	
@@ -360,7 +358,7 @@ void Execute(char *prnt){
     //Generate C3
     int delta=1;
     // FOLLOWING 2 FOR LOOPS GENERATE SET OF 3 ITEMS
-	k1 = 0;
+	pairs = 0;
     for (auto it = L2.begin(); it != L2.end(); it++,delta++ ) {     //delta is stride
         int base = it->a;
 
@@ -381,17 +379,17 @@ void Execute(char *prnt){
     } // external for
 
 	
-		//pairs_cpu = new int[k1];		// 72 this is large in size but we copy only required size of bytes
-	//pairs_cpu_count = new int[k1/3];		// 36 this is large in size but we copy only required size of bytes
-	k1 = 0;
+		//pairs_cpu = new int[pairs];		// 72 this is large in size but we copy only required size of bytes
+	//pairs_cpu_count = new int[pairs/3];		// 36 this is large in size but we copy only required size of bytes
+	pairs = 0;
 	for (auto i = C3.begin(); i < C3.end(); i++) {
-			pairs_cpu[k1] = i -> a;
-			pairs_cpu[k1+1] = i -> b;
-			pairs_cpu[k1+2] = i -> c;
-		    pairs_cpu_count[k1/3] = 0;	// initialize with zero
+			pairs_cpu[pairs] = i -> a;
+			pairs_cpu[pairs+1] = i -> b;
+			pairs_cpu[pairs+2] = i -> c;
+		    pairs_cpu_count[pairs/3] = 0;	// initialize with zero
 		    
-            //cout << "3 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+3]<< ") "  << endl;	// 28 total
-     		k1 +=3;
+            //cout << "3 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+3]<< ") "  << endl;	// 28 total
+     		pairs +=3;
 	}
 	//printC3();
 	
@@ -421,7 +419,7 @@ void Execute(char *prnt){
 //----------------------------------------------------------------------------------
 	    //Generate C4
     delta= 1;
-	k1=0;
+	pairs=0;
     for(auto it2 = L3.begin(); it2 != L3.end(); it2++,delta++)
     {
         int c,d;
@@ -445,18 +443,18 @@ void Execute(char *prnt){
     }// end outer for
 	
 
-	//pairs_cpu = new int[k1];		// 72 this is large in size but we copy only required size of bytes
-	//pairs_cpu_count = new int[k1/3];		// 36 this is large in size but we copy only required size of bytes
-	k1 = 0;
+	//pairs_cpu = new int[pairs];		// 72 this is large in size but we copy only required size of bytes
+	//pairs_cpu_count = new int[pairs/3];		// 36 this is large in size but we copy only required size of bytes
+	pairs = 0;
 	for (auto i = C4.begin(); i < C4.end(); i++) {
-			       pairs_cpu[k1] = i->a;
-			pairs_cpu[k1+1] = i->b;
-			pairs_cpu[k1+2] = i->c;
-		      pairs_cpu[k1+3] = i->d;
-		    pairs_cpu_count[k1/4] = 0;	// initialize with zero
+			       pairs_cpu[pairs] = i->a;
+			pairs_cpu[pairs+1] = i->b;
+			pairs_cpu[pairs+2] = i->c;
+		      pairs_cpu[pairs+3] = i->d;
+		    pairs_cpu_count[pairs/4] = 0;	// initialize with zero
 		      
-                 // cout << "4 Items are: (" <<pairs_cpu[k1] << "," << pairs_cpu[k1+1] << "," << pairs_cpu[k1+2]<< "," << pairs_cpu[k1+3] << ") "  << endl;
-			k1 +=4;
+                 // cout << "4 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+2]<< "," << pairs_cpu[pairs+3] << ") "  << endl;
+			pairs +=4;
 	}
 	//printC4();
 	
