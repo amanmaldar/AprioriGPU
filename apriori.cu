@@ -386,7 +386,7 @@ void Execute(char *prnt){
 	}
 	   //cout << "two_freq_itemset:      " << two_freq_itemset << endl;
 	//printL2();
-	return;
+	//return;
     //---------------------------------------------------------------------
 	
     //Generate C3
