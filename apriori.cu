@@ -221,9 +221,9 @@ for (int i = 0; i < len_p; i++)
 
 
 
-void Execute(int argc){
+void Execute(int argc, int prnt){
 
-	printing = argv[1]; //decide printing actions
+	printing = prnt; //decide printing actions
 	// Generate C1. Parsing the database generates C1.
 	auto parse_start = chrono::high_resolution_clock::now();
   	parse_database(argc);
@@ -498,7 +498,7 @@ int main(int argc, char **argv){
 
     auto start = chrono::high_resolution_clock::now();
 
-    Execute(argc);
+    Execute(argc, argv[1]);
 
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> el = end - start;
