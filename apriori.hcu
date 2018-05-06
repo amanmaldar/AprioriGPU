@@ -78,16 +78,19 @@ int TID_Transactions = 1;
 double minSupport;
 double minConfidence;
 int number_of_strong_rules=0;
-int printing = 0;
+
 
 int one_freq_itemset=0;
 int two_freq_itemset=0;
 int three_freq_itemset=0;
 int four_freq_itemset=0;
 
-#define maxItemID 8
-#define maxTransactions 6
-//int maxItemID = 8;
+//#define maxItemID 8
+//#define maxTransactions 6
+
+int maxTransactions= 6;
+int maxItemID = 8;
+int printing = 0;
 
 int totalItems;
 
