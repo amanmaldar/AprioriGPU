@@ -223,6 +223,7 @@ for (int i = 0; i < len_p; i++)
 
 void Execute(int argc){
 
+	printing = argv[1]; //decide printing actions
 	// Generate C1. Parsing the database generates C1.
 	auto parse_start = chrono::high_resolution_clock::now();
   	parse_database(argc);
@@ -301,7 +302,7 @@ void Execute(int argc){
 			k1+=2;
 		}
 	}
-	cout << "pairs size is: " << sizeof(pairs_cpu) << " k1: " << k1 <<endl;
+	//cout << "pairs size is: " << sizeof(pairs_cpu) << " k1: " << k1 <<endl;
 
 	//pairs_cpu = new int[k1];		// 72 this is large in size but we copy only required size of bytes
 	//pairs_cpu_count = new int[k1/2];		// 36 this is large in size but we copy only required size of bytes
@@ -502,14 +503,15 @@ int main(int argc, char **argv){
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> el = end - start;
 	
-/*	printL1();
+	if (printing == 1){
+	printL1();
 	printC2();
 	printL2();
 	printL3();
 	printC3();
 	printL4();
 	printC4();
-	*/
+	}
 	
 	cout<<"Database Parsing time:    " << parse_el.count() * 1000 << " mS " << endl;
     cout<<"Total execution time:     " << el.count() * 1000 << " mS " << endl;
