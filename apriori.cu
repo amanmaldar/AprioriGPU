@@ -22,13 +22,13 @@ Data: (6entries.txt)
 //----------------------------------------------------------------------------
 chrono::duration<double> parse_el;
 
-__global__ void find4_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count) {
+__global__ void find4_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
 
 int tid = blockIdx.x;
 __shared__ int smem1[128];  
 __shared__ int smem2[128];
 
-while (tid < 13) 	//36
+while (tid < *threads_d) 	//13
 {	
 pairs_device_count[tid] = 0;
 int p = pairs_device[tid*4];
@@ -103,12 +103,12 @@ for (int i = 0; i < pairs; i++)
 } // end kernel function
 
 //----------------------------------------------------------------------------
-__global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count) {
+__global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
 
 int tid = blockIdx.x;
 __shared__ int smem[128];  
 
-while (tid < 28) 	//36
+while (tid < *threads_d) 	//28
 {	
 pairs_device_count[tid] = 0;
 int p = pairs_device[tid*3];
@@ -412,7 +412,7 @@ void Execute(char *prnt){
 	*threads_cpu = pairs_return;
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 
-	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
+	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
 
 	for (int i =0 ; i < pairs_return; i++){
@@ -483,7 +483,7 @@ void Execute(char *prnt){
 	*threads_cpu = pairs_return;
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 
-	find4_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
+	find4_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);	// 13 pairs
 
 	for (int i =0 ; i < pairs_return; i++){
