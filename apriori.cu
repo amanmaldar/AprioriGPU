@@ -226,7 +226,7 @@ void Execute(int argc, char *prnt){
 	//printing = int(*prnt); 	//decide printing actions
 	// Generate C1. Parsing the database generates C1.
 	auto parse_start = chrono::high_resolution_clock::now();
-  	parse_database(argc);
+  	parse_database();
     auto parse_end = chrono::high_resolution_clock::now();
      parse_el = parse_end - parse_start;
   	
