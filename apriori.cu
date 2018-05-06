@@ -277,17 +277,18 @@ void Execute(char *prnt){
 	cudaMemcpy (B_device, B_cpu, sizeof (int) * sizeof_Bdevice, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
 
 	
-		int *pairs_device;
+	int *pairs_device;
 	int *pairs_device_count;
-
-	int *threads_cpu = (int *) malloc (sizeof(int));
 	int *threads_d;
+	
+	int *threads_cpu = (int *) malloc (sizeof(int));
+	
 	cudaMalloc ((void **) &threads_d, sizeof (int));
 	
-	
+	// allocate latge memory on CPU
 	int *pairs_cpu, *pairs_cpu_count;
-	cudaMalloc ((void **) &pairs_device, sizeof (int) * 50000);		// 72 this is large in size but we copy only required size of bytes
-    	cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 50000);	// 36 // this is large in size but we copy only required size of bytes
+	cudaMalloc ((void **) &pairs_device, sizeof (int) * 50000);		
+    cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 50000);
 
 	//*********************************************************************8
 //-----------------------------------------------------------------------------------------------------------
@@ -317,6 +318,7 @@ void Execute(char *prnt){
 
 
 	int pairs = 0;
+	int sizeof_pairs = 0;
 	for (int i = 1; i < L1.size() -1; i++)     //-1 is done for eliminating first entry from L1 [1]
 	{
 		for (int j = i+1; j < L1.size(); j++) {
@@ -328,9 +330,7 @@ void Execute(char *prnt){
 	}
 	//cout << "pairs size is: " << sizeof(pairs_cpu) << " pairs: " << pairs <<endl;
 
-	
-	///pairs_cpu = new int[pairs];		
-	//pairs_cpu_count = new int[pairs];
+	sizeof_pairs = pairs;
 	pairs = 0;
 	for (auto i = C2.begin(); i < C2.end(); i++) {
 			pairs_cpu[pairs] = i -> a;
@@ -340,40 +340,20 @@ void Execute(char *prnt){
 			pairs+=2;
 	}
 	 //printC2();
-	
-	//-----------------------------------------------------------------------------------------------------------
-	
-	// next - PASS THIS ARRAY TO GPU AND LET DIFFERENT THREADS WORK ON DIFFERENT PAIRS
-	//int *A_device; //device storage pointers
-	//int *B_device;
-	///int *pairs_device;
-	//int *pairs_device_count;
 
-	//int *threads_cpu = (int *) malloc (sizeof(int));
-	//int *threads_d;
-	//cudaMalloc ((void **) &threads_d, sizeof (int));
-	
-	//int sizeof_Bdevice = maxItemID + 1+1;	//10		//global
-	int sizeof_pairs = pairs;
-	
-   // cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
-   // cudaMalloc ((void **) &B_device, sizeof (int) * sizeof_Bdevice); // maxItemID+1+1 (index of extra element to terminate looping in kernel) = 10
-
-    //cudaMemcpy (A_device, A_cpu, sizeof (int) * totalItems, cudaMemcpyHostToDevice);
-   // cudaMemcpy (B_device, B_cpu, sizeof (int) * sizeof_Bdevice, cudaMemcpyHostToDevice);	//maxItemID+1+1 =10
-	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	// COPY PAIRS 72
-
-	
-	int numberOfBlocks = pairs/2; //36
+	int numberOfBlocks = sizeof_pairs/2; //36
 	int threadsInBlock = 1;
-	int pairs_return = pairs/2;
+	int pairs_return = sizeof_pairs/2;
 	*threads_cpu = pairs_return;
+	
+	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	// COPY PAIRS 72	
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 
 	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count, threads_d );
 	
     cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
 	
+	//Generate L2
 	for (int i =0 ; i < pairs/2; i++){	//36	pairs = 72
 		if (pairs_cpu_count[i] >= 1) {
 			//cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
@@ -386,7 +366,7 @@ void Execute(char *prnt){
 	}
 	   //cout << "two_freq_itemset:      " << two_freq_itemset << endl;
 	//printL2();
-	//return;
+
     //---------------------------------------------------------------------
 	
     //Generate C3
@@ -406,6 +386,7 @@ void Execute(char *prnt){
                     threeStruct.c = it1->b;
                     threeStruct.freq = 0;
                     C3.push_back(threeStruct);
+					pairs +=3;
             }	// if end
 	 		else
                break;  // break internal for loop once base is not same as first entry in next pair. Increment *it
@@ -417,6 +398,7 @@ void Execute(char *prnt){
 	//pairs_cpu_count = new int[pairs/3];		// 36 this is large in size but we copy only required size of bytes
 		//pairs_cpu = new int[pairs];		
 	//pairs_cpu_count = new int[pairs];
+	sizeof_pairs = pairs;
 	pairs = 0;
 	for (auto i = C3.begin(); i < C3.end(); i++) {
 			pairs_cpu[pairs] = i -> a;
@@ -425,14 +407,14 @@ void Execute(char *prnt){
 		    pairs_cpu_count[pairs/3] = 0;	// initialize with zero
 		    
             cout << "3 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+3]<< ") "  << endl;	// 28 total
-     		pairs +=3;
+     		//pairs +=3;
 	}
 	//printC3();
 	
 	sizeof_pairs = pairs; //84
 	numberOfBlocks = sizeof_pairs/3; //84/3
 	threadsInBlock = 1;
-	pairs_return = pairs/3;
+	pairs_return = sizeof_pairs/3;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//28*3 pairs
 	
 	*threads_cpu = pairs_return;
@@ -478,12 +460,13 @@ void Execute(char *prnt){
                   fourStruct.d = it3->c;
                   fourStruct.freq =0;
                   C4.push_back(fourStruct);
+				  pairs +=4;
 		      
               } // end if
         } // end inner for
     }// end outer for
 	
-
+	sizeof_pairs = pairs;
 	pairs = 0;
 	for (auto i = C4.begin(); i < C4.end(); i++) {
 			       pairs_cpu[pairs] = i->a;
@@ -493,16 +476,15 @@ void Execute(char *prnt){
 		    pairs_cpu_count[pairs/4] = 0;	// initialize with zero
 		      
                  // cout << "4 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+2]<< "," << pairs_cpu[pairs+3] << ") "  << endl;
-			pairs +=4;
+			
 	}
 	//printC4();
-	pairs_cpu = new int[pairs];		
-	pairs_cpu_count = new int[pairs];
+	
 	
 	sizeof_pairs = pairs;
 	numberOfBlocks = sizeof_pairs/4;
 	threadsInBlock = 1;
-	pairs_return = pairs/4;
+	pairs_return = sizeof_pairs/4;
 
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//13*4 pairs
 	
