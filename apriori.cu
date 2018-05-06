@@ -473,7 +473,6 @@ void Execute(char *prnt){
 		four_freq_itemset++;
          //cout << "4 Frequent Items are: (" <<pairs_cpu[i*4] << "," <<pairs_cpu[i*4+1] << "," << pairs_cpu[i*4+2]<< "," << pairs_cpu[i*4+3] << ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
 		// L4 .push back
-		four_freq_itemset++;
 	    fourStruct.a = pairs_cpu[i*4];
             fourStruct.b = pairs_cpu[i*4+1];
             fourStruct.c = pairs_cpu[i*4+2];
