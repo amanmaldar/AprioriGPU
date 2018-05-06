@@ -42,6 +42,7 @@ for (auto i = L2.begin(); i != L2.end(); i++){
 			cout << "2 Frequent Items are: (" <<i -> a<< "," << i -> b<< ") Freq is: " << i->freq << endl;
 }
 			cout << "two_freq_itemset:      " << two_freq_itemset << endl;
+			cout << endl;
 
 }
 
