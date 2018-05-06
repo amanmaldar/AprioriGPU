@@ -323,7 +323,7 @@ void Execute(char *prnt){
 	int *pairs_device;
 	int *pairs_device_count;
 	
-	int sizeof_Bdevice = maxItemID + 1+1;	//10
+	int sizeof_Bdevice = maxItemID + 1+1;	//10		//global
 	int sizeof_pairs = pairs;
 	
     cudaMalloc ((void **) &A_device, sizeof (int) * totalItems);
@@ -338,12 +338,13 @@ void Execute(char *prnt){
 	
 	int numberOfBlocks = pairs/2; //36
 	int threadsInBlock = 1;
+	int pairs_return = pairs/2;
 	
 	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
 	
-    cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*36, cudaMemcpyDeviceToHost);
+    cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
 	
-	for (int i =0 ; i < 36; i++){
+	for (int i =0 ; i < pairs/2; i++){	//36	pairs = 72
 		if (pairs_cpu_count[i] >= 1) {
 			//cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
 			twoStruct.a = pairs_cpu[i*2];
@@ -396,14 +397,15 @@ void Execute(char *prnt){
 	}
 	//printC3();
 	
-	
-	numberOfBlocks = 28;
+	sizeof_pairs = pairs; //84
+	numberOfBlocks = sizeof_pairs/3; //84/3
 	threadsInBlock = 1;
-	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 84, cudaMemcpyHostToDevice);	//28*3 pairs
+	pairs_return = pairs/3;
+	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//28*3 pairs
 	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
-        cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*28, cudaMemcpyDeviceToHost);
+        cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
 
-	for (int i =0 ; i < 28; i++){
+	for (int i =0 ; i < pairs_return; i++){
 	if (pairs_cpu_count[i] >= 1) {
           //  cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
 	    three_freq_itemset++;
@@ -461,14 +463,16 @@ void Execute(char *prnt){
 	}
 	//printC4();
 	
-	
-	numberOfBlocks = 13;
+	sizeof_pairs = pairs;
+	numberOfBlocks = sizeof_pairs/4;
 	threadsInBlock = 1;
-	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * 52, cudaMemcpyHostToDevice);	//13*4 pairs
-	find4_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
-        cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*13, cudaMemcpyDeviceToHost);	// 13 pairs
+	pairs_return = pairs/4;
 
-	for (int i =0 ; i < 13; i++){
+	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//13*4 pairs
+	find4_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
+        cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);	// 13 pairs
+
+	for (int i =0 ; i < pairs_return; i++){
 	if (pairs_cpu_count[i] >= 1) {
 		four_freq_itemset++;
          //cout << "4 Frequent Items are: (" <<pairs_cpu[i*4] << "," <<pairs_cpu[i*4+1] << "," << pairs_cpu[i*4+2]<< "," << pairs_cpu[i*4+3] << ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
