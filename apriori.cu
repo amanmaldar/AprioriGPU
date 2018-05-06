@@ -222,6 +222,7 @@ for (int i = 0; i < len_p; i++)
 
 
 void Execute(int argc, char *prnt){
+	cout << "testing: " << *prnt;
 	//printing = int(*prnt); 	//decide printing actions
 	// Generate C1. Parsing the database generates C1.
 	auto parse_start = chrono::high_resolution_clock::now();
@@ -494,11 +495,11 @@ void Execute(int argc, char *prnt){
 
 
 int main(int argc, char **argv){
-	cout <<  argv[0] << argv[1] << argc <<  endl;
+	//cout <<  argv[1] << argv[1] << argc <<  endl;
 
     auto start = chrono::high_resolution_clock::now();
 
-    Execute(argc, argv[1]);
+    Execute(argv[1]);
 
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> el = end - start;
