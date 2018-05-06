@@ -1,4 +1,4 @@
 #!/bin/bash
 
 nvcc apriori.cu -std=c++11 -o apriori
-./apriori a
+#./apriori a

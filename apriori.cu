@@ -500,7 +500,8 @@ void Execute(char *prnt){
 int main(int argc, char **argv){
 	//cout <<  argv[1] << argv[1] << argc <<  endl;
 	
-	int t1 = (int) *argc[1];
+//    char a = argc[]
+	int t1 = (int) *argv[1];
 	printing = t1 - 48;
 	 
 		
