@@ -59,7 +59,7 @@ vector <FourStruct> C4,L4;
 
 
 //-------------------functions------------
-void Execute(int argc, char prnt);
+void Execute(char* prnt);
 void printC1();
 void printC2();
 void printC2();
