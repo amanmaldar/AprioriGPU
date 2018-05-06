@@ -507,10 +507,10 @@ int main(int argc, char **argv){
 	printL1();
 	printC2();
 	printL2();
-	printL3();
 	printC3();
-	printL4();
+	printL3();
 	printC4();
+	printL4();
 	}
 	
 	cout<<"Database Parsing time:    " << parse_el.count() * 1000 << " mS " << endl;
