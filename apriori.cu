@@ -361,9 +361,9 @@ void Execute(char *prnt){
 		    two_freq_itemset++;
 		}
 	}
-	    //cout << "two_freq_itemset:      " << two_freq_itemset << endl;
-	//printL2();
-	
+	   cout << "two_freq_itemset:      " << two_freq_itemset << endl;
+	printL2();
+	return;
     //---------------------------------------------------------------------
 	
     //Generate C3
