@@ -222,7 +222,8 @@ for (int i = 0; i < len_p; i++)
 
 
 void Execute(char *prnt){
-	//printing = (int) *prnt - 48;
+	int t1 = (int) *prnt;
+	printing = t1 - 48;
 
 	cout << "testing: " << *prnt -48 ;
 	//printing = int(*prnt); 	//decide printing actions
