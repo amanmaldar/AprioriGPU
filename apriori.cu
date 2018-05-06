@@ -221,7 +221,7 @@ for (int i = 0; i < len_p; i++)
 
 
 
-void Execute(int argc, char *prnt){
+void Execute(char *prnt){
 	cout << "testing: " << *prnt;
 	//printing = int(*prnt); 	//decide printing actions
 	// Generate C1. Parsing the database generates C1.
