@@ -343,7 +343,7 @@ void Execute(char *prnt){
 	int numberOfBlocks = pairs/2; //36
 	int threadsInBlock = 1;
 	int pairs_return = pairs/2;
-	threads_cpu = pairs_return;
+	*threads_cpu = pairs_return;
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 
 	find2_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count, threads_d );
@@ -409,7 +409,7 @@ void Execute(char *prnt){
 	pairs_return = pairs/3;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//28*3 pairs
 	
-	threads_cpu = pairs_return;
+	*threads_cpu = pairs_return;
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 
 	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
@@ -480,7 +480,7 @@ void Execute(char *prnt){
 
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//13*4 pairs
 	
-	threads_cpu = pairs_return;
+	*threads_cpu = pairs_return;
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 
 	find4_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count );
