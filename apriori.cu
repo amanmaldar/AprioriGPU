@@ -499,14 +499,10 @@ void Execute(char *prnt){
 
 int main(int argc, char **argv){
 	//cout <<  argv[1] << argv[1] << argc <<  endl;
-
+	
 	int t1 = (int) argc[1];
-	t1 = t1 - 48;
-	#undef printing
-	if (t1 == 1){
-    		#define printing 1}
-	else{
-		#define printing 0}
+	printing = t1 - 48;
+	 
 		
 	//printing = 1;
     auto start = chrono::high_resolution_clock::now();
