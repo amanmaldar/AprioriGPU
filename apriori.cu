@@ -485,7 +485,7 @@ void Execute(char *prnt){
 	}
 	//printC4();
 	
-	
+	// no 
 	//sizeof_pairs = pairs;
 	numberOfBlocks = sizeof_pairs/4;
 	threadsInBlock = 1;
