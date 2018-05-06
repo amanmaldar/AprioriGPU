@@ -494,7 +494,7 @@ void Execute(int argc, char *prnt){
 
 
 int main(int argc, char **argv){
-	cout << *prnt << prnt << prnt[0] << prnt[1] << argc <<  endl;
+	cout <<  argv[0] << argv[1] << argc <<  endl;
 
     auto start = chrono::high_resolution_clock::now();
 
