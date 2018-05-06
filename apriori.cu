@@ -20,6 +20,7 @@ Data: (6entries.txt)
 #include "functions.hcu"
 
 //----------------------------------------------------------------------------
+chrono::duration<double> parse_el;
 
 __global__ void find4_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count) {
 
@@ -226,7 +227,7 @@ void Execute(int argc){
 	auto parse_start = chrono::high_resolution_clock::now();
   	parse_database(argc);
     auto parse_end = chrono::high_resolution_clock::now();
-    chrono::duration<double> parse_el = parse_end - parse_start;
+     parse_el = parse_end - parse_start;
   	
 
     int *A_cpu = (int *) malloc (sizeof(int)* totalItems);
@@ -501,13 +502,14 @@ int main(int argc, char **argv){
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> el = end - start;
 	
-	printL1();
+/*	printL1();
 	printC2();
 	printL2();
 	printL3();
 	printC3();
 	printL4();
 	printC4();
+	*/
 	
 	cout<<"Database Parsing time:    " << parse_el.count() * 1000 << " mS " << endl;
     cout<<"Total execution time:     " << el.count() * 1000 << " mS " << endl;
