@@ -113,7 +113,13 @@ int tid = blockIdx.x* blockDim.x+ threadIdx.x;
 
 //int arrayId = threadIdx.x; 
 __shared__ int smem[300];  
-	
+
+int p = pairs_device[tid*3];
+int q = pairs_device[tid*3+1];
+int r = pairs_device[tid*3+2]; 
+int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
+int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
+int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
 	
 
 while (tid < 10) 	//28 *threads_d //32887
@@ -126,13 +132,14 @@ printf("tid kernel new 3: %d, threads_d: %d \n", tid, 	*threads_d);
 
 
 pairs_device_count[tid] = 0;
+	/*
 int p = pairs_device[tid*3];
 int q = pairs_device[tid*3+1];
 int r = pairs_device[tid*3+2]; 
 int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
 int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
-	
+	*/
 
 //int p_offset = B_device[p];
 //int q_offset = B_device[q];
@@ -172,7 +179,7 @@ printf(" tid : %d x, y, z, %d %d %d \n", tid, x, y, z);
 //printf("tid, x, y, z, %d ,%d, %d ,%d \n",tid, A_device[p_offset], A_device[q_offset], A_device[r_offset] );
 	
 // Initialize starting indexes for ar1[], ar2[] and ar3[]
-int i = 0, j = 0, k = 0;
+//int i = 0, j = 0, k = 0;
 //printf("5-9 %d %d %d %d %d \n",A_device[5], A_device[6], A_device[7], A_device[8], A_device[9]);
 //printf("11-14 %d %d %d %d \n",A_device[11], A_device[12], A_device[13], A_device[14]);
 //printf("16-19 %d %d %d %d \n",A_device[16], A_device[17], A_device[18], A_device[19]);
