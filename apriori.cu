@@ -122,7 +122,7 @@ int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
 	
 
-while (tid < 1) 	//28 *threads_d //32887
+while (tid <  *threads_d ) 	//28 *threads_d //32887
 {	
 printf("tid kernel no new 3: %d, threads_d: %d \n", tid, 	*threads_d);
 //printf("hello from device \n");
@@ -209,7 +209,7 @@ for (int i =0; i <len_p; i++)
 //printf("tid, x, y, z, %d ,%d, %d ,%d \n",tid, A_device[p_offset], A_device[q_offset], A_device[r_offset] );
 	
 // Initialize starting indexes for ar1[], ar2[] and ar3[]
-//int i = 0, j = 0, k = 0;
+int i = 0, j = 0, k = 0;
 //printf("5-9 %d %d %d %d %d \n",A_device[5], A_device[6], A_device[7], A_device[8], A_device[9]);
 //printf("11-14 %d %d %d %d \n",A_device[11], A_device[12], A_device[13], A_device[14]);
 //printf("16-19 %d %d %d %d \n",A_device[16], A_device[17], A_device[18], A_device[19]);
@@ -549,9 +549,9 @@ void Execute(char *prnt){
 	numberOfBlocks = 128;
 	threadsInBlock = 128;
 	pairs_return = sizeof_pairs/3;
-	pairs_cpu[0] = 2;
-	pairs_cpu[1] = 3;
-	pairs_cpu[2] = 4;
+	//pairs_cpu[0] = 2;
+	//pairs_cpu[1] = 3;
+	//pairs_cpu[2] = 4;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//28*3 pairs
 	
 	*threads_cpu = pairs_return;
