@@ -119,10 +119,93 @@ while (tid < *threads_d) 	//28 *threads_d //32887
 //printf("tid kernel new 3: %d, threads_d: %d \n", tid, 	threads_d);
 //printf("hello from device \n");
 	//printf("tid kernel new 3: %d, \n", tid);
-printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
-/**888888
-*////////////////////////////////
-	tid += 50; // *threads_d; //28
+//printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
+///**888888
+
+
+pairs_device_count[tid] = 0;
+int p = pairs_device[tid*3];
+int q = pairs_device[tid*3+1];
+int r = pairs_device[tid*3+2]; 
+int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
+int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
+int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
+	
+//int p_offset = 11;
+//int q_offset = 21;
+int p_offset = B_device[p];
+int q_offset = B_device[q];
+int r_offset = B_device[r];
+
+printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
+//printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
+//printf("tid, x, y, z, %d ,%d, %d ,%d \n",tid, A_device[p_offset], A_device[q_offset], A_device[r_offset] );
+	
+// Initialize starting indexes for ar1[], ar2[] and ar3[]
+int i = 0, j = 0, k = 0;
+//printf("5-9 %d %d %d %d %d \n",A_device[5], A_device[6], A_device[7], A_device[8], A_device[9]);
+//printf("11-14 %d %d %d %d \n",A_device[11], A_device[12], A_device[13], A_device[14]);
+//printf("16-19 %d %d %d %d \n",A_device[16], A_device[17], A_device[18], A_device[19]);
+// Iterate through three arrays while all arrays have elements
+int x,y,z;
+	printf("tid: %d, x: ", tid);
+	while(i < len_p){
+	 x=A_device[p_offset+i] ;
+	printf(" %d", x);
+	i++;
+	} printf("\n");
+	
+	printf("tid: %d, y: ", tid);
+	while(j < len_q){
+	 y=A_device[q_offset+j] ;
+	printf(" %d", y);
+	j++;
+	} printf("\n");
+	
+	printf("tid: %d, z: ", tid);
+	while(k < len_r){
+	 z =A_device[r_offset+k];
+	printf(" %d", z);
+	k++;
+	} printf("\n");
+	
+	
+/*while (i < len_p && j < len_q && k < len_r)
+{
+ // If x = y and y = z, print any of them and move ahead 
+ // in all arrays
+	//printf(" i, j, k, %d %d %d \n",  i, j, k);
+ //printf("x, y, z, %d, %d ,%d \n",A_device[p_offset+i], A_device[q_offset+j], A_device[r_offset+k] );
+	int x=A_device[p_offset+i] ;
+	int y=A_device[q_offset+j] ;
+	int z =A_device[r_offset+k];
+ if (x== y&& y == z)
+ { //  cout << ar1[i] << " ";  
+	 //printf("common is: %d \n",A_device[p_offset+i] );
+  pairs_device_count[tid] += 1;
+	 __syncthreads();
+  i++; j++; k++; 
+	 
+ }
+
+ // x < y
+ else if (x < y)
+     i++;
+
+ // y < z
+ else if (y < z)
+     j++;
+
+ // We reach here when x > y and z < y, i.e., z is smallest
+ else
+     k++;
+}	*/
+
+
+
+
+//*////////////////////////////////
+	tid += blockDim.x; // *threads_d; //28
 } // end while
 } // end kernel function
 
