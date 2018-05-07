@@ -111,7 +111,7 @@ int tid = blockIdx.x * blockDim.x + threadIdx.x;
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
 
-while (tid < *threads_d) 	//28 *threads_d //32887
+while (tid < 28) 	//28 *threads_d //32887
 {	
 pairs_device_count[tid] = 0;
 int p = pairs_device[tid*3];
