@@ -109,7 +109,7 @@ int tid = blockIdx.x;
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
 
-while (tid < 20) 	//28 *threads_d
+while (tid < *threads_d) 	//28 *threads_d
 {	
 pairs_device_count[tid] = 0;
 int p = pairs_device[tid*3];
@@ -439,7 +439,7 @@ void Execute(char *prnt){
 	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
 
-	for (int i =0 ; i < pairs_return; i++){
+	for (int i =0 ; i < 20; i++){	//pairs_return =20
 	if (pairs_cpu_count[i] >= 1) {
           //  cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
 	    three_freq_itemset++;
@@ -451,7 +451,7 @@ void Execute(char *prnt){
 	}
 	}
 	cout << "three_freq_itemset:    " << three_freq_itemset << endl << "\n";
-	
+	 return;
 	//printL3();
     //******************************************************************************************************************
 
@@ -531,7 +531,7 @@ void Execute(char *prnt){
 	
 	
 	
-    return;
+   
     
    
 }   // end Execute
