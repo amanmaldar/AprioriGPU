@@ -122,7 +122,7 @@ int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
 	
 
-while (tid < 4) 	//28 *threads_d //32887
+while (tid < 1) 	//28 *threads_d //32887
 {	
 printf("tid kernel no new 3: %d, threads_d: %d \n", tid, 	*threads_d);
 //printf("hello from device \n");
@@ -147,10 +147,10 @@ int p_offset = B_device[p];
 
 //--------------- copy data into shared memory--------------------------
 for (int i =0; i <len_p; i++)
-{
-	smem[300*tid + i] = tid; // A_device[p_offset+i];
+{	int aa = 300*tid + i;
+	smem[aa] = tid; // A_device[p_offset+i];
 	//smem[tid*300+i] = tid; //A_device[p_offset+i];
-	//__syncthreads();
+	__syncthreads();
 }
 /*
 for (int i =0; i <len_q; i++)
@@ -167,9 +167,10 @@ for (int i =0; i <len_r; i++)
 */
 int x,y,z;
 	//printf("tid world %d , x:",tid);
-		x=smem[tid*300] ;
-	y=smem[tid*300+1] ;
-	z =smem[tid*300+2];
+	int bb = tid*300;
+		x=smem[bb] ;
+	y=smem[bb+1] ;
+	z =smem[bb+2];
 printf(" tid world : %d x, y, z, %d %d %d \n", tid, x, y, z);
 	
 /*	
