@@ -139,8 +139,11 @@ while (i < len_p && j < len_q && k < len_r)
  printf("x, y, z, %d, %d ,%d \n",pairs_device[p_offset+i], pairs_device[q_offset+j], pairs_device[r_offset+k] );
  if (pairs_device[p_offset+i] == pairs_device[q_offset+j] && pairs_device[q_offset+j] == pairs_device[r_offset+k])
  { //  cout << ar1[i] << " ";  
+	 printf("common is: %d",pairs_device[p_offset+i] );
   pairs_device_count[tid] += 1;
-  i++; j++; k++; }
+  i++; j++; k++; 
+	 
+ }
 
  // x < y
  else if (pairs_device[p_offset+i] < pairs_device[q_offset+j])
