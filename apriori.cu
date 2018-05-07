@@ -114,7 +114,7 @@ int tid = blockIdx.x * blockDim.x + threadIdx.x;
 
 while (tid < *threads_d) 	//28 *threads_d //32887
 {	
-printf("tid kernel 3: %d \n", tid);
+printf("tid kernel 3: %d blockDim.x: %d  threadIdx.x: %d blockIdx.x: %d \n", tid, blockDim.x, threadIdx.x, blockIdx.x);
 /**888888
 *////////////////////////////////
 	tid += blockDim.x; // *threads_d; //28
