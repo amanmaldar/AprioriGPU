@@ -122,7 +122,7 @@ int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
 	
 
-while (tid < 1) 	//28 *threads_d //32887
+while (tid < 4) 	//28 *threads_d //32887
 {	
 printf("tid kernel new 3: %d, threads_d: %d \n", tid, 	*threads_d);
 //printf("hello from device \n");
@@ -152,7 +152,7 @@ for (int i =0; i <len_p; i++)
 	//smem[tid*300+i] = tid; //A_device[p_offset+i];
 	//__syncthreads();
 }
-/*
+
 for (int i =0; i <len_q; i++)
 {
 	smem[tid*300+100 +i] = tid*2; // A_device[q_offset+i];
@@ -164,13 +164,20 @@ for (int i =0; i <len_r; i++)
 	smem[tid*300+200+ i] = tid*3;//A_device[r_offset+i];
 //	__syncthreads();
 }
-*/
-int x,y,z;
 
-	x=smem[0] ;
-	y=smem[1] ;
-	z =smem[2];
-printf(" tid : %d x, y, z, %d %d %d \n", tid, x, y, z);
+int x,y,z;
+	cout << " tid:" << tid << "x: ";
+for (int i =0; i <len_p; i++)
+{
+	cout << smem[300*tid + i];
+	//smem[tid*300+i] = tid; //A_device[p_offset+i];
+	//__syncthreads();
+}
+	
+	//x=smem[0] ;
+	//y=smem[1] ;
+	//z =smem[2];
+//printf(" tid : %d x, y, z, %d %d %d \n", tid, x, y, z);
 	
 	
 	
