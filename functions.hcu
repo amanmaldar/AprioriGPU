@@ -24,7 +24,7 @@ void printL1(){
 				cout << "1 Frequent Item is: (" << i << ") Freq is: " << C1[i] << endl; 
 		}
 	}
-		    cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n";
+		    //cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n";
 
 }
 
@@ -41,7 +41,7 @@ void printL2(){
 for (auto i = L2.begin(); i != L2.end(); i++){
 			cout << "2 Frequent Items are: (" <<i -> a<< "," << i -> b<< ") Freq is: " << i->freq << endl;
 }
-			cout << "two_freq_itemset:      " << two_freq_itemset << endl;
+			//cout << "two_freq_itemset:      " << two_freq_itemset << endl;
 			cout << endl;
 
 }
@@ -59,7 +59,7 @@ void printL3(){
 for (auto i = L3.begin(); i != L3.end(); i++){
 			cout << "3 Frequent Items are: (" <<i -> a<< "," << i -> b<< "," << i->c << ") Freq is: " << i->freq << endl;
 }
-	cout << "three_freq_itemset:    " << three_freq_itemset << endl << "\n";
+	//cout << "three_freq_itemset:    " << three_freq_itemset << endl << "\n";
 
 
 }
@@ -76,7 +76,7 @@ void printL4(){
 for (auto i = L4.begin(); i != L4.end(); i++){
 			cout << "4 Frequent Items are: (" <<i -> a<< "," << i -> b<< "," << i->c << "," << i->d << ") Freq is: " << i->freq << endl;
 }
-	cout << "four_freq_itemset:    " << four_freq_itemset << endl << "\n";
+	//cout << "four_freq_itemset:    " << four_freq_itemset << endl << "\n";
 
 
 }
