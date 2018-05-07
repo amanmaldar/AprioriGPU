@@ -141,11 +141,11 @@ while (i < len_p && j < len_q && k < len_r)
   i++; j++; k++; }
 
  // x < y
- else if (pairs_device[p_offset+i] < pairs_device[p_offset+j])
+ else if (pairs_device[p_offset+i] < pairs_device[q_offset+j])
      i++;
 
  // y < z
- else if (pairs_device[p_offset+j] < pairs_device[p_offset+k])
+ else if (pairs_device[q_offset+j] < pairs_device[r_offset+k])
      j++;
 
  // We reach here when x > y and z < y, i.e., z is smallest
