@@ -119,7 +119,7 @@ int len_q = B_device[q+1] - B_device[q] - 1;
 int len_r = B_device[r+1] - B_device[r] - 1; 
 //pairs_device_count[tid] = 0;
 
-__shared__ int8_t pairs_device_count_smem[30000];  
+__shared__ int pairs_device_count_smem[30000];  
 
 
 while (tid <   *threads_d) 	//28 *threads_d //32887
