@@ -109,7 +109,7 @@ int tid = blockIdx.x;
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
 
-while (tid == 6) 	//28 *threads_d
+while (tid < 1) 	//28 *threads_d
 {	
 pairs_device_count[tid] = 0;
 int p = pairs_device[tid*3];
@@ -420,6 +420,9 @@ void Execute(char *prnt){
 	numberOfBlocks = sizeof_pairs/3; //84/3
 	threadsInBlock = 1;
 	pairs_return = sizeof_pairs/3;
+	pairs_cpu[0] = 2;
+	pairs_cpu[1] = 3;
+	pairs_cpu[2] = 4;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//28*3 pairs
 	
 	*threads_cpu = pairs_return;
