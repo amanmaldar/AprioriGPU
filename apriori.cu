@@ -131,7 +131,7 @@ printf("tid kernel new 3: %d, threads_d: %d \n", tid, 	*threads_d);
 ///**888888
 
 
-pairs_device_count[tid] = 0;
+//pairs_device_count[tid] = 0;
 	/*
 int p = pairs_device[tid*3];
 int q = pairs_device[tid*3+1];
@@ -148,7 +148,8 @@ int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
 //--------------- copy data into shared memory--------------------------
 for (int i =0; i <len_p; i++)
 {
-	smem[tid*300+i] = tid; //A_device[p_offset+i];
+	smem[i] = tid;
+	//smem[tid*300+i] = tid; //A_device[p_offset+i];
 	//__syncthreads();
 }
 /*
@@ -166,9 +167,9 @@ for (int i =0; i <len_r; i++)
 */
 int x,y,z;
 
-	x=smem[tid*300] ;
-	y=smem[tid*300+1] ;
-	z =smem[tid*300+2];
+	x=smem[i] ;
+	y=smem[i+1] ;
+	z =smem[i+2];
 printf(" tid : %d x, y, z, %d %d %d \n", tid, x, y, z);
 	
 	
