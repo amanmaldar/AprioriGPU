@@ -117,14 +117,14 @@ int r = pairs_device[tid*3+2];
 int len_p = B_device[p+1] - B_device[p] - 1; 
 int len_q = B_device[q+1] - B_device[q] - 1; 
 int len_r = B_device[r+1] - B_device[r] - 1; 
-//pairs_device_count[tid] = 0;
+pairs_device_count[tid] = 0;
 
 __shared__ int8_t pairs_device_count_smem[30000];  
 
 
 while (tid <   *threads_d) 	//28 *threads_d //32887
 {	
-pairs_device_count_smem[tid] = 0;
+//pairs_device_count_smem[tid] = 0;
 
 int p_offset = B_device[p];
 int q_offset = B_device[q];
@@ -172,8 +172,8 @@ while (i < len_p && j < len_q && k < len_r)
 
  if (x== y&& y == z)
  { 
-	 //pairs_device_count[tid] += 1;
-	 pairs_device_count_smem[tid] += 1;
+	 pairs_device_count[tid] += 1;
+	 //pairs_device_count_smem[tid] += 1;
 	 __syncthreads();
   i++; j++; k++; 
 	 
@@ -192,7 +192,7 @@ while (i < len_p && j < len_q && k < len_r)
      k++;
 }	
 
-	 pairs_device_count[tid] = pairs_device_count_smem[tid];
+	// pairs_device_count[tid] = pairs_device_count_smem[tid];
 
 
 	tid += blockDim.x; // *threads_d; //28
