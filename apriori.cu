@@ -144,12 +144,13 @@ while (i < len_p && j < len_q && k < len_r)
 	//printf(" i, j, k, %d %d %d \n",  i, j, k);
  //printf("x, y, z, %d, %d ,%d \n",A_device[p_offset+i], A_device[q_offset+j], A_device[r_offset+k] );
 	int x=A_device[p_offset+i] ;
-		int y=A_device[q_offset+j] ;
-		int z =A_device[r_offset+k];
+	int y=A_device[q_offset+j] ;
+	int z =A_device[r_offset+k];
  if (x== y&& y == z)
  { //  cout << ar1[i] << " ";  
 	 //printf("common is: %d \n",A_device[p_offset+i] );
   pairs_device_count[tid] += 1;
+	 __syncthreads();
   i++; j++; k++; 
 	 
  }
