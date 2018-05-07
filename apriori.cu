@@ -106,7 +106,8 @@ for (int i = 0; i < pairs; i++)
 __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
 
 int tid = blockIdx.x;
-__shared__ int smem[500];  
+int arrayId = threadIdx.x; 
+__shared__ int smem[3];  
 
 while (tid < *threads_d) 	//28
 {	
@@ -124,35 +125,33 @@ int p_offset = B_device[p];
 int q_offset = B_device[q];
 int r_offset = B_device[r];
 
-int k = 0;
-for (int i = 0; i < len_p; i++) 
-{
-	int x = A_device[p_offset+i];		// without shared memory	
-	int y = 0;
-		for (int j = 0; j < len_q; j++)
-		{	
-			y = A_device[q_offset+j];		// without shared memory		
-			if (x == y)
-			{	
-				smem[k] = x;
-				k += 1;
-			}
-		} // end inner for 
-} // end outer for
+	
+// Initialize starting indexes for ar1[], ar2[] and ar3[]
+int i = 0, j = 0, k = 0;
 
-for (int i = 0; i < len_r; i++) 
+// Iterate through three arrays while all arrays have elements
+while (i < len_p && j < len_q && k < len_r)
 {
-	int x = A_device[r_offset+i];		// without shared memory	
-	int y = 0;
-		for (int j = 0; j < k; j++)
-		{	
-			y = smem[j];		// without shared memory		
-			if (x == y)
-			{	
-				pairs_device_count[tid] += 1;	
-			}
-		} // end inner for 
-} // end outer for
+ // If x = y and y = z, print any of them and move ahead 
+ // in all arrays
+ if (pairs_device[p_offset+i] == pairs_device[q_offset+j] && pairs_device[r_offset+j] == ar3[k])
+ { //  cout << ar1[i] << " ";  
+  pairs_device_count[tid] += 1;
+  i++; j++; k++; }
+
+ // x < y
+ else if (pairs_device[i] < pairs_device[j])
+     i++;
+
+ // y < z
+ else if (pairs_device[j] < pairs_device[k])
+     j++;
+
+ // We reach here when x > y and z < y, i.e., z is smallest
+ else
+     k++;
+}	
+
 
 	tid += *threads_d; //28
 } // end while
@@ -418,7 +417,7 @@ void Execute(char *prnt){
 	
 	sizeof_pairs = pairs; //84
 	numberOfBlocks = sizeof_pairs/3; //84/3
-	threadsInBlock = 1;
+	threadsInBlock = 3;
 	pairs_return = sizeof_pairs/3;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//28*3 pairs
 	
@@ -499,6 +498,7 @@ void Execute(char *prnt){
 
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 
+	return;
 	find4_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);	// 13 pairs
 
