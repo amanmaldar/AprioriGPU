@@ -106,10 +106,10 @@ for (int i = 0; i < pairs; i++)
 __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
 
 int tid = blockIdx.x;
-int arrayId = threadIdx.x; 
+//int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
 
-while (tid < *threads_d) 	//28
+while (tid < *threads_d) 	//28 *threads_d
 {	
 pairs_device_count[tid] = 0;
 int p = pairs_device[tid*3];
@@ -134,7 +134,8 @@ while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
  // in all arrays
- if (pairs_device[p_offset+i] == pairs_device[q_offset+j] && pairs_device[r_offset+j] == pairs_device[k])
+ //printf("x, y, z, %d, %d ,%d", )
+ if (pairs_device[p_offset+i] == pairs_device[q_offset+j] && pairs_device[q_offset+j] == pairs_device[r_offset+k])
  { //  cout << ar1[i] << " ";  
   pairs_device_count[tid] += 1;
   i++; j++; k++; }
