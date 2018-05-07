@@ -112,7 +112,7 @@ __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_d
 int tid = blockIdx.x* blockDim.x+ threadIdx.x; 
 
 //int arrayId = threadIdx.x; 
-__shared__ int smem[300];  
+__shared__ int smem[3000];  
 
 int p = pairs_device[tid*3];
 int q = pairs_device[tid*3+1];
