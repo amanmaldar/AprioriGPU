@@ -111,7 +111,7 @@ int tid = blockIdx.x * blockDim.x + threadIdx.x;
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
 
-while (tid < 32887) 	//28 *threads_d
+while (tid < 10) 	//28 *threads_d //32887
 {	
 pairs_device_count[tid] = 0;
 int p = pairs_device[tid*3];
@@ -434,8 +434,8 @@ void Execute(char *prnt){
 	sizeof_pairs = pairs; //84
 	//numberOfBlocks = sizeof_pairs/3; //84/3
 	//threadsInBlock = 1;
-	numberOfBlocks = pairs/1024;
-	threadsInBlock = 1024;
+	numberOfBlocks = pairs/128;
+	threadsInBlock = 128;
 	pairs_return = sizeof_pairs/3;
 	//pairs_cpu[0] = 2;
 	//pairs_cpu[1] = 3;
