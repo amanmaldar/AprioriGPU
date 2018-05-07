@@ -543,10 +543,10 @@ int main(int argc, char **argv){
 	printC4();
 	printL4();
 	}
-    cout << "one_freq_itemset:      " << one_freq_itemset << endl << "\n";
-    cout << "two_freq_itemset:      " << two_freq_itemset << endl << "\n";
-    cout << "three_freq_itemset:      " << three_freq_itemset << endl << "\n";
-    cout << "four_freq_itemset:      " << four_freq_itemset << endl << "\n";
+    cout << "one_freq_itemset:      " << one_freq_itemset  << "\n";
+    cout << "two_freq_itemset:      " << two_freq_itemset  << "\n";
+    cout << "three_freq_itemset:      " << three_freq_itemset  << "\n";
+    cout << "four_freq_itemset:      " << four_freq_itemset  << "\n";
 
 	
 	cout<<"Database Parsing time:    " << parse_el.count() * 1000 << " mS " << endl;
