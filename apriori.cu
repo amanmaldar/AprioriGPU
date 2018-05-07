@@ -112,7 +112,7 @@ __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_d
 int tid = blockIdx.x* blockDim.x+ threadIdx.x; 
 
 //int arrayId = threadIdx.x; 
-__shared__ int smem[3000];  
+__shared__ int smem[48000];  
 
 int p = pairs_device[tid*3];
 int q = pairs_device[tid*3+1];
@@ -148,11 +148,11 @@ int p_offset = B_device[p];
 //--------------- copy data into shared memory--------------------------
 for (int i =0; i <len_p; i++)
 {	int aa = 300*tid + i;
-	smem[aa] = tid; // A_device[p_offset+i];
+	smem[aa] =  A_device[p_offset+i];
 	//smem[tid*300+i] = tid; //A_device[p_offset+i];
 //	__syncthreads();
 }
-/*
+
 for (int i =0; i <len_q; i++)
 {
 	smem[tid*300+100 +i] = tid*2; // A_device[q_offset+i];
@@ -164,22 +164,24 @@ for (int i =0; i <len_r; i++)
 	smem[tid*300+200+ i] = tid*3;//A_device[r_offset+i];
 //	__syncthreads();
 }
-*/
+
 int x,y,z;
 	//printf("tid world %d , x:",tid);
-	int bb = tid*300;
+/*	int bb = tid*300;
 		x=smem[bb] ;
 	y=smem[bb+1] ;
 	z =smem[bb+2];
 printf(" tid world : %d x, y, z, %d %d %d \n", tid, x, y, z);
+*/
 	
-/*	
+printf("tid world %d , x:",tid);
+	
 for (int i =0; i <len_p; i++)
 {
 	printf("%d ", smem[300*tid + i]);
 	//smem[tid*300+i] = tid; //A_device[p_offset+i];
 	//__syncthreads();
-}*/
+}
 	
 	//x=smem[0] ;
 	//y=smem[1] ;
