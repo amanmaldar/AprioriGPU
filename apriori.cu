@@ -176,7 +176,7 @@ while (i < len_p && j < len_q && k < len_r)
  { 
 	 pairs_device_count[tid] += 1;
 	 //pairs_device_count_smem[tid] += 1;
-	 __syncthreads();
+	// __syncthreads();
   i++; j++; k++; 
 	 
  }
