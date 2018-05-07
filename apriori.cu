@@ -109,10 +109,10 @@ for (int i = 0; i < pairs; i++)
 __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
 
 int tid = blockIdx.x* blockDim.x+ threadIdx.x; 
-__shared__ int8_t smem[10000];  
+__shared__ int8_t smem[40000];  
 	
 
-__shared__ int8_t pairs_device_count_smem[30000];  
+//__shared__ int8_t pairs_device_count_smem[30000];  
 
 
 while (tid <   *threads_d) 	//28 *threads_d //32887
