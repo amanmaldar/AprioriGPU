@@ -150,7 +150,7 @@ for (int i =0; i <len_p; i++)
 {	int aa = 300*tid + i;
 	smem[aa] = tid; // A_device[p_offset+i];
 	//smem[tid*300+i] = tid; //A_device[p_offset+i];
-	__syncthreads();
+//	__syncthreads();
 }
 /*
 for (int i =0; i <len_q; i++)
