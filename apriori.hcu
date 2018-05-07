@@ -89,7 +89,7 @@ int four_freq_itemset=0;
 //#define maxTransactions 6
 
 int maxTransactions= 1000;   //6
-int maxItemID = 199;  //8
+int maxItemID = 200;  //8
 int printing = 0;
 
 int totalItems;
