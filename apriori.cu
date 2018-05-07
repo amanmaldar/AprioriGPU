@@ -109,7 +109,7 @@ int tid = blockIdx.x;
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
 
-while (tid < 1) 	//28 *threads_d
+while (tid < *threads_d) 	//28 *threads_d
 {	
 pairs_device_count[tid] = 0;
 int p = pairs_device[tid*3];
@@ -129,19 +129,19 @@ int r_offset = B_device[r];
 
 // Initialize starting indexes for ar1[], ar2[] and ar3[]
 int i = 0, j = 0, k = 0;
-printf("5-9 %d %d %d %d %d \n",A_device[5], A_device[6], A_device[7], A_device[8], A_device[9]);
-printf("11-14 %d %d %d %d \n",A_device[11], A_device[12], A_device[13], A_device[14]);
-printf("16-19 %d %d %d %d \n",A_device[16], A_device[17], A_device[18], A_device[19]);
+//printf("5-9 %d %d %d %d %d \n",A_device[5], A_device[6], A_device[7], A_device[8], A_device[9]);
+//printf("11-14 %d %d %d %d \n",A_device[11], A_device[12], A_device[13], A_device[14]);
+//printf("16-19 %d %d %d %d \n",A_device[16], A_device[17], A_device[18], A_device[19]);
 // Iterate through three arrays while all arrays have elements
 while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
  // in all arrays
-	printf(" i, j, k, %d %d %d \n",  i, j, k);
- printf("x, y, z, %d, %d ,%d \n",A_device[p_offset+i], A_device[q_offset+j], A_device[r_offset+k] );
+	//printf(" i, j, k, %d %d %d \n",  i, j, k);
+ //printf("x, y, z, %d, %d ,%d \n",A_device[p_offset+i], A_device[q_offset+j], A_device[r_offset+k] );
  if (A_device[p_offset+i] == A_device[q_offset+j] && A_device[q_offset+j] == A_device[r_offset+k])
  { //  cout << ar1[i] << " ";  
-	 printf("common is: %d \n",A_device[p_offset+i] );
+	 //printf("common is: %d \n",A_device[p_offset+i] );
   pairs_device_count[tid] += 1;
   i++; j++; k++; 
 	 
@@ -427,9 +427,9 @@ void Execute(char *prnt){
 	numberOfBlocks = sizeof_pairs/3; //84/3
 	threadsInBlock = 1;
 	pairs_return = sizeof_pairs/3;
-	pairs_cpu[0] = 2;
-	pairs_cpu[1] = 3;
-	pairs_cpu[2] = 4;
+	//pairs_cpu[0] = 2;
+	//pairs_cpu[1] = 3;
+	//pairs_cpu[2] = 4;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//28*3 pairs
 	
 	*threads_cpu = pairs_return;
