@@ -107,10 +107,9 @@ for (int i = 0; i < pairs; i++)
 //----------------------------------------------------------------------------
 
 //__global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
-__global__ void find3_common_kernel (int threads_d) {
+__global__ void hello_common_kernel (int threads_d) {
 
-//int tid = blockIdx.x * blockDim.x + threadIdx.x;
-	int tid = blockIdx.x* blockDim.x+ threadIdx.x; 
+int tid = blockIdx.x* blockDim.x+ threadIdx.x; 
 
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
