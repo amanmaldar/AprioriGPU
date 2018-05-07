@@ -105,15 +105,17 @@ for (int i = 0; i < pairs; i++)
 */
 
 //----------------------------------------------------------------------------
+
 __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
 
 int tid = blockIdx.x * blockDim.x + threadIdx.x;
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
-printf("tid kernel 3: %d", tid);
 
 while (tid < 28) 	//28 *threads_d //32887
 {	
+printf("tid kernel 3: %d \n", tid);
+/**888888
 pairs_device_count[tid] = 0;
 int p = pairs_device[tid*3];
 int q = pairs_device[tid*3+1];
@@ -192,8 +194,8 @@ int x,y,z;
      k++;
 }	*/
 
-
-	tid += blockDim.x; // *threads_d; //28
+*/////////////////////////////////
+	tid +=28; // *threads_d; //28
 } // end while
 } // end kernel function
 
@@ -203,7 +205,7 @@ __global__ void find2_common_kernel (int *A_device, int *B_device , int *pairs_d
 
 int tid = blockIdx.x;
 //__shared__ int smem[128];  
-printf("tid kernel 2: %d", tid);
+printf("tid kernel 2: %d \n", tid);
 
 
 //__syncthreads(); 	
@@ -470,10 +472,10 @@ void Execute(char *prnt){
 	*threads_cpu = pairs_return;
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 	cout << "testing 3 pairs: " <<  pairs_return << " " << *threads_cpu<< endl;
-	
+	cout << "calling kernel 3" << endl;
 	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
-
+	cout << "enough calling" << endl;
 	for (int i =0 ; i < pairs_return; i++){	//pairs_return =20
 	if (pairs_cpu_count[i] >= 1) {
           //  cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
