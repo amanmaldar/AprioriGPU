@@ -167,11 +167,12 @@ for (int i =0; i <len_r; i++)
 
 int x,y,z;
 	//printf("tid world %d , x:",tid);
-	int bb = tid*300;
-		x=smem[bb] ;
-	y=smem[bb+1] ;
-	z =smem[bb+2];
-printf(" tid world : %d x, y, z, %d %d %d \n", tid, x, y, z);
+	//int bb = tid*300;
+		x=smem[tid*300] ;
+	y=smem[tid*300+1] ;
+	z =smem[tid*300+2];
+printf(" tid world : %d x, y, z, %d %d %d %d %d %d %d %d %d \n", tid, x, y, z, smem[tid*300+100], smem[tid*300+100+1], smem[tid*300+1]
+      , smem[tid*300+200], smem[tid*300+200+1]. smem[tid*300+200+2]);
 
 	
 //printf("tid world %d , x:",tid);
