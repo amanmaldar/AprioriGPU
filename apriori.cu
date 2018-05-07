@@ -134,7 +134,7 @@ while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
  // in all arrays
- if (pairs_device[p_offset+i] == pairs_device[q_offset+j] && pairs_device[r_offset+j] == ar3[k])
+ if (pairs_device[p_offset+i] == pairs_device[q_offset+j] && pairs_device[r_offset+j] == pairs_device[k])
  { //  cout << ar1[i] << " ";  
   pairs_device_count[tid] += 1;
   i++; j++; k++; }
