@@ -125,7 +125,8 @@ int p_offset = B_device[p];
 int q_offset = B_device[q];
 int r_offset = B_device[r];
 
-	
+	printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
+
 // Initialize starting indexes for ar1[], ar2[] and ar3[]
 int i = 0, j = 0, k = 0;
 
@@ -134,6 +135,7 @@ while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
  // in all arrays
+	printf(" i, j, k, %d %d %d \n",  i, j, k);
  printf("x, y, z, %d, %d ,%d \n",pairs_device[p_offset+i], pairs_device[q_offset+j], pairs_device[r_offset+k] );
  if (pairs_device[p_offset+i] == pairs_device[q_offset+j] && pairs_device[q_offset+j] == pairs_device[r_offset+k])
  { //  cout << ar1[i] << " ";  
