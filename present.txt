@@ -1,0 +1,113 @@
+totalItems: 23
+ Printing itemId_TidMapping A_cpu: (C1) 34
+4 -1 2 5 -1 1 2 4 5 6 -1 1 2 5 6 -1 1 2 3 5 -1 2 3 6 -1 3 -1 3 6 -1 6 -1 -1 -1 
+ Printing starting indexes B_cpu: (C1Index)
+0 2 5 11 16 21 25 27 30 32 33 34 
+
+ Support:1
+
+2 Frequent Items are: (0,2) Freq is: 1
+2 Frequent Items are: (1,2) Freq is: 2
+2 Frequent Items are: (1,3) Freq is: 2
+2 Frequent Items are: (1,4) Freq is: 2
+2 Frequent Items are: (1,5) Freq is: 1
+2 Frequent Items are: (2,3) Freq is: 4
+2 Frequent Items are: (2,4) Freq is: 3
+2 Frequent Items are: (2,5) Freq is: 2
+2 Frequent Items are: (2,7) Freq is: 1
+2 Frequent Items are: (2,8) Freq is: 1
+2 Frequent Items are: (3,4) Freq is: 3
+2 Frequent Items are: (3,5) Freq is: 2
+2 Frequent Items are: (3,7) Freq is: 1
+2 Frequent Items are: (3,8) Freq is: 1
+2 Frequent Items are: (4,5) Freq is: 2
+2 Frequent Items are: (4,6) Freq is: 1
+2 Frequent Items are: (4,7) Freq is: 1
+2 Frequent Items are: (5,6) Freq is: 1
+2 Frequent Items are: (5,7) Freq is: 2
+2 Frequent Items are: (5,8) Freq is: 1
+2 Frequent Items are: (6,7) Freq is: 1
+2 Frequent Items are: (7,8) Freq is: 1
+3 Items are: (1,2,3) 
+3 Items are: (1,2,4) 
+3 Items are: (1,2,5) 
+3 Items are: (1,3,4) 
+3 Items are: (1,3,5) 
+3 Items are: (1,4,5) 
+3 Items are: (2,3,4) 
+3 Items are: (2,3,5) 
+3 Items are: (2,3,7) 
+3 Items are: (2,3,8) 
+3 Items are: (2,4,5) 
+3 Items are: (2,4,7) 
+3 Items are: (2,4,8) 
+3 Items are: (2,5,7) 
+3 Items are: (2,5,8) 
+3 Items are: (2,7,8) 
+3 Items are: (3,4,5) 
+3 Items are: (3,4,7) 
+3 Items are: (3,4,8) 
+3 Items are: (3,5,7) 
+3 Items are: (3,5,8) 
+3 Items are: (3,7,8) 
+3 Items are: (4,5,6) 
+3 Items are: (4,5,7) 
+3 Items are: (4,6,7) 
+3 Items are: (5,6,7) 
+3 Items are: (5,6,8) 
+3 Items are: (5,7,8) 
+testing 3 pairs: 28 28
+3 Frequent Items are: (1,2,3) Freq is: 2
+3 Frequent Items are: (1,2,4) Freq is: 2
+3 Frequent Items are: (1,2,5) Freq is: 1
+3 Frequent Items are: (1,3,4) Freq is: 2
+3 Frequent Items are: (1,3,5) Freq is: 1
+3 Frequent Items are: (1,4,5) Freq is: 1
+3 Frequent Items are: (2,3,4) Freq is: 3
+3 Frequent Items are: (2,3,5) Freq is: 2
+3 Frequent Items are: (2,3,7) Freq is: 1
+3 Frequent Items are: (2,3,8) Freq is: 1
+3 Frequent Items are: (2,4,5) Freq is: 1
+3 Frequent Items are: (2,5,7) Freq is: 1
+3 Frequent Items are: (2,5,8) Freq is: 1
+3 Frequent Items are: (2,7,8) Freq is: 1
+3 Frequent Items are: (3,4,5) Freq is: 1
+3 Frequent Items are: (3,5,7) Freq is: 1
+3 Frequent Items are: (3,5,8) Freq is: 1
+3 Frequent Items are: (3,7,8) Freq is: 1
+3 Frequent Items are: (4,5,6) Freq is: 1
+3 Frequent Items are: (4,5,7) Freq is: 1
+3 Frequent Items are: (4,6,7) Freq is: 1
+3 Frequent Items are: (5,6,7) Freq is: 1
+3 Frequent Items are: (5,7,8) Freq is: 1
+three_freq_itemset:    23
+
+3 Frequent Items are: (1,2,3) Freq is: 2
+3 Frequent Items are: (1,2,4) Freq is: 2
+3 Frequent Items are: (1,2,5) Freq is: 1
+3 Frequent Items are: (1,3,4) Freq is: 2
+3 Frequent Items are: (1,3,5) Freq is: 1
+3 Frequent Items are: (1,4,5) Freq is: 1
+3 Frequent Items are: (2,3,4) Freq is: 3
+3 Frequent Items are: (2,3,5) Freq is: 2
+3 Frequent Items are: (2,3,7) Freq is: 1
+3 Frequent Items are: (2,3,8) Freq is: 1
+3 Frequent Items are: (2,4,5) Freq is: 1
+3 Frequent Items are: (2,5,7) Freq is: 1
+3 Frequent Items are: (2,5,8) Freq is: 1
+3 Frequent Items are: (2,7,8) Freq is: 1
+3 Frequent Items are: (3,4,5) Freq is: 1
+3 Frequent Items are: (3,5,7) Freq is: 1
+3 Frequent Items are: (3,5,8) Freq is: 1
+3 Frequent Items are: (3,7,8) Freq is: 1
+3 Frequent Items are: (4,5,6) Freq is: 1
+3 Frequent Items are: (4,5,7) Freq is: 1
+3 Frequent Items are: (4,6,7) Freq is: 1
+3 Frequent Items are: (5,6,7) Freq is: 1
+3 Frequent Items are: (5,7,8) Freq is: 1
+one_freq_itemset:      9
+two_freq_itemset:      22
+three_freq_itemset:      23
+four_freq_itemset:      0
+Database Parsing time:    0.292008 mS 
+Total execution time:     1272.05 mS 

@@ -8,7 +8,7 @@ using namespace std;
 int main()
 {
 	int i = 0;
-	int lines = 1000;
+	int lines = 100000;
 	int count;
 	set <int> numbers;
 	set <int> :: iterator it, it1;
@@ -18,7 +18,7 @@ int main()
 	    int iteration;
     	int m = (rand() % 3) + 2;
     	while(i++ < m) {
-    		int r = (rand() % 200);
+    		int r = (rand() % 10);
 
     		count = numbers.count(r);
     		if (count == 0){
