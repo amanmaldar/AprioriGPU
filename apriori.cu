@@ -107,14 +107,14 @@ for (int i = 0; i < pairs; i++)
 //----------------------------------------------------------------------------
 
 //__global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
-__global__ void hello_common_kernel (int threads_d) {
+__global__ void hello_common_kernel () {
 
 int tid = blockIdx.x* blockDim.x+ threadIdx.x; 
 
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
 
-while (tid < threads_d) 	//28 *threads_d //32887
+while (tid < 10) 	//28 *threads_d //32887
 {	
 printf("tid kernel new 3: %d, threads_d: %d \n", tid, 	threads_d);
 //printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
@@ -385,7 +385,7 @@ void Execute(char *prnt){
 	sizeof_pairs = pairs; //84
 	//numberOfBlocks = sizeof_pairs/3; //84/3
 	//threadsInBlock = 1;
-	numberOfBlocks = pairs/128;
+	numberOfBlocks = sizeof_pairs/128;
 	threadsInBlock = 128;
 	pairs_return = sizeof_pairs/3;
 	//pairs_cpu[0] = 2;
@@ -397,7 +397,7 @@ void Execute(char *prnt){
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int), cudaMemcpyHostToDevice);
 	cout << "testing 3 pairs: " <<  pairs_return << " " << *threads_cpu<< endl;
 	cout << "calling kernel 3" << endl;
-	hello_common_kernel <<< numberOfBlocks,threadsInBlock >>> (11);
+	hello_common_kernel <<< numberOfBlocks,threadsInBlock >>> ();
 
 	//find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
