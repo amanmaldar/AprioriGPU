@@ -460,7 +460,7 @@ void Execute(char *prnt){
     //******************************************************************************************************************
 
 //----------------------------------------------------------------------------------
-	    //Generate C4
+/*	    //Generate C4
     delta= 1;
 	pairs=0;
     for(auto it2 = L3.begin(); it2 != L3.end(); it2++,delta++)
@@ -513,7 +513,7 @@ void Execute(char *prnt){
 
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 
-	return;
+	
 	find4_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);	// 13 pairs
 
@@ -530,7 +530,7 @@ void Execute(char *prnt){
 	}
 	}
 	//cout << "four_freq_itemset:    " << four_freq_itemset << endl << "\n";
-	//printL4();
+	//printL4(); */
 //---------------------------------------------------------------------------------
 	
 	
