@@ -143,19 +143,19 @@ int r_offset = B_device[r];
 for (int i =0; i <len_p; i++)
 {
 	smem[tid*300+i] = tid; //A_device[p_offset+i];
-	__syncthreads();
+	//__syncthreads();
 }
 
 for (int i =0; i <len_q; i++)
 {
-	smem[tid*300+100 +i] = tid; // A_device[q_offset+i];
-	__syncthreads();
+	smem[tid*300+100 +i] = tid*2; // A_device[q_offset+i];
+//	__syncthreads();
 }
 
 for (int i =0; i <len_r; i++)
 {
-	smem[tid*300+200+ i] = tid;//A_device[r_offset+i];
-	__syncthreads();
+	smem[tid*300+200+ i] = tid*3;//A_device[r_offset+i];
+//	__syncthreads();
 }
 
 int x,y,z;
