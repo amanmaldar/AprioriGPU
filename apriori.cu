@@ -174,11 +174,24 @@ int x,y,z;
 printf(" tid world : %d x, y, z, %d %d %d \n", tid, x, y, z);
 */
 	
-printf("tid world %d , x:",tid);
+//printf("tid world %d , x:",tid);
 	
 for (int i =0; i <len_p; i++)
 {
 	printf("%d ", smem[300*tid + i]);
+	//smem[tid*300+i] = tid; //A_device[p_offset+i];
+	//__syncthreads();
+}
+	for (int i =0; i <len_q; i++)
+{
+	printf("%d ", smem[300*tid+100 + i]);
+	//smem[tid*300+i] = tid; //A_device[p_offset+i];
+	//__syncthreads();
+}
+	
+	for (int i =0; i <len_r; i++)
+{
+	printf("%d ", smem[300*tid+200 + i]);
 	//smem[tid*300+i] = tid; //A_device[p_offset+i];
 	//__syncthreads();
 }
