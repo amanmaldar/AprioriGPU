@@ -106,7 +106,8 @@ for (int i = 0; i < pairs; i++)
 
 //----------------------------------------------------------------------------
 
-__global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
+//__global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
+__global__ void find3_common_kernel (int threads_d) {
 
 //int tid = blockIdx.x * blockDim.x + threadIdx.x;
 	int tid = blockIdx.x* blockDim.x+ threadIdx.x; 
@@ -114,9 +115,9 @@ __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_d
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
 
-while (tid < *threads_d) 	//28 *threads_d //32887
+while (tid < threads_d) 	//28 *threads_d //32887
 {	
-printf("tid kernel new 3: %d, *threads_d: %d \n", tid, 	*threads_d);
+printf("tid kernel new 3: %d, threads_d: %d \n", tid, 	threads_d);
 //printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
 /**888888
 *////////////////////////////////
@@ -130,9 +131,8 @@ __global__ void find2_common_kernel (int *A_device, int *B_device , int *pairs_d
 
 int tid = blockIdx.x;
 //__shared__ int smem[128];  
-printf("tid kernel 2: %d \n", tid);
-
-
+//printf("tid kernel 2: %d \n", tid);
+	
 //__syncthreads(); 	
 while (tid < *threads_d) 	//36
 {	
@@ -398,7 +398,9 @@ void Execute(char *prnt){
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int), cudaMemcpyHostToDevice);
 	cout << "testing 3 pairs: " <<  pairs_return << " " << *threads_cpu<< endl;
 	cout << "calling kernel 3" << endl;
-	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
+	hello_common_kernel <<< numberOfBlocks,threadsInBlock >>> (11);
+
+	//find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
 	cout << "enough calling" << endl;
 	for (int i =0 ; i < pairs_return; i++){	//pairs_return =20
