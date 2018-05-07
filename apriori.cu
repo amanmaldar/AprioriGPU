@@ -124,7 +124,7 @@ int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
 
 while (tid <   *threads_d) 	//28 *threads_d //32887
 {	
-printf("tid kernel no new 3: %d, threads_d: %d \n", tid, 	*threads_d);
+//printf("tid kernel no new 3: %d, threads_d: %d \n", tid, 	*threads_d);
 //printf("hello from device \n");
 	//printf("tid kernel new 3: %d, \n", tid);
 //printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
