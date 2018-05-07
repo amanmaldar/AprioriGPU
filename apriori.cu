@@ -112,7 +112,9 @@ __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_d
 int tid = blockIdx.x* blockDim.x+ threadIdx.x; 
 
 //int arrayId = threadIdx.x; 
-//__shared__ int smem[3];  
+__shared__ int smem[300];  
+	
+	
 
 while (tid < *threads_d) 	//28 *threads_d //32887
 {	
@@ -137,7 +139,31 @@ int p_offset = B_device[p];
 int q_offset = B_device[q];
 int r_offset = B_device[r];
 
-printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
+//--------------- copy data into shared memory--------------------------
+for (int i =0; i <len_p; i++)
+{
+	smem[tid*100+i] = A_device[p_offset+i];
+	__syncthreads();
+}
+
+for (int i =0; i <len_q; i++)
+{
+	smem[tid*100+ len_p+i] = A_device[q_offset+i];
+	__syncthreads();
+}
+
+for (int i =0; i <len_r; i++)
+{
+	smem[tid*100+ len_p + len_q+i] = A_device[r_offset+i];
+	__syncthreads();
+}
+
+
+
+	
+	
+	
+//printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
 //printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
 //printf("tid, x, y, z, %d ,%d, %d ,%d \n",tid, A_device[p_offset], A_device[q_offset], A_device[r_offset] );
 	
@@ -176,9 +202,12 @@ while (i < len_p && j < len_q && k < len_r)
  // in all arrays
 	//printf(" i, j, k, %d %d %d \n",  i, j, k);
  //printf("x, y, z, %d, %d ,%d \n",A_device[p_offset+i], A_device[q_offset+j], A_device[r_offset+k] );
-	int x=A_device[p_offset+i] ;
-	int y=A_device[q_offset+j] ;
-	int z =A_device[r_offset+k];
+	//int x=A_device[p_offset+i] ;
+	//int y=A_device[q_offset+j] ;
+	//int z =A_device[r_offset+k];
+	int x=smem[tid*100+i] ;
+	int y=smem[tid*100+len_p+j] ;
+	int z =smem[tid*100+len_p+len_q+k];
  if (x== y&& y == z)
  { //  cout << ar1[i] << " ";  
 	 //printf("common is: %d \n",A_device[p_offset+i] );
@@ -472,7 +501,7 @@ void Execute(char *prnt){
 	//threadsInBlock = 1;
 	//numberOfBlocks = sizeof_pairs/128;
 	//threadsInBlock = 128;
-	numberOfBlocks = 128;
+	numberOfBlocks = 512;
 	threadsInBlock = 128;
 	pairs_return = sizeof_pairs/3;
 	//pairs_cpu[0] = 2;
