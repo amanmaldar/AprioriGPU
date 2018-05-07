@@ -113,14 +113,14 @@ int tid = blockIdx.x* blockDim.x+ threadIdx.x;
 
 //int arrayId = threadIdx.x; 
 __shared__ int smem[10000];  
-
+/*
 int p = pairs_device[tid*3];
 int q = pairs_device[tid*3+1];
 int r = pairs_device[tid*3+2]; 
 int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
 int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
-	
+*/	
 
 while (tid <   *threads_d) 	//28 *threads_d //32887
 {	
@@ -131,15 +131,15 @@ printf("tid kernel no new 3: %d, threads_d: %d \n", tid, 	*threads_d);
 ///**888888
 
 
-//pairs_device_count[tid] = 0;
-	/*
+pairs_device_count[tid] = 0;
+	
 int p = pairs_device[tid*3];
 int q = pairs_device[tid*3+1];
 int r = pairs_device[tid*3+2]; 
 int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
 int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
-	*/
+	
 
 int p_offset = B_device[p];
 int q_offset = B_device[q];
