@@ -127,7 +127,7 @@ int p_offset = B_device[p];
 int q_offset = B_device[q];
 int r_offset = B_device[r];
 
-//printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
+printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
 //printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
 //printf("tid, x, y, z, %d ,%d, %d ,%d \n",tid, A_device[p_offset], A_device[q_offset], A_device[r_offset] );
 	
@@ -138,21 +138,21 @@ int i = 0, j = 0, k = 0;
 //printf("16-19 %d %d %d %d \n",A_device[16], A_device[17], A_device[18], A_device[19]);
 // Iterate through three arrays while all arrays have elements
 int x,y,z;
-	printf("x: ");
+	printf("tid: %d, x: ", tid);
 	while(i < len_p){
 	 x=A_device[p_offset+i] ;
 	printf(" %d", x);
 	i++;
 	} printf("\n");
 	
-	printf("y: ");
+	printf("tid: %d, y: ", tid);
 	while(j < len_q){
 	 y=A_device[q_offset+j] ;
 	printf(" %d", y);
 	j++;
 	} printf("\n");
 	
-	printf("z: ");
+	printf("tid: %d, z: ", tid);
 	while(k < len_r){
 	 z =A_device[r_offset+k];
 	printf(" %d", z);
