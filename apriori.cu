@@ -487,7 +487,7 @@ void Execute(char *prnt){
 	//Generate L2
 	for (int i =0 ; i < pairs/2; i++){	//36	pairs = 72
 		if (pairs_cpu_count[i] >= 1) {
-			//cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
+			cout << "2 Frequent Items are: (" << pairs_cpu[i*2] << "," << pairs_cpu[i*2+1] <<") Freq is: " <<  pairs_cpu_count[i] << endl;
 			twoStruct.a = pairs_cpu[i*2];
 		    twoStruct.b = pairs_cpu[i*2+1];
 		    twoStruct.freq = pairs_cpu_count[i];
