@@ -116,7 +116,8 @@ __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_d
 
 while (tid < *threads_d) 	//28 *threads_d //32887
 {	
-printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
+printf("tid kernel new 3: %d, *threads_d: %d \n", tid, 	*threads_d);
+//printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
 /**888888
 *////////////////////////////////
 	tid += 50; // *threads_d; //28
