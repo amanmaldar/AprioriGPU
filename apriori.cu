@@ -22,6 +22,7 @@ Data: (6entries.txt)
 //----------------------------------------------------------------------------
 chrono::duration<double> parse_el;
 
+/*
 __global__ void find4_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
 
 int tid = blockIdx.x;
@@ -101,6 +102,7 @@ for (int i = 0; i < pairs; i++)
 	tid += *threads_d;	//13
 } // end while
 } // end kernel function
+*/
 
 //----------------------------------------------------------------------------
 __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
@@ -125,8 +127,10 @@ int p_offset = B_device[p];
 int q_offset = B_device[q];
 int r_offset = B_device[r];
 
-	//printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
-
+//printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
+//printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
+printf("tid, x, y, z, %d ,%d, %d ,%d \n",tid, A_device[p_offset], A_device[q_offset], A_device[r_offset] );
+	/*
 // Initialize starting indexes for ar1[], ar2[] and ar3[]
 int i = 0, j = 0, k = 0;
 //printf("5-9 %d %d %d %d %d \n",A_device[5], A_device[6], A_device[7], A_device[8], A_device[9]);
@@ -159,7 +163,7 @@ while (i < len_p && j < len_q && k < len_r)
  else
      k++;
 }	
-
+*/
 
 	tid += *threads_d; //28
 } // end while
@@ -439,7 +443,7 @@ void Execute(char *prnt){
 	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
 
-	for (int i =0 ; i < 20; i++){	//pairs_return =20
+	for (int i =0 ; i < pairs_return; i++){	//pairs_return =20
 	if (pairs_cpu_count[i] >= 1) {
           //  cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
 	    three_freq_itemset++;
