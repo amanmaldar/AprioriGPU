@@ -171,8 +171,8 @@ int x,y,z;
 		x=smem[tid*300] ;
 	y=smem[tid*300+1] ;
 	z =smem[tid*300+2];
-printf(" tid world : %d x, y, z, %d %d %d %d %d %d %d %d %d \n", tid, x, y, z, smem[tid*300+100], smem[tid*300+100+1], smem[tid*300+100+2]
-      , smem[tid*300+200], smem[tid*300+200+1], smem[tid*300+200+2]);
+//printf(" tid world : %d x, y, z, %d %d %d %d %d %d %d %d %d \n", tid, x, y, z, smem[tid*300+100], smem[tid*300+100+1], smem[tid*300+100+2]
+  //    , smem[tid*300+200], smem[tid*300+200+1], smem[tid*300+200+2]);
 
 	
 //printf("tid world %d , x:",tid);
@@ -256,7 +256,7 @@ while (i < len_p && j < len_q && k < len_r)
 
  if (x== y&& y == z)
  { //  cout << ar1[i] << " ";  
-	 printf("tid: %d common is: %d\n",tid, x );
+	 //printf("tid: %d common is: %d\n",tid, x );
   pairs_device_count[tid] += 1;
 	 __syncthreads();
   i++; j++; k++; 
@@ -560,7 +560,7 @@ void Execute(char *prnt){
 	*threads_cpu = pairs_return;
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int), cudaMemcpyHostToDevice);
 	cout << "testing 3 pairs: " <<  pairs_return << " " << *threads_cpu<< endl;
-	cout << "calling kernel 3" << endl;
+	//cout << "calling kernel 3" << endl;
 	//hello_common_kernel <<< numberOfBlocks,threadsInBlock >>> ();
 
 
@@ -568,10 +568,10 @@ void Execute(char *prnt){
        	  cudaDeviceSynchronize();
 
 	cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
-	cout << "enough calling" << endl;
+	//cout << "enough calling" << endl;
 	for (int i =0 ; i < pairs_return; i++){	//pairs_return =20
 	if (pairs_cpu_count[i] >= 1) {
-          //  cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
+            cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
 	    three_freq_itemset++;
 	    threeStruct.a = pairs_cpu[i*3];
             threeStruct.b = pairs_cpu[i*3+1];
