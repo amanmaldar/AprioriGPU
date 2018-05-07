@@ -256,7 +256,7 @@ while (i < len_p && j < len_q && k < len_r)
 
  if (x== y&& y == z)
  { //  cout << ar1[i] << " ";  
-	 printf("common is: %d \n",x] );
+	 printf("common is: %d \n",x );
   pairs_device_count[tid] += 1;
 	 __syncthreads();
   i++; j++; k++; 
