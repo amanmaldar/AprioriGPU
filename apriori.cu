@@ -126,21 +126,23 @@ while (tid <   *threads_d) 	//28 *threads_d //32887
 int p_offset = B_device[p];
 int q_offset = B_device[q];
 int r_offset = B_device[r];
+int perThread = 100; 	//300
+int perElement = 30; 	//100
 
 //--------------- copy data into shared memory--------------------------
 for (int i =0; i <len_p; i++)
 {
-	smem[300*tid + i] =  A_device[p_offset+i];
+	smem[perThread*tid + i] =  A_device[p_offset+i];
 }
 
 for (int i =0; i <len_q; i++)
 {
-	smem[tid*300+100 +i] =  A_device[q_offset+i];
+	smem[tid*perThread+perElement +i] =  A_device[q_offset+i];
 }
 
 for (int i =0; i <len_r; i++)
 {
-	smem[tid*300+200+ i] = A_device[r_offset+i];
+	smem[tid*perThread+perElement*2+ i] = A_device[r_offset+i];
 }
 
 int x,y,z;
@@ -152,9 +154,9 @@ pairs_device_count[tid] = 0;
 while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead in all arrays
-	x=smem[tid*300+i] ;
-	y=smem[tid*300+100+j] ;
-	z =smem[tid*300+200+k];
+	x=smem[tid*perThread+i] ;
+	y=smem[tid*perThread+perElement+j] ;
+	z =smem[tid*perThread+perElement*2+k];
 
  if (x== y&& y == z)
  { 
@@ -448,8 +450,8 @@ void Execute(char *prnt){
 	//threadsInBlock = 1;
 	//numberOfBlocks = sizeof_pairs/128;
 	//threadsInBlock = 128;
-	numberOfBlocks = 128;
-	threadsInBlock = 128;
+	numberOfBlocks = 512;
+	threadsInBlock = 512;
 	pairs_return = sizeof_pairs/3;
 	//pairs_cpu[0] = 2;
 	//pairs_cpu[1] = 3;
