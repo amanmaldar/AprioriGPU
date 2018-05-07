@@ -117,11 +117,14 @@ int r = pairs_device[tid*3+2];
 int len_p = B_device[p+1] - B_device[p] - 1; 
 int len_q = B_device[q+1] - B_device[q] - 1; 
 int len_r = B_device[r+1] - B_device[r] - 1; 
-	
+//pairs_device_count[tid] = 0;
+
+__shared__ int pairs_device_count_smem[*threads_d];  
 
 
 while (tid <   *threads_d) 	//28 *threads_d //32887
 {	
+pairs_device_count_smem[tid] = 0;
 
 int p_offset = B_device[p];
 int q_offset = B_device[q];
@@ -132,35 +135,45 @@ int perElement = 30; 	//100
 //--------------- copy data into shared memory--------------------------
 for (int i =0; i <len_p; i++)
 {
-	smem[perThread*tid + i] =  A_device[p_offset+i];
+	//smem[perThread*tid + i] =  A_device[p_offset+i];
+
+	smem[300*tid + i] =  A_device[p_offset+i];
 }
 
 for (int i =0; i <len_q; i++)
 {
-	smem[tid*perThread+perElement +i] =  A_device[q_offset+i];
+//		smem[tid*perThread+perElement +i] =  A_device[q_offset+i];
+
+	smem[tid*300+100 +i] =  A_device[q_offset+i];
 }
 
 for (int i =0; i <len_r; i++)
 {
-	smem[tid*perThread+perElement*2+ i] = A_device[r_offset+i];
+	//smem[tid*perThread+perElement*2+ i] = A_device[r_offset+i];
+	smem[tid*300+100*2+ i] = A_device[r_offset+i];
+
 }
 
 int x,y,z;
 	
 // Initialize starting indexes for ar1[], ar2[] and ar3[]
 int i = 0, j = 0, k = 0;
-pairs_device_count[tid] = 0;
 
 while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead in all arrays
-	x=smem[tid*perThread+i] ;
-	y=smem[tid*perThread+perElement+j] ;
-	z =smem[tid*perThread+perElement*2+k];
+	//x=smem[tid*perThread+i] ;
+	//y=smem[tid*perThread+perElement+j] ;
+	//z =smem[tid*perThread+perElement*2+k];
+	
+	x=smem[tid*300+i] ;
+	y=smem[tid*300+100+j] ;
+	z =smem[tid*300+100*2+k];
 
  if (x== y&& y == z)
  { 
-	 pairs_device_count[tid] += 1;
+	 //pairs_device_count[tid] += 1;
+	 pairs_device_count_smem[tid] += 1;
 	 __syncthreads();
   i++; j++; k++; 
 	 
@@ -179,6 +192,7 @@ while (i < len_p && j < len_q && k < len_r)
      k++;
 }	
 
+	 pairs_device_count[tid] = pairs_device_count_smem[tid];
 
 
 	tid += blockDim.x; // *threads_d; //28
