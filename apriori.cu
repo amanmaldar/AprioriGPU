@@ -482,7 +482,7 @@ void Execute(char *prnt){
 
 
 	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
-       	  cudaDeviceSynchronize();
+       	  //cudaDeviceSynchronize();
 
 	cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
 	//cout << "enough calling" << endl;
