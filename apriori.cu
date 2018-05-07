@@ -107,7 +107,7 @@ __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_d
 
 int tid = blockIdx.x;
 int arrayId = threadIdx.x; 
-__shared__ int smem[3];  
+//__shared__ int smem[3];  
 
 while (tid < *threads_d) 	//28
 {	
@@ -417,7 +417,7 @@ void Execute(char *prnt){
 	
 	sizeof_pairs = pairs; //84
 	numberOfBlocks = sizeof_pairs/3; //84/3
-	threadsInBlock = 3;
+	threadsInBlock = 1;
 	pairs_return = sizeof_pairs/3;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//28*3 pairs
 	
