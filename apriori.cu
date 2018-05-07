@@ -148,7 +148,7 @@ for (int i =0; i <len_p; i++)
 
 for (int i =0; i <len_q; i++)
 {
-	smem[tid*300+100 len_p+i] = A_device[q_offset+i];
+	smem[tid*300+100 + len_p+i] = A_device[q_offset+i];
 	__syncthreads();
 }
 
