@@ -116,10 +116,10 @@ __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_d
 
 while (tid < *threads_d) 	//28 *threads_d //32887
 {	
-printf("tid kernel 3: %d blockDim.x: %d  threadIdx.x: %d blockIdx.x: %d \n", tid, blockDim.x, threadIdx.x, blockIdx.x);
+printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
 /**888888
 *////////////////////////////////
-	tid += blockDim.x; // *threads_d; //28
+	tid += 50; // *threads_d; //28
 } // end while
 } // end kernel function
 
@@ -394,7 +394,7 @@ void Execute(char *prnt){
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//28*3 pairs
 	
 	*threads_cpu = pairs_return;
-	cudaMemcpy (threads_d, threads_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
+	cudaMemcpy (threads_d, threads_cpu, sizeof (int), cudaMemcpyHostToDevice);
 	cout << "testing 3 pairs: " <<  pairs_return << " " << *threads_cpu<< endl;
 	cout << "calling kernel 3" << endl;
 	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
