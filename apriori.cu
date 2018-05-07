@@ -117,7 +117,7 @@ int tid = blockIdx.x* blockDim.x+ threadIdx.x;
 while (tid < 10) 	//28 *threads_d //32887
 {	
 //printf("tid kernel new 3: %d, threads_d: %d \n", tid, 	threads_d);
-printf("hello from device tid %d \n", tid);
+printf("hello from device \n");
 	//printf("tid kernel new 3: %d, \n", tid);
 //printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
 /**888888
@@ -387,8 +387,10 @@ void Execute(char *prnt){
 	sizeof_pairs = pairs; //84
 	//numberOfBlocks = sizeof_pairs/3; //84/3
 	//threadsInBlock = 1;
-	numberOfBlocks = sizeof_pairs/128;
-	threadsInBlock = 128;
+	//numberOfBlocks = sizeof_pairs/128;
+	//threadsInBlock = 128;
+	numberOfBlocks = 1;
+	threadsInBlock = 10;
 	pairs_return = sizeof_pairs/3;
 	//pairs_cpu[0] = 2;
 	//pairs_cpu[1] = 3;
