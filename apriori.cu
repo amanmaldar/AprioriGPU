@@ -152,7 +152,7 @@ for (int i =0; i <len_q; i++)
 for (int i =0; i <len_r; i++)
 {
 	//smem[tid*perThread+perElement*2+ i] = A_device[r_offset+i];
-	smem[tid*300+100*2+ i] = A_device[r_offset+i];
+	smem[tid*300+200+ i] = A_device[r_offset+i];
 
 }
 
@@ -170,7 +170,7 @@ while (i < len_p && j < len_q && k < len_r)
 	
 	x=smem[tid*300+i] ;
 	y=smem[tid*300+100+j] ;
-	z =smem[tid*300+100*2+k];
+	z =smem[tid*300+200+k];
 
  if (x== y&& y == z)
  { 
