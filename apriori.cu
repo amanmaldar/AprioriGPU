@@ -142,13 +142,13 @@ int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
 	*/
 
 int p_offset = B_device[p];
-//int q_offset = B_device[q];
-//int r_offset = B_device[r];
+int q_offset = B_device[q];
+int r_offset = B_device[r];
 
 //--------------- copy data into shared memory--------------------------
 for (int i =0; i <len_p; i++)
-{	int aa = 300*tid + i;
-	smem[aa] =  A_device[p_offset+i];
+{//	int aa = 300*tid + i;
+	smem[300*tid + i] =  A_device[p_offset+i];
 	//smem[tid*300+i] = tid; //A_device[p_offset+i];
 //	__syncthreads();
 }
