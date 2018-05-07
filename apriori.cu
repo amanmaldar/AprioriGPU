@@ -119,7 +119,7 @@ int len_q = B_device[q+1] - B_device[q] - 1;
 int len_r = B_device[r+1] - B_device[r] - 1; 
 //pairs_device_count[tid] = 0;
 
-__shared__ int pairs_device_count_smem[30000];  
+__shared__ int8_t pairs_device_count_smem[30000];  
 
 
 while (tid <   *threads_d) 	//28 *threads_d //32887
@@ -129,8 +129,8 @@ pairs_device_count_smem[tid] = 0;
 int p_offset = B_device[p];
 int q_offset = B_device[q];
 int r_offset = B_device[r];
-int perThread = 100; 	//300
-int perElement = 30; 	//100
+//int perThread = 100; 	//300
+//int perElement = 30; 	//100
 
 //--------------- copy data into shared memory--------------------------
 for (int i =0; i <len_p; i++)
