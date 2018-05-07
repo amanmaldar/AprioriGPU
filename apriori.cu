@@ -205,9 +205,9 @@ while (i < len_p && j < len_q && k < len_r)
 	//int x=A_device[p_offset+i] ;
 	//int y=A_device[q_offset+j] ;
 	//int z =A_device[r_offset+k];
-	int x=smem[tid*100+i] ;
-	int y=smem[tid*100+len_p+j] ;
-	int z =smem[tid*100+len_p+len_q+k];
+	x=smem[tid*100+i] ;
+	y=smem[tid*100+len_p+j] ;
+	z =smem[tid*100+len_p+len_q+k];
  if (x== y&& y == z)
  { //  cout << ar1[i] << " ";  
 	 //printf("common is: %d \n",A_device[p_offset+i] );
