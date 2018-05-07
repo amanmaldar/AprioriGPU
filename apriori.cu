@@ -539,7 +539,7 @@ cout << "3 Items are old: (" <<it ->a<< "," << it ->b << "," << it1 ->b<< ") "  
 			pairs_cpu[pairs+2] = i -> c;
 		    pairs_cpu_count[pairs/3] = 0;	// initialize with zero
 		    
-            cout << "3 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+3]<< ") "  << endl;	// 28 total
+            cout << "3 Items are: (" <<pairs_cpu[pairs] << "," << pairs_cpu[pairs+1] << "," << pairs_cpu[pairs+2]<< ") "  << endl;	// 28 total
      		pairs +=3;
 	}
 	//printC3();
