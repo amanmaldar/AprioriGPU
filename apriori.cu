@@ -165,7 +165,7 @@ for (int i =0; i <len_r; i++)
 //	__syncthreads();
 }
 */
-int x,y,z;
+int x,y,z,i;
 
 	x=smem[i] ;
 	y=smem[i+1] ;
