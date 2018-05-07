@@ -110,7 +110,6 @@ __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_d
 
 int tid = blockIdx.x* blockDim.x+ threadIdx.x; 
 __shared__ int smem[10000];  
-pairs_device_count[tid] = 0;
 	
 int p = pairs_device[tid*3];
 int q = pairs_device[tid*3+1];
@@ -148,7 +147,8 @@ int x,y,z;
 	
 // Initialize starting indexes for ar1[], ar2[] and ar3[]
 int i = 0, j = 0, k = 0;
-	
+pairs_device_count[tid] = 0;
+
 while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead in all arrays
