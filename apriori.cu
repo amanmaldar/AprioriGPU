@@ -171,7 +171,7 @@ int x,y,z;
 		x=smem[tid*300] ;
 	y=smem[tid*300+1] ;
 	z =smem[tid*300+2];
-printf(" tid world : %d x, y, z, %d %d %d %d %d %d %d %d %d \n", tid, x, y, z, smem[tid*300+100], smem[tid*300+100+1], smem[tid*300+1]
+printf(" tid world : %d x, y, z, %d %d %d %d %d %d %d %d %d \n", tid, x, y, z, smem[tid*300+100], smem[tid*300+100+1], smem[tid*300+100+2]
       , smem[tid*300+200], smem[tid*300+200+1], smem[tid*300+200+2]);
 
 	
