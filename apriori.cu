@@ -549,13 +549,13 @@ int main(int argc, char **argv){
     chrono::duration<double> el = end - start;
 	
 	if (printing == 1){
-	printL1();
-	printC2();
-	printL2();
+	//printL1();
+	//printC2();
+	//printL2();
 	printC3();
 	printL3();
-	printC4();
-	printL4();
+	//printC4();
+	//printL4();
 	}
     cout << "one_freq_itemset:      " << one_freq_itemset  << "\n";
     cout << "two_freq_itemset:      " << two_freq_itemset  << "\n";
