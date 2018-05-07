@@ -122,7 +122,7 @@ int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
 	
 
-while (tid <  *threads_d ) 	//28 *threads_d //32887
+while (tid <  2 ) 	//28 *threads_d //32887
 {	
 printf("tid kernel no new 3: %d, threads_d: %d \n", tid, 	*threads_d);
 //printf("hello from device \n");
@@ -167,12 +167,12 @@ for (int i =0; i <len_r; i++)
 
 int x,y,z;
 	//printf("tid world %d , x:",tid);
-/*	int bb = tid*300;
+	int bb = tid*300;
 		x=smem[bb] ;
 	y=smem[bb+1] ;
 	z =smem[bb+2];
 printf(" tid world : %d x, y, z, %d %d %d \n", tid, x, y, z);
-*/
+
 	
 //printf("tid world %d , x:",tid);
 /*	
@@ -238,7 +238,7 @@ int i = 0, j = 0, k = 0;
 	*/
 		//int z =A_device[r_offset+k];
 
-	
+	/*
 while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
@@ -275,7 +275,7 @@ printf("magic: x, y, z, %d %d %d \n",  x, y, z);
      k++;
 }	
 
-
+*/
 
 
 //*////////////////////////////////
