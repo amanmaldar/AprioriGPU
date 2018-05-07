@@ -110,7 +110,7 @@ __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_d
 int tid = blockIdx.x * blockDim.x + threadIdx.x;
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
-printf("tid: %d", tid);
+printf("tid kernel 3: %d", tid);
 
 while (tid < 28) 	//28 *threads_d //32887
 {	
@@ -203,6 +203,7 @@ __global__ void find2_common_kernel (int *A_device, int *B_device , int *pairs_d
 
 int tid = blockIdx.x;
 //__shared__ int smem[128];  
+printf("tid kernel 2: %d", tid);
 
 
 //__syncthreads(); 	
