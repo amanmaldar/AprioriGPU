@@ -487,7 +487,7 @@ void Execute(char *prnt){
 	cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
 	//cout << "enough calling" << endl;
 	for (int i =0 ; i < pairs_return; i++){	//pairs_return =20
-	if (pairs_cpu_count[i] >= 1) {
+	if (pairs_cpu_count[i] >= 0) {
             cout << "3 Frequent Items are: (" <<pairs_cpu[i*3] << "," << pairs_cpu[i*3+1] << "," << pairs_cpu[i*3+2]<< ") " << "Freq is: " <<pairs_cpu_count[i] << endl;
 	    three_freq_itemset++;
 	    threeStruct.a = pairs_cpu[i*3];
