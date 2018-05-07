@@ -148,7 +148,7 @@ int i = 0, j = 0, k = 0;
 //printf("16-19 %d %d %d %d \n",A_device[16], A_device[17], A_device[18], A_device[19]);
 // Iterate through three arrays while all arrays have elements
 int x,y,z;
-	printf("tid: %d, x: ", tid);
+/*	printf("tid: %d, x: ", tid);
 	while(i < len_p){
 	 x=A_device[p_offset+i] ;
 	printf(" %d", x);
@@ -169,8 +169,8 @@ int x,y,z;
 	k++;
 	} printf("\n");
 	
-	
-/*while (i < len_p && j < len_q && k < len_r)
+	*/
+while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
  // in all arrays
@@ -199,7 +199,7 @@ int x,y,z;
  // We reach here when x > y and z < y, i.e., z is smallest
  else
      k++;
-}	*/
+}	
 
 
 
