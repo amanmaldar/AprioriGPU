@@ -196,6 +196,12 @@ int x,y,z;
 	} printf("\n");
 	
 	*/
+		//int z =A_device[r_offset+k];
+	x=smem[tid*100+i] ;
+	y=smem[tid*100+len_p+j] ;
+	z =smem[tid*100+len_p+len_q+k];
+printf(" tid : %d x, y, z, %d %d %d \n", tid, x, y, z);
+	
 while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
@@ -208,6 +214,8 @@ while (i < len_p && j < len_q && k < len_r)
 	x=smem[tid*100+i] ;
 	y=smem[tid*100+len_p+j] ;
 	z =smem[tid*100+len_p+len_q+k];
+//printf(" x, y, z, %d %d %d \n",  x, y, z);
+
  if (x== y&& y == z)
  { //  cout << ar1[i] << " ";  
 	 //printf("common is: %d \n",A_device[p_offset+i] );
