@@ -137,7 +137,30 @@ int i = 0, j = 0, k = 0;
 //printf("11-14 %d %d %d %d \n",A_device[11], A_device[12], A_device[13], A_device[14]);
 //printf("16-19 %d %d %d %d \n",A_device[16], A_device[17], A_device[18], A_device[19]);
 // Iterate through three arrays while all arrays have elements
-while (i < len_p && j < len_q && k < len_r)
+int x,y,z;
+	printf("x: ");
+	while(i < len_p){
+	 x=A_device[p_offset+i] ;
+	printf(" %d", x);
+	i++;
+	} printf("\n");
+	
+	printf("y: ");
+	while(j < len_q){
+	 y=A_device[q_offset+j] ;
+	printf(" %d", y);
+	j++;
+	} printf("\n");
+	
+	printf("z: ");
+	while(k < len_r){
+	 z =A_device[r_offset+k];
+	printf(" %d", z);
+	k++;
+	} printf("\n");
+	
+	
+/*while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
  // in all arrays
@@ -166,7 +189,7 @@ while (i < len_p && j < len_q && k < len_r)
  // We reach here when x > y and z < y, i.e., z is smallest
  else
      k++;
-}	
+}	*/
 
 
 	tid += blockDim.x; // *threads_d; //28
