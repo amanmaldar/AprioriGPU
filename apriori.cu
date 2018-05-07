@@ -303,8 +303,8 @@ void Execute(char *prnt){
 	int *pairs_device;
 	int *pairs_device_count;
 	// allocate latge memory on GPU
-	cudaMalloc ((void **) &pairs_device, sizeof (int) * 50000);		
-    cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 50000);
+	cudaMalloc ((void **) &pairs_device, sizeof (int) * 500000);		
+    cudaMalloc ((void **) &pairs_device_count, sizeof (int) * 500000);
 
 	//*********************************************************************8
 //-----------------------------------------------------------------------------------------------------------
