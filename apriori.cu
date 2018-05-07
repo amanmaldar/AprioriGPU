@@ -466,8 +466,8 @@ void Execute(char *prnt){
 	//threadsInBlock = 1;
 	//numberOfBlocks = sizeof_pairs/128;
 	//threadsInBlock = 128;
-	numberOfBlocks = 512;
-	threadsInBlock = 512;
+	numberOfBlocks = 4096;
+	threadsInBlock = 16;
 	pairs_return = sizeof_pairs/3;
 	//pairs_cpu[0] = 2;
 	//pairs_cpu[1] = 3;
