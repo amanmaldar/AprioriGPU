@@ -116,7 +116,7 @@ __shared__ int smem[300];
 	
 	
 
-while (tid < *threads_d) 	//28 *threads_d //32887
+while (tid < 10) 	//28 *threads_d //32887
 {	
 printf("tid kernel new 3: %d, threads_d: %d \n", tid, 	*threads_d);
 //printf("hello from device \n");
@@ -148,21 +148,21 @@ for (int i =0; i <len_p; i++)
 
 for (int i =0; i <len_q; i++)
 {
-	smem[tid*300+100 + len_p+i] = A_device[q_offset+i];
+	smem[tid*300+100 +i] = A_device[q_offset+i];
 	__syncthreads();
 }
 
 for (int i =0; i <len_r; i++)
 {
-	smem[tid*300+200+ len_p + len_q+i] = A_device[r_offset+i];
+	smem[tid*300+200+ i] = A_device[r_offset+i];
 	__syncthreads();
 }
 
 int x,y,z;
 
 	x=smem[tid*300] ;
-	y=smem[tid*300+100+len_p] ;
-	z =smem[tid*300+200+len_p+len_q];
+	y=smem[tid*300+100] ;
+	z =smem[tid*300+200];
 printf(" tid : %d x, y, z, %d %d %d \n", tid, x, y, z);
 	
 	
@@ -202,6 +202,7 @@ int i = 0, j = 0, k = 0;
 	*/
 		//int z =A_device[r_offset+k];
 
+	/*
 while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
@@ -238,7 +239,7 @@ while (i < len_p && j < len_q && k < len_r)
      k++;
 }	
 
-
+*/
 
 
 //*////////////////////////////////
