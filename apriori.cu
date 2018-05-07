@@ -148,7 +148,7 @@ int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
 //--------------- copy data into shared memory--------------------------
 for (int i =0; i <len_p; i++)
 {
-	smem[i] = tid;
+	smem[i] = A_device[p_offset+i];
 	//smem[tid*300+i] = tid; //A_device[p_offset+i];
 	//__syncthreads();
 }
@@ -520,9 +520,9 @@ void Execute(char *prnt){
 	numberOfBlocks = 128;
 	threadsInBlock = 128;
 	pairs_return = sizeof_pairs/3;
-	//pairs_cpu[0] = 2;
-	//pairs_cpu[1] = 3;
-	//pairs_cpu[2] = 4;
+	pairs_cpu[0] = 2;
+	pairs_cpu[1] = 3;
+	pairs_cpu[2] = 4;
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//28*3 pairs
 	
 	*threads_cpu = pairs_return;
