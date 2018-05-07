@@ -251,7 +251,7 @@ while (i < len_p && j < len_q && k < len_r)
 	x=smem[tid*300+i] ;
 	y=smem[tid*300+100+j] ;
 	z =smem[tid*300+200+k];
-//printf(" x, y, z, %d %d %d \n",  x, y, z);
+printf("magic: x, y, z, %d %d %d \n",  x, y, z);
 
  if (x== y&& y == z)
  { //  cout << ar1[i] << " ";  
