@@ -155,13 +155,13 @@ for (int i =0; i <len_p; i++)
 
 for (int i =0; i <len_q; i++)
 {
-	smem[tid*300+100 +i] = tid*2; // A_device[q_offset+i];
+	smem[tid*300+100 +i] =  A_device[q_offset+i];
 //	__syncthreads();
 }
 
 for (int i =0; i <len_r; i++)
 {
-	smem[tid*300+200+ i] = tid*3;//A_device[r_offset+i];
+	smem[tid*300+200+ i] = A_device[r_offset+i];
 //	__syncthreads();
 }
 
