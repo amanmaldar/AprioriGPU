@@ -517,6 +517,8 @@ void Execute(char *prnt){
                     threeStruct.c = it1->b;
                     threeStruct.freq = 0;
                     C3.push_back(threeStruct);
+cout << "3 Items are old: (" <<it ->a<< "," << it ->b << "," << it ->c<< ") "  << endl;	// 28 total
+
 					pairs +=3;
             }	// if end
 	 		else
