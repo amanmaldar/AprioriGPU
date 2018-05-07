@@ -159,7 +159,11 @@ for (int i =0; i <len_r; i++)
 }
 
 
-
+	x=smem[tid*300] ;
+	y=smem[tid*300+100+len_p] ;
+	z =smem[tid*300+200+len_p+len_q];
+printf(" tid : %d x, y, z, %d %d %d \n", tid, x, y, z);
+	
 	
 	
 	
@@ -197,11 +201,7 @@ int x,y,z;
 	
 	*/
 		//int z =A_device[r_offset+k];
-	x=smem[tid*100+i] ;
-	y=smem[tid*100+len_p+j] ;
-	z =smem[tid*100+len_p+len_q+k];
-printf(" tid : %d x, y, z, %d %d %d \n", tid, x, y, z);
-	
+
 while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
