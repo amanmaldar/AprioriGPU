@@ -117,8 +117,8 @@ int tid = blockIdx.x* blockDim.x+ threadIdx.x;
 while (tid < 10) 	//28 *threads_d //32887
 {	
 //printf("tid kernel new 3: %d, threads_d: %d \n", tid, 	threads_d);
-
-	printf("tid kernel new 3: %d, \n", tid);
+printf("hello from device tid %d \n", tid);
+	//printf("tid kernel new 3: %d, \n", tid);
 //printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
 /**888888
 *////////////////////////////////
@@ -400,6 +400,8 @@ void Execute(char *prnt){
 	cout << "testing 3 pairs: " <<  pairs_return << " " << *threads_cpu<< endl;
 	cout << "calling kernel 3" << endl;
 	hello_common_kernel <<< numberOfBlocks,threadsInBlock >>> ();
+	  cudaDeviceSynchronize();
+
 
 	//find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
