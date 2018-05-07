@@ -125,7 +125,7 @@ int p_offset = B_device[p];
 int q_offset = B_device[q];
 int r_offset = B_device[r];
 
-	printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
+	//printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
 
 // Initialize starting indexes for ar1[], ar2[] and ar3[]
 int i = 0, j = 0, k = 0;
