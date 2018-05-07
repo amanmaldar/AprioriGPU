@@ -239,7 +239,7 @@ int i = 0, j = 0, k = 0;
 	*/
 		//int z =A_device[r_offset+k];
 
-	/*
+	
 while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
@@ -252,11 +252,11 @@ while (i < len_p && j < len_q && k < len_r)
 	x=smem[tid*300+i] ;
 	y=smem[tid*300+100+j] ;
 	z =smem[tid*300+200+k];
-printf("magic: x, y, z, %d %d %d \n",  x, y, z);
+//printf("magic: x, y, z, %d %d %d \n",  x, y, z);
 
  if (x== y&& y == z)
  { //  cout << ar1[i] << " ";  
-	 //printf("common is: %d \n",A_device[p_offset+i] );
+	 printf("common is: %d \n",x] );
   pairs_device_count[tid] += 1;
 	 __syncthreads();
   i++; j++; k++; 
@@ -276,7 +276,7 @@ printf("magic: x, y, z, %d %d %d \n",  x, y, z);
      k++;
 }	
 
-*/
+
 
 
 //*////////////////////////////////
@@ -517,7 +517,7 @@ void Execute(char *prnt){
                     threeStruct.c = it1->b;
                     threeStruct.freq = 0;
                     C3.push_back(threeStruct);
-cout << "3 Items are old: (" <<it ->a<< "," << it ->b << "," << it1 ->b<< ") "  << endl;	// 28 total
+//cout << "3 Items are old: (" <<it ->a<< "," << it ->b << "," << it1 ->b<< ") "  << endl;	// 28 total
 
 					pairs +=3;
             }	// if end
