@@ -424,7 +424,7 @@ void Execute(char *prnt){
 	
 	*threads_cpu = pairs_return;
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
-	cout << "testing 3 pairs: " <<  pairs_return << endl;
+	cout << "testing 3 pairs: " <<  pairs_return << " " << *threads_cpu<< endl;
 	
 	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
         cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
@@ -440,7 +440,7 @@ void Execute(char *prnt){
             L3.push_back(threeStruct);
 	}
 	}
-	//cout << "three_freq_itemset:    " << three_freq_itemset << endl << "\n";
+	cout << "three_freq_itemset:    " << three_freq_itemset << endl << "\n";
 	
 	//printL3();
     //******************************************************************************************************************
@@ -495,6 +495,8 @@ void Execute(char *prnt){
 	cudaMemcpy (pairs_device, pairs_cpu, sizeof (int) * sizeof_pairs, cudaMemcpyHostToDevice);	//13*4 pairs
 	
 	*threads_cpu = pairs_return;
+		cout << "testing 4 pairs: " <<  pairs_return << " " << *threads_cpu<< endl;
+
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int) * 1, cudaMemcpyHostToDevice);
 
 	find4_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
