@@ -118,7 +118,7 @@ __shared__ int smem[300];
 
 while (tid < *threads_d) 	//28 *threads_d //32887
 {	
-printf("tid kernel new 3: %d, threads_d: %d \n", tid, 	threads_d);
+printf("tid kernel new 3: %d, threads_d: %d \n", tid, 	*threads_d);
 //printf("hello from device \n");
 	//printf("tid kernel new 3: %d, \n", tid);
 //printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
