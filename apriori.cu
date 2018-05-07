@@ -141,7 +141,7 @@ int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
 int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
 	*/
 
-//int p_offset = B_device[p];
+int p_offset = B_device[p];
 //int q_offset = B_device[q];
 //int r_offset = B_device[r];
 
