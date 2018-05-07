@@ -109,7 +109,7 @@ int tid = blockIdx.x;
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
 
-while (tid < *threads_d) 	//28 *threads_d
+while (tid == 6) 	//28 *threads_d
 {	
 pairs_device_count[tid] = 0;
 int p = pairs_device[tid*3];
@@ -134,7 +134,7 @@ while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
  // in all arrays
- //printf("x, y, z, %d, %d ,%d", )
+ printf("x, y, z, %d, %d ,%d",pairs_device[p_offset+i], pairs_device[q_offset+j], pairs_device[r_offset+k] )
  if (pairs_device[p_offset+i] == pairs_device[q_offset+j] && pairs_device[q_offset+j] == pairs_device[r_offset+k])
  { //  cout << ar1[i] << " ";  
   pairs_device_count[tid] += 1;
