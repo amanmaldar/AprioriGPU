@@ -175,7 +175,7 @@ printf(" tid world : %d x, y, z, %d %d %d \n", tid, x, y, z);
 */
 	
 //printf("tid world %d , x:",tid);
-	
+/*	
 for (int i =0; i <len_p; i++)
 {
 	printf("%d ", smem[300*tid + i]);
@@ -195,7 +195,7 @@ for (int i =0; i <len_p; i++)
 	//smem[tid*300+i] = tid; //A_device[p_offset+i];
 	//__syncthreads();
 }
-	
+*/	
 	//x=smem[0] ;
 	//y=smem[1] ;
 	//z =smem[2];
@@ -238,7 +238,7 @@ for (int i =0; i <len_p; i++)
 	*/
 		//int z =A_device[r_offset+k];
 
-	/*
+	
 while (i < len_p && j < len_q && k < len_r)
 {
  // If x = y and y = z, print any of them and move ahead 
@@ -248,9 +248,9 @@ while (i < len_p && j < len_q && k < len_r)
 	//int x=A_device[p_offset+i] ;
 	//int y=A_device[q_offset+j] ;
 	//int z =A_device[r_offset+k];
-	x=smem[tid*100+i] ;
-	y=smem[tid*100+len_p+j] ;
-	z =smem[tid*100+len_p+len_q+k];
+	x=smem[tid*300+i] ;
+	y=smem[tid*300+100+j] ;
+	z =smem[tid*300+200+k];
 //printf(" x, y, z, %d %d %d \n",  x, y, z);
 
  if (x== y&& y == z)
@@ -275,7 +275,7 @@ while (i < len_p && j < len_q && k < len_r)
      k++;
 }	
 
-*/
+
 
 
 //*////////////////////////////////
