@@ -158,6 +158,7 @@ for (int i =0; i <len_r; i++)
 	__syncthreads();
 }
 
+int x,y,z;
 
 	x=smem[tid*300] ;
 	y=smem[tid*300+100+len_p] ;
@@ -177,7 +178,6 @@ int i = 0, j = 0, k = 0;
 //printf("11-14 %d %d %d %d \n",A_device[11], A_device[12], A_device[13], A_device[14]);
 //printf("16-19 %d %d %d %d \n",A_device[16], A_device[17], A_device[18], A_device[19]);
 // Iterate through three arrays while all arrays have elements
-int x,y,z;
 /*	printf("tid: %d, x: ", tid);
 	while(i < len_p){
 	 x=A_device[p_offset+i] ;
