@@ -117,7 +117,7 @@ while (tid < *threads_d) 	//28 *threads_d //32887
 printf("tid kernel 3: %d \n", tid);
 /**888888
 *////////////////////////////////
-	tid += 28; // *threads_d; //28
+	tid += blockDim.x; // *threads_d; //28
 } // end while
 } // end kernel function
 
