@@ -106,20 +106,20 @@ for (int i = 0; i < pairs; i++)
 
 //----------------------------------------------------------------------------
 
-//__global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
-__global__ void hello_common_kernel () {
+__global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
+//__global__ void hello_common_kernel () {
 
 int tid = blockIdx.x* blockDim.x+ threadIdx.x; 
 
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
 
-while (tid < 10) 	//28 *threads_d //32887
+while (tid < *threads_d) 	//28 *threads_d //32887
 {	
 //printf("tid kernel new 3: %d, threads_d: %d \n", tid, 	threads_d);
-printf("hello from device \n");
+//printf("hello from device \n");
 	//printf("tid kernel new 3: %d, \n", tid);
-//printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
+printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
 /**888888
 *////////////////////////////////
 	tid += 50; // *threads_d; //28
@@ -401,12 +401,13 @@ void Execute(char *prnt){
 	cudaMemcpy (threads_d, threads_cpu, sizeof (int), cudaMemcpyHostToDevice);
 	cout << "testing 3 pairs: " <<  pairs_return << " " << *threads_cpu<< endl;
 	cout << "calling kernel 3" << endl;
-	hello_common_kernel <<< numberOfBlocks,threadsInBlock >>> ();
-	  cudaDeviceSynchronize();
+	//hello_common_kernel <<< numberOfBlocks,threadsInBlock >>> ();
 
 
-	//find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
-        cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
+	find3_common_kernel <<< numberOfBlocks,threadsInBlock >>> (A_device, B_device, pairs_device, pairs_device_count , threads_d);
+       	  cudaDeviceSynchronize();
+
+	cudaMemcpy (pairs_cpu_count, pairs_device_count, sizeof (int)*pairs_return, cudaMemcpyDeviceToHost);
 	cout << "enough calling" << endl;
 	for (int i =0 ; i < pairs_return; i++){	//pairs_return =20
 	if (pairs_cpu_count[i] >= 1) {
