@@ -109,7 +109,7 @@ int tid = blockIdx.x;
 //int arrayId = threadIdx.x; 
 //__shared__ int smem[3];  
 
-while (tid < *threads_d) 	//28 *threads_d
+while (tid < 20) 	//28 *threads_d
 {	
 pairs_device_count[tid] = 0;
 int p = pairs_device[tid*3];
@@ -552,7 +552,7 @@ int main(int argc, char **argv){
 	//printL1();
 	//printC2();
 	//printL2();
-	printC3();
+	//printC3();
 	printL3();
 	//printC4();
 	//printL4();
