@@ -107,39 +107,22 @@ for (int i = 0; i < pairs; i++)
 //----------------------------------------------------------------------------
 
 __global__ void find3_common_kernel (int *A_device, int *B_device , int *pairs_device, int *pairs_device_count,int *threads_d) {
-//__global__ void hello_common_kernel () {
 
 int tid = blockIdx.x* blockDim.x+ threadIdx.x; 
-
-//int arrayId = threadIdx.x; 
 __shared__ int smem[10000];  
-/*
-int p = pairs_device[tid*3];
-int q = pairs_device[tid*3+1];
-int r = pairs_device[tid*3+2]; 
-int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
-int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
-int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
-*/	
-
-while (tid <   *threads_d) 	//28 *threads_d //32887
-{	
-//printf("tid kernel no new 3: %d, threads_d: %d \n", tid, 	*threads_d);
-//printf("hello from device \n");
-	//printf("tid kernel new 3: %d, \n", tid);
-//printf("tid kernel 3: %d, *threads_d: %d, blockDim.x: %d,  threadIdx.x: %d, blockIdx.x: %d \n", tid,*threads_d, blockDim.x, threadIdx.x, blockIdx.x);
-///**888888
-
-
 pairs_device_count[tid] = 0;
 	
 int p = pairs_device[tid*3];
 int q = pairs_device[tid*3+1];
 int r = pairs_device[tid*3+2]; 
-int len_p = B_device[p+1] - B_device[p] - 1; // = 16-11 -1 = 4 	1,2,5,6
-int len_q = B_device[q+1] - B_device[q] - 1; // = 25-21 -1 = 3   2,3,6
-int len_r = B_device[r+1] - B_device[r] - 1; // = 25-21 -1 = 3   2,3,6
+int len_p = B_device[p+1] - B_device[p] - 1; 
+int len_q = B_device[q+1] - B_device[q] - 1; 
+int len_r = B_device[r+1] - B_device[r] - 1; 
 	
+
+
+while (tid <   *threads_d) 	//28 *threads_d //32887
+{	
 
 int p_offset = B_device[p];
 int q_offset = B_device[q];
@@ -147,117 +130,35 @@ int r_offset = B_device[r];
 
 //--------------- copy data into shared memory--------------------------
 for (int i =0; i <len_p; i++)
-{//	int aa = 300*tid + i;
+{
 	smem[300*tid + i] =  A_device[p_offset+i];
-	//smem[tid*300+i] = tid; //A_device[p_offset+i];
-//	__syncthreads();
 }
 
 for (int i =0; i <len_q; i++)
 {
 	smem[tid*300+100 +i] =  A_device[q_offset+i];
-//	__syncthreads();
 }
 
 for (int i =0; i <len_r; i++)
 {
 	smem[tid*300+200+ i] = A_device[r_offset+i];
-//	__syncthreads();
 }
 
 int x,y,z;
-	//printf("tid world %d , x:",tid);
-	//int bb = tid*300;
-		x=smem[tid*300] ;
-	y=smem[tid*300+1] ;
-	z =smem[tid*300+2];
-//printf(" tid world : %d x, y, z, %d %d %d %d %d %d %d %d %d \n", tid, x, y, z, smem[tid*300+100], smem[tid*300+100+1], smem[tid*300+100+2]
-  //    , smem[tid*300+200], smem[tid*300+200+1], smem[tid*300+200+2]);
-
-	
-//printf("tid world %d , x:",tid);
-/*	
-for (int i =0; i <len_p; i++)
-{
-	printf("%d ", smem[300*tid + i]);
-	//smem[tid*300+i] = tid; //A_device[p_offset+i];
-	//__syncthreads();
-}
-	for (int i =0; i <len_q; i++)
-{
-	printf("%d ", smem[300*tid+100 + i]);
-	//smem[tid*300+i] = tid; //A_device[p_offset+i];
-	//__syncthreads();
-}
-	
-	for (int i =0; i <len_r; i++)
-{
-	printf("%d ", smem[300*tid+200 + i]);
-	//smem[tid*300+i] = tid; //A_device[p_offset+i];
-	//__syncthreads();
-}
-*/	
-	//x=smem[0] ;
-	//y=smem[1] ;
-	//z =smem[2];
-//printf(" tid : %d x, y, z, %d %d %d \n", tid, x, y, z);
-	
-	
-	
-	
-//printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
-//printf("len_p, len_q, len_r, p_offset, q_offset,r_offset, %d, %d, %d, %d, %d, %d \n", len_p, len_q, len_r, p_offset,q_offset,r_offset);
-//printf("tid, x, y, z, %d ,%d, %d ,%d \n",tid, A_device[p_offset], A_device[q_offset], A_device[r_offset] );
 	
 // Initialize starting indexes for ar1[], ar2[] and ar3[]
 int i = 0, j = 0, k = 0;
-//printf("5-9 %d %d %d %d %d \n",A_device[5], A_device[6], A_device[7], A_device[8], A_device[9]);
-//printf("11-14 %d %d %d %d \n",A_device[11], A_device[12], A_device[13], A_device[14]);
-//printf("16-19 %d %d %d %d \n",A_device[16], A_device[17], A_device[18], A_device[19]);
-// Iterate through three arrays while all arrays have elements
-/*	printf("tid: %d, x: ", tid);
-	while(i < len_p){
-	 x=A_device[p_offset+i] ;
-	printf(" %d", x);
-	i++;
-	} printf("\n");
-	
-	printf("tid: %d, y: ", tid);
-	while(j < len_q){
-	 y=A_device[q_offset+j] ;
-	printf(" %d", y);
-	j++;
-	} printf("\n");
-	
-	printf("tid: %d, z: ", tid);
-	while(k < len_r){
-	 z =A_device[r_offset+k];
-	printf(" %d", z);
-	k++;
-	} printf("\n");
-	
-	*/
-		//int z =A_device[r_offset+k];
-
 	
 while (i < len_p && j < len_q && k < len_r)
 {
- // If x = y and y = z, print any of them and move ahead 
- // in all arrays
-	//printf(" i, j, k, %d %d %d \n",  i, j, k);
- //printf("x, y, z, %d, %d ,%d \n",A_device[p_offset+i], A_device[q_offset+j], A_device[r_offset+k] );
-	//int x=A_device[p_offset+i] ;
-	//int y=A_device[q_offset+j] ;
-	//int z =A_device[r_offset+k];
+ // If x = y and y = z, print any of them and move ahead in all arrays
 	x=smem[tid*300+i] ;
 	y=smem[tid*300+100+j] ;
 	z =smem[tid*300+200+k];
-//printf("magic: x, y, z, %d %d %d \n",  x, y, z);
 
  if (x== y&& y == z)
- { //  cout << ar1[i] << " ";  
-	 //printf("tid: %d common is: %d\n",tid, x );
-  pairs_device_count[tid] += 1;
+ { 
+	 pairs_device_count[tid] += 1;
 	 __syncthreads();
   i++; j++; k++; 
 	 
@@ -278,8 +179,6 @@ while (i < len_p && j < len_q && k < len_r)
 
 
 
-
-//*////////////////////////////////
 	tid += blockDim.x; // *threads_d; //28
 } // end while
 } // end kernel function
