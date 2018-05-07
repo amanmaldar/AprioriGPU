@@ -166,13 +166,19 @@ for (int i =0; i <len_r; i++)
 }
 */
 int x,y,z;
-	printf("tid %d , x:",tid);
+	printf("tid world %d , x:",tid);
+		x=smem[tid*300] ;
+	y=smem[tid*300+1] ;
+	z =smem[tid*300+2];
+printf(" tid : %d x, y, z, %d %d %d \n", tid, x, y, z);
+	
+/*	
 for (int i =0; i <len_p; i++)
 {
 	printf("%d ", smem[300*tid + i]);
 	//smem[tid*300+i] = tid; //A_device[p_offset+i];
 	//__syncthreads();
-}
+}*/
 	
 	//x=smem[0] ;
 	//y=smem[1] ;
