@@ -18,3 +18,7 @@ http://fimi.ua.ac.be/data/T10I4D100K.dat
 https://stackoverflow.com/questions/5029840/convert-char-to-int-in-c-and-c?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
 https://stackoverflow.com/questions/9274500/redefining-or-changing-macro-value?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+
+https://stackoverflow.com/questions/11498769/what-cuda-shared-memory-size-means?rq=1
+
+https://stackoverflow.com/questions/17649570/ptx-what-is-a-cta?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
